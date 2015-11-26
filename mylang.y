@@ -10,6 +10,8 @@
 %}
 
 %token DIGITO
+%token SUMA RESTA MULT
+%token PARENTESIS_ABRE PARENTESIS_CIERRA
 
 %type <strval> Expr
 %type <strval> Termino
@@ -21,27 +23,33 @@
 %%
 
 Program 
-	: Expr ‘\n’ 
+	: Expr  
 		{ printf(“%d\n”, $1); }
 	;
 
 Expr
-	: Expr ‘+’ Termino
+	: Expr SUMA Termino
 		{ $$ = $1 + $3; }
 	| Termino
 		{	$$ = $1; }
 	;
 
 Termino 
-	: Termino ‘*’ Factor 
+	: Termino MULT Factor 
 		{ $$ = $1 * $3; }
 	| Factor
 		{ $$ = $1; }
 	;
 
 Factor
-	: ‘(‘ Expr ‘)’ 
+	: PARENTESIS_ABRE Expr PARENTESIS_CIERRA 
 		{ $$ = $2; }
 	| DIGITO
 		{ $$ = $1; }
 	; 
+
+%%
+
+main() {
+	yyparse();
+}
