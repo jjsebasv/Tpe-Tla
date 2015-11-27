@@ -18,106 +18,218 @@
 %type <strval> Factor
 
 
-%start Program
+%start Business
 
 %%
 
-Program 
-	: Expr  
+Business 
+	: WhileTrucho  
 		{ printf(“%d\n”, $1); }
 	;
 
-Expr
-	: Expr SUMA Termino
-		{ $$ = $1 + $3; }
-	| Termino
-		{	$$ = $1; }
+WhileTrucho
+	: DO DOUBLE DIGITO WHILE MINOR DIGITO
+		{ $$ = concat_str( , "int ans = ", $3,
+		 ";\n do {\n ans *= 2; \n}\n while( ans <", $6, ");" );}
+	;  
+
+Function 
+	: PrintNames HEADCOUNT SEMICOLON
+		{ $$ = concat_str( 5, "int i = 0;\n for( i; ", $2,
+		 "[i] != null; i++){\n printf('%s\n', ", $2, "[i] -> name );\n}");}
+	| ITERATE IN HEADCOUNT SpecialFunc SEMICOLON
+		{ $$ = concat_str( 5,"int i = 0;\n for( i; ", $3,
+		 "[i] != null; i++){\n", $4, "(", $3 ,"[i]);\n}");}
 	;
 
-Termino 
-	: Termino MULT Factor 
-		{ $$ = $1 * $3; }
-	| Factor
+SpecialFunc
+	: 
+	;   
+
+Variables
+	: Variables Variable SEMICOLON 
+		{ $$ = concat_str(3, $1, $2, ";\n"); }
+	| Variable SEMICOLON
+		{ $$ = concat_str(2, $1, ";\n"); }
+	;
+
+Variable 
+	: TYPE NAME
+		{ $$ = concat_str( 3, $1, " ~_", $2); }
+	;
+
+Functions
+	: Functions Function
+		{ $$ = concat_str( 3, $1, "\n", $2); }
+	| Function
 		{ $$ = $1; }
 	;
 
-Factor
-	: PARENTESIS_ABRE Expr PARENTESIS_CIERRA 
-		{ $$ = $2; }
-	| DIGITO
-	; 
+Function
+	: TYPE NAME Parameters Bloque
+		{ $$ = concat_str(7, $1, " ~_", $2, $3, "\n", $4, "\n"); }
+	| VOID NAME Parameters Bloque
+		{ $$ = concat_str(7, "void "," ~_", $2, $3, "\n", $4, "\n"); }
 
-Type
-	: Employee 
-	
-	| Headcounts
 	;
 
-Function 
-	: DO Function WHILE Expresion SEMICOLON
-		{ $$ = concat_str( 7, "do\n", $2, "\n", "while ( ", $5, " );\n", $8); }
-	| Iterate HEADCOUNT DO Function SEMICOLON
-		{ $$ = concat_str( 8, "int i;\n for (i = 0", $2, ";", $2, "[i] != null i++) {\n", $4, "\n}";}
-	| Suma DIGITO DIGITO
-		{ $$ = $1 + $2; }
-	| PrintNames HEADCOUNT
-		{ $$ = concat_str( 5, "int i = 0;\n for( i; ", $2,
-		 "[i] != null; i++){\n printf('%s\n', ", $2, "[i] -> name );\n}");}
-	;   
+Parameters
+	: OPEN_PARENTHESIS Variable_1 CLOSE_PARENTHESIS
+		{ $$ = concat_str( 3, "( ", $2, " )"); }
+	;
 
-Expresion
-	: OPEN_PARENTHESIS Term CLOSE_PARENTHESIS
-		{ $$ = $2; }
-	| OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS
-		{ $$ = $2; }
-	| Expresion MINOR Expresion
-		{ $$ = concat_str(3, $1, "<", $3); }
-	| Expresion MAJOR Expresion
-		{ $$ = contat_str(3, $1, ">", $3); }
+Variable_1
+	: Variable Variable_2
+		{ $$ = concat_str( 2, $1, $2); }
+	|
+		{ $$ = ""; }  
+	;
+
+Variable_2
+	: Variable_2 COMMA Variable 
+		{ $$ = concat_str( 3, $1,", ", $3); }
+	|
+		{ $$ = ""; }  
+	;
+
+Bloque
+	: OPEN_C_BRACKET Statement CLOSE_C_BRACKET
+		{ $$ = concat_str( 3, "{\n", $2, "\n}"); }
 	;
 
 Statement
-	| WHILE OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS Bloque Statement
+	: Variable SEMICOLON Statement
+		{ $$ = concat_str( 3, $1, ";\n",  $3); }
+	| Expression SEMICOLON Statement
+		{ $$ = concat_str( 3, $1, ";\n", $3); }
+	| Variable OP_ASSIGN Expression SEMICOLON Statement
+		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
+	| NAME OP_ASSIGN Expression SEMICOLON Statement
+		{ $$ = concat_str( 6, "~_", $1, " = ", $3, ";\n", $5); }
+	| WHILE_TOKEN OPEN_PARENTHESIS Expression CLOSE_PARENTHESIS Bloque Statement
 		{ $$ = concat_str( 6,"while ( ", $3, " )\n", $5, "\n", $6); }
-	| FOR OPEN_PARENTHESIS Expresion SEMICOLON Expresion SEMICOLON Expresion CLOSE_PARENTHESIS Bloque Statement
+	| FOR_TOKEN OPEN_PARENTHESIS ForExp SEMICOLON Expression SEMICOLON ForExp CLOSE_PARENTHESIS Bloque Statement
 		{ $$ = concat_str( 10, "for ( ", $3, " ; ", $5, " ; ", $7, " )\n", $9, "\n", $10); }
-	| IF OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS Bloque Statement
+	| IF_TOKEN OPEN_PARENTHESIS Expression CLOSE_PARENTHESIS Bloque Statement
 		{ $$ = concat_str( 6, "if ( ", $3, " )\n", $5, "\n", $6) ; }
-	| IF OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS Bloque ELSE Bloque Statement
+	| IF_TOKEN OPEN_PARENTHESIS Expression CLOSE_PARENTHESIS Bloque ELSE_TOKEN Bloque Statement
 		{ $$ = concat_str( 9, "if ( ",  $3, " )\n", $5, "\n", "else\n", $7 , "\n", $8); }
-	| SWITCH OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS OPEN_C_BRACKET Cases CLOSE_C_BRACKET Statement
+	| SWITCH_TOKEN OPEN_PARENTHESIS Expression CLOSE_PARENTHESIS OPEN_C_BRACKET Cases CLOSE_C_BRACKET Statement
 		{ $$ = concat_str( 6, "switch ( ", $3, " )\n{\n", $6, "\n}", $8); }
-	| DO Bloque WHILE OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS SEMICOLON Statement
+	| DO_TOKEN Bloque WHILE_TOKEN OPEN_PARENTHESIS Expression CLOSE_PARENTHESIS SEMICOLON Statement
 		{ $$ = concat_str( 7, "do\n", $2, "\n", "while ( ", $5, " );\n", $8); }
-	| RETURN Expresion SEMICOLON
+	| RETURN_TOKEN Expression SEMICOLON
 		{ $$ = concat_str( 3, "return ", $2, ";");}
-	| BREAK SEMICOLON
+	| BREAK_TOKEN SEMICOLON
 		{ $$ = "break;\n"; }
 	| 
 		{ $$ = ""; }
 	;
 
+ForExp 
+	: Expression
+		{ $$ = $1; }
+	| NAME OP_ASSIGN Expression 
+		{ $$ = concat_str( 4, "~_", $1, " = ", $3); }
+	| 
+		{ $$ = ""; }
+	;
+
+Expression
+	: ConditionalOrExpression
+		{ $$ = $1; }
+	;
+
+MultiplicativeExpression
+	: Term
+		{ $$ = $1; }
+	| MultiplicativeExpression OP_MULT Term
+		{ $$ = concat_str(3, $1, " * ", $3); }
+	| MultiplicativeExpression OP_DIV Term
+		{ $$ = concat_str(3, $1, " / ", $3); }
+	| MultiplicativeExpression OP_MOD Term
+		{ $$ = concat_str(3, $1, " % ", $3); }
+	;
+
+AdditiveExpression
+	: MultiplicativeExpression
+		{ $$ = $1; }
+    | AdditiveExpression OP_PLUS MultiplicativeExpression
+    	{ $$ = concat_str(3, $1, " + ", $3); }
+	| AdditiveExpression OP_MINUS MultiplicativeExpression
+		{ $$ = concat_str(3, $1, " - ", $3); }
+    ;
+
+RelationalExpression
+	: AdditiveExpression
+		{ $$ = $1; }
+    | RelationalExpression OP_LT AdditiveExpression
+    	{ $$ = concat_str(3, $1, " < ", $3); }
+	| RelationalExpression OP_GT AdditiveExpression
+		{ $$ = concat_str(3, $1, " > ", $3); }
+	| RelationalExpression OP_LE AdditiveExpression
+		{ $$ = concat_str(3, $1, " <= ", $3); }
+	| RelationalExpression OP_GE AdditiveExpression
+		{ $$ = concat_str(3, $1, " >= ", $3); }
+	;
+
+EqualityExpression
+	: RelationalExpression
+		{ $$ = $1; }
+    | EqualityExpression OP_EQ RelationalExpression
+    	{ $$ = concat_str(3, $1, " == ", $3); }
+    | EqualityExpression OP_NE RelationalExpression
+    	{ $$ = concat_str(3, $1, " != ", $3); }
+    ;
+
+ConditionalAndExpression
+	: EqualityExpression
+		{ $$ = $1; }
+	| ConditionalAndExpression OP_AND EqualityExpression
+		{ $$ = concat_str(3, $1, " && ", $3); }
+	;
+
+ConditionalOrExpression
+	: ConditionalAndExpression
+		{ $$ = $1; }
+	| ConditionalOrExpression OP_OR ConditionalAndExpression
+		{ $$ = concat_str(3, $1, " || ", $3); }
+	;
+
+Value_1
+	: Expression Value_2
+		{ $$ = concat_str( 2, $1, $2); }
+	| 
+		{ $$ = ""; }
+	;
+
+Value_2
+	: Value_2 COMMA Expression 
+		{ $$ = concat_str( 3, $1, ", ", $3); }
+	| 
+		{ $$ = ""; }
+	;
+
 Term
-	: Term PLUS Term
-		{ $$ = $1 + $3; }
-	| Term MINUS Term
-		{ $$ = $1 - $3; }
-	| Term MULT Term
-		{ $$ = $1 * $3; }
-	| Term DIV Term
-		{ $$ = $1 / $3; }
-	|
-
-
-
-
-
-forEach Employee in Headcounts
-
-ForEach : 
-
-
-
+	: NAME
+		{ $$ = concat_str(2, "~_", $1); }
+	| NUMBER
+		{ $$ = $1; }
+	| TRUE_TOKEN
+		{ $$ = "true"; }
+	| FALSE_TOKEN
+		{ $$ = "false"; }
+	| STRING
+		{ $$ = $1; }
+	| NULL_TOKEN
+		{ $$ = "null"; }
+	| NAME DOT NAME OPEN_PARENTHESIS Value_1 CLOSE_PARENTHESIS
+		{ $$ = concat_str( 6, $1, "_", $3, "( ", $5, " )"); }
+	| NAME OPEN_PARENTHESIS Value_1 CLOSE_PARENTHESIS
+		{ $$ = concat_str( 4, $1, "( ", $3, " )"); }
+	| OPEN_PARENTHESIS Expression CLOSE_PARENTHESIS
+		{ $$ = concat_str( 3, "( ", $2, " )"); }
+	;
 
 
 %%
