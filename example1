@@ -1,0 +1,43 @@
+
+La idea es un lenguaje para calcular salarios de una empresa, impuestos, etc.
+
+// nuestro main.
+Enterprise main() {
+	
+	// creacion de un empleado como si fueran objetos.
+	Employee e1 = Employee("juan", "junior", 8000);
+	Employee e2 = Employee("pedro", "senior", 14000);
+	Employee e3 = Employee("roberto", "junsemi-senior", 10000);
+
+	// creacion de un empleado en nuestro lenguaje. (worked = antiguedad en anios)
+	Employee e1 = name "juan", rank "junior", salary 8000, worked 3;
+
+	// nuestra lista de empleados.
+	Employees employees = e1, e2, e3;
+
+	// aumenta un 20% el salario de los senior.
+	Employees.forEach { Employee e -> 
+
+		if ( e.rank == "senior" ) {
+
+			e.salary = e.salary * 1.2;
+
+		}
+
+	}
+	
+	// calcula el salario de un empleado para dos meses.
+	float salary = e1 salaryFor 2 month;
+
+	// calcula el salario de un empleado para 3 meses restandole "deducciones" osea impuestos, jubilacion etc.
+	float salary2 = e1 salaryFor 3 month minusDeductions {
+
+		float retirementFound = e1.salary * 0.1;
+
+		float tax1 = e1.salary * 0.05;
+
+	}
+
+	// calcula el salario total de todos los empleados.
+	float totalSalary = employees salaryFor 3 month;
+}
