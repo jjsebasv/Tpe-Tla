@@ -29,21 +29,22 @@ Business
 
 WhileTrucho
 	: DO DOUBLE DIGITO WHILE MINOR DIGITO
-		{ $$ = concat_str( , "int ans = ", $3,
-		 ";\n do {\n ans *= 2; \n}\n while( ans <", $6, ");" );}
+		{ $$ = concat_str( 5, "int ans = ", $3,
+		 ";\n do {\n ans *= 2; \n}\n while( ans <", $6, ");\n return ans;\n" );}
 	;  
 
 Function 
 	: PrintNames HEADCOUNT SEMICOLON
 		{ $$ = concat_str( 5, "int i = 0;\n for( i; ", $2,
 		 "[i] != null; i++){\n printf('%s\n', ", $2, "[i] -> name );\n}");}
-	| ITERATE IN HEADCOUNT SpecialFunc SEMICOLON
+	| SpecialFunc OVER HEADCOUNT SEMICOLON
 		{ $$ = concat_str( 5,"int i = 0;\n for( i; ", $3,
-		 "[i] != null; i++){\n", $4, "(", $3 ,"[i]);\n}");}
+		 "[i] != null; i++){\n", $1, "(", $3 ,"[i]);\n}");}
 	;
 
 SpecialFunc
-	: 
+	: ADD_TEN_BONUS
+		{ $$ = $1; }
 	;   
 
 Variables
