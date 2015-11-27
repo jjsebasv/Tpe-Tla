@@ -54,12 +54,15 @@ Type
 	;
 
 Function 
-	: forEach Type IN Type OPEN_CBRACKET ToDo CLSE_CBRACKET
-		{ }
-	| DO Function WHILE Expresion
+	: DO Function WHILE Expresion SEMICOLON
 		{ $$ = concat_str( 7, "do\n", $2, "\n", "while ( ", $5, " );\n", $8); }
 	| Iterate HEADCOUNT DO Function SEMICOLON
 		{ $$ = concat_str( 8, "int i;\n for (i = 0", $2, ";", $2, "[i] != null i++) {\n", $4, "\n}";}
+	| Suma DIGITO DIGITO
+		{ $$ = $1 + $2; }
+	| PrintNames HEADCOUNT
+		{ $$ = concat_str( 5, "int i = 0;\n for( i; ", $2,
+		 "[i] != null; i++){\n printf('%s\n', ", $2, "[i] -> name );\n}");}
 	;   
 
 Expresion
