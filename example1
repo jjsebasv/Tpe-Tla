@@ -2,7 +2,7 @@
 La idea es un lenguaje para calcular salarios de una empresa, impuestos, etc.
 
 // nuestro main.
-Enterprise main() {
+Business main() {
 	
 	// creacion de un empleado como si fueran objetos.
 	Employee e1 = Employee("juan", "junior", 8000);
@@ -10,13 +10,18 @@ Enterprise main() {
 	Employee e3 = Employee("roberto", "junsemi-senior", 10000);
 
 	// creacion de un empleado en nuestro lenguaje. (worked = antiguedad en anios)
-	Employee e1 = name "juan", rank "junior", salary 8000, worked 3;
+	Employee e1 = name "juan", lastname "perez", id 1, rank "junior", salary 8000, worked 3;
 
 	// nuestra lista de empleados.
-	Employees employees = e1, e2, e3;
+	Headcount hc = e1, e2, e3;
 
 	// aumenta un 20% el salario de los senior.
-	Employees.forEach { Employee e -> 
+	
+	forEach Employee e in hc {
+
+
+	}
+	hc.forEach { Employee e -> 
 
 		if ( e.rank == "senior" ) {
 
@@ -25,7 +30,7 @@ Enterprise main() {
 		}
 
 	}
-	
+
 	// calcula el salario de un empleado para dos meses.
 	float salary = e1 salaryFor 2 month;
 
