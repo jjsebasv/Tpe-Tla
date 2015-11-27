@@ -11,7 +11,10 @@
 "*"					{return MULT;}
 "("					{return PARENTESIS_ABRE;}
 ")"					{return PARENTESIS_CIERRA;}
-\n					{/* ignore end of line */;}
-[\t]+				{/* ignore whitespace */;}
 
 %%
+
+int yywrap(void)
+{
+	return 1;
+}

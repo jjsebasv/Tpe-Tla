@@ -45,7 +45,6 @@ Factor
 	: PARENTESIS_ABRE Expr PARENTESIS_CIERRA 
 		{ $$ = $2; }
 	| DIGITO
-		{ $$ = $1; }
 	; 
 
 %%
