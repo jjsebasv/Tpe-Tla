@@ -18,6 +18,10 @@
 %type <strval> Factor
 
 
+%union {
+	char* strval;
+}
+
 %start Program
 
 %%
@@ -48,9 +52,8 @@ Factor
 	; 
 
 Type
-	: Employee 
-	
-	| Headcounts
+	: EMPLOYEE
+	| HEADCOUNT
 	;
 
 Function 
@@ -76,27 +79,6 @@ Expresion
 		{ $$ = contat_str(3, $1, ">", $3); }
 	;
 
-Statement
-	| WHILE OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS Bloque Statement
-		{ $$ = concat_str( 6,"while ( ", $3, " )\n", $5, "\n", $6); }
-	| FOR OPEN_PARENTHESIS Expresion SEMICOLON Expresion SEMICOLON Expresion CLOSE_PARENTHESIS Bloque Statement
-		{ $$ = concat_str( 10, "for ( ", $3, " ; ", $5, " ; ", $7, " )\n", $9, "\n", $10); }
-	| IF OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS Bloque Statement
-		{ $$ = concat_str( 6, "if ( ", $3, " )\n", $5, "\n", $6) ; }
-	| IF OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS Bloque ELSE Bloque Statement
-		{ $$ = concat_str( 9, "if ( ",  $3, " )\n", $5, "\n", "else\n", $7 , "\n", $8); }
-	| SWITCH OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS OPEN_C_BRACKET Cases CLOSE_C_BRACKET Statement
-		{ $$ = concat_str( 6, "switch ( ", $3, " )\n{\n", $6, "\n}", $8); }
-	| DO Bloque WHILE OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS SEMICOLON Statement
-		{ $$ = concat_str( 7, "do\n", $2, "\n", "while ( ", $5, " );\n", $8); }
-	| RETURN Expresion SEMICOLON
-		{ $$ = concat_str( 3, "return ", $2, ";");}
-	| BREAK SEMICOLON
-		{ $$ = "break;\n"; }
-	| 
-		{ $$ = ""; }
-	;
-
 Term
 	: Term PLUS Term
 		{ $$ = $1 + $3; }
@@ -106,15 +88,7 @@ Term
 		{ $$ = $1 * $3; }
 	| Term DIV Term
 		{ $$ = $1 / $3; }
-	|
-
-
-
-
-
-forEach Employee in Headcounts
-
-ForEach : 
+	;
 
 
 

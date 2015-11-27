@@ -1,0 +1,3 @@
+yacc -d salarium.y
+lex salarium.l
+
