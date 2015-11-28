@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "employee.h"
+#include "specialFn.h"
 int main ()
 {
 struct Employee e1 = { "Pedro", "Gimenez", "Junior", 53853, 1, 1500 };
