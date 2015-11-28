@@ -9,90 +9,230 @@
 	char* string_concat(int argc, ...);
 %}
 
-%token DIGITO
-%token SUMA RESTA MULT
-%token PARENTESIS_ABRE PARENTESIS_CIERRA
+%token PARENTESIS_ABRE PARENTESIS_CIERRA C_BRACKET_ABRE C_BRACKET_CIERRA
+%token MAIN VOID
 
-%type <strval> Expr
-%type <strval> Termino
-%type <strval> Factor
 
+%token WHILE IF ELSE DO
+%token PLUS MINUS MULT DIV MOD
+%token ASSIGN GT LT GE LE EQ
+%token AND OR NOT NE
+%token TRUE FALSE_T NULL_T BREAK
+%token COLON SEMICOLON COMMA DOT
+%token PRINT MAIN
+%token VOID
+%token CASE DEFAULT END RETURN
+
+
+%token <strval> DIGITO
+%token <strval> VAR
+%token <strval> TYPE
+%token <strval> STRING
+
+%type <strval> Variable
+%type <strval> FirstVariable
+%type <strval> CommaVariable
+%type <strval> Functions
+%type <strval> Function
+%type <strval> Parameters
+%type <strval> CodeBlock
+%type <strval> Statement
+%type <strval> Main
+%type <strval> Expression
+%type <strval> AdditiveExpression
+%type <strval> EqualityExpression
+%type <strval> MultiplicativeExpression
+%type <strval> RelationalExpression
+%type <strval> ConditionalAndExpression
+%type <strval> ConditionalOrExpression
+%type <strval> Value_1
+%type <strval> Value_2
+%type <strval> Term
 
 %union {
 	char* strval;
 }
+
 
 %start Program
 
 %%
 
 Program 
-	: Expr  
-		{ printf(“%d\n”, $1); }
+	: Functions Main
+		{ printf("%s%s%s\n", $1, "\'", $2); }
+	| Main
+		{ printf("%s\n", $1); }
 	;
 
-Expr
-	: Expr SUMA Termino
-		{ $$ = $1 + $3; }
-	| Termino
-		{	$$ = $1; }
-	;
-
-Termino 
-	: Termino MULT Factor 
-		{ $$ = $1 * $3; }
-	| Factor
+Functions
+	: Functions Function
+		{ $$ = concat_str( 3, $1, "\n", $2); }
+	| Function
 		{ $$ = $1; }
 	;
 
-Factor
-	: PARENTESIS_ABRE Expr PARENTESIS_CIERRA 
-		{ $$ = $2; }
-	| DIGITO
-	; 
-
-Type
-	: EMPLOYEE
-	| HEADCOUNT
+Function
+	: TYPE VAR Parameters CodeBlock
+		{ $$ = concat_str(7, $1, " ~_", $2, $3, "\n", $4, "\n"); }
+	| VOID VAR Parameters CodeBlock
+		{ $$ = concat_str(7, "void "," ~_", $2, $3, "\n", $4, "\n"); }
 	;
 
-Function 
-	: DO Function WHILE Expresion SEMICOLON
-		{ $$ = concat_str( 7, "do\n", $2, "\n", "while ( ", $5, " );\n", $8); }
-	| Iterate HEADCOUNT DO Function SEMICOLON
-		{ $$ = concat_str( 8, "int i;\n for (i = 0", $2, ";", $2, "[i] != null i++) {\n", $4, "\n}";}
-	| Suma DIGITO DIGITO
-		{ $$ = $1 + $2; }
-	| PrintNames HEADCOUNT
-		{ $$ = concat_str( 5, "int i = 0;\n for( i; ", $2,
-		 "[i] != null; i++){\n printf('%s\n', ", $2, "[i] -> name );\n}");}
-	;   
+Parameters
+	: PARENTESIS_ABRE FirstVariable PARENTESIS_CIERRA
+		{ $$ = concat_str( 3, "( ", $2, " )"); }
+	;
 
-Expresion
-	: OPEN_PARENTHESIS Term CLOSE_PARENTHESIS
-		{ $$ = $2; }
-	| OPEN_PARENTHESIS Expresion CLOSE_PARENTHESIS
-		{ $$ = $2; }
-	| Expresion MINOR Expresion
-		{ $$ = concat_str(3, $1, "<", $3); }
-	| Expresion MAJOR Expresion
-		{ $$ = contat_str(3, $1, ">", $3); }
+FirstVariable
+	: Variable CommaVariable
+		{ $$ = concat_str( 2, $1, $2); }
+	|
+		{ $$ = ""; }  
+	;
+
+CommaVariable
+	: CommaVariable COMMA Variable 
+		{ $$ = concat_str( 3, $1,", ", $3); }
+	|
+		{ $$ = ""; }  
+	;
+
+Variable 
+	: TYPE VAR
+		{ $$ = concat_str( 3, $1, " ~_", $2); }
+	;
+
+CodeBlock
+	: C_BRACKET_ABRE Statement C_BRACKET_CIERRA
+		{ $$ = concat_str( 3, "{\n", $2, "\n}"); }
+	;
+
+Statement
+	: Variable SEMICOLON Statement
+		{ $$ = concat_str( 3, $1, ";\n",  $3); }
+	| Expression SEMICOLON Statement
+		{ $$ = concat_str( 3, $1, ";\n", $3); }
+	| Variable ASSIGN Expression SEMICOLON Statement
+		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
+	| VAR ASSIGN Expression SEMICOLON Statement
+		{ $$ = concat_str( 6, "~_", $1, " = ", $3, ";\n", $5); }
+	| WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement
+		{ $$ = concat_str( 6,"while ( ", $3, " )\n", $5, "\n", $6); }
+	| IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement
+		{ $$ = concat_str( 6, "if ( ", $3, " )\n", $5, "\n", $6) ; }
+	| IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement
+		{ $$ = concat_str( 9, "if ( ",  $3, " )\n", $5, "\n", "else\n", $7 , "\n", $8); }
+	| DO CodeBlock WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA SEMICOLON Statement
+		{ $$ = concat_str( 7, "do\n", $2, "\n", "while ( ", $5, " );\n", $8); }
+	| RETURN Expression SEMICOLON
+		{ $$ = concat_str( 3, "return ", $2, ";");}
+	| BREAK SEMICOLON
+		{ $$ = "break;\n"; }
+	| 
+		{ $$ = ""; }
+	;
+
+Expression
+	: ConditionalOrExpression
+		{ $$ = $1; }
+	;
+
+MultiplicativeExpression
+	: Term
+		{ $$ = $1; }
+	| MultiplicativeExpression MULT Term
+		{ $$ = concat_str(3, $1, " * ", $3); }
+	| MultiplicativeExpression DIV Term
+		{ $$ = concat_str(3, $1, " / ", $3); }
+	| MultiplicativeExpression MOD Term
+		{ $$ = concat_str(3, $1, " % ", $3); }
+	;
+
+AdditiveExpression
+	: MultiplicativeExpression
+		{ $$ = $1; }
+    | AdditiveExpression PLUS MultiplicativeExpression
+    	{ $$ = concat_str(3, $1, " + ", $3); }
+	| AdditiveExpression MINUS MultiplicativeExpression
+		{ $$ = concat_str(3, $1, " - ", $3); }
+    ;
+
+RelationalExpression
+	: AdditiveExpression
+		{ $$ = $1; }
+    | RelationalExpression LT AdditiveExpression
+    	{ $$ = concat_str(3, $1, " < ", $3); }
+	| RelationalExpression GT AdditiveExpression
+		{ $$ = concat_str(3, $1, " > ", $3); }
+	| RelationalExpression LE AdditiveExpression
+		{ $$ = concat_str(3, $1, " <= ", $3); }
+	| RelationalExpression GE AdditiveExpression
+		{ $$ = concat_str(3, $1, " >= ", $3); }
+	;
+
+EqualityExpression
+	: RelationalExpression
+		{ $$ = $1; }
+    | EqualityExpression EQ RelationalExpression
+    	{ $$ = concat_str(3, $1, " == ", $3); }
+    | EqualityExpression NE RelationalExpression
+    	{ $$ = concat_str(3, $1, " != ", $3); }
+    ;
+
+ConditionalAndExpression
+	: EqualityExpression
+		{ $$ = $1; }
+	| ConditionalAndExpression AND EqualityExpression
+		{ $$ = concat_str(3, $1, " && ", $3); }
+	;
+
+ConditionalOrExpression
+	: ConditionalAndExpression
+		{ $$ = $1; }
+	| ConditionalOrExpression OR ConditionalAndExpression
+		{ $$ = concat_str(3, $1, " || ", $3); }
+	;
+
+Value_1
+	: Expression Value_2
+		{ $$ = concat_str( 2, $1, $2); }
+	| 
+		{ $$ = ""; }
+	;
+
+Value_2
+	: Value_2 COMMA Expression 
+		{ $$ = concat_str( 3, $1, ", ", $3); }
+	| 
+		{ $$ = ""; }
 	;
 
 Term
-	: Term PLUS Term
-		{ $$ = $1 + $3; }
-	| Term MINUS Term
-		{ $$ = $1 - $3; }
-	| Term MULT Term
-		{ $$ = $1 * $3; }
-	| Term DIV Term
-		{ $$ = $1 / $3; }
+	: VAR
+		{ $$ = concat_str(2, "~_", $1); }
+	| DIGITO
+		{ $$ = $1; }
+	| TRUE
+		{ $$ = "true"; }
+	| FALSE_T
+		{ $$ = "FALSE_T"; }
+	| STRING
+		{ $$ = $1; }
+	| NULL_T
+		{ $$ = "NULL_T"; }
+	| VAR DOT VAR PARENTESIS_ABRE Value_1 PARENTESIS_CIERRA
+		{ $$ = concat_str( 6, $1, "_", $3, "( ", $5, " )"); }
+	| VAR PARENTESIS_ABRE Value_1 PARENTESIS_CIERRA
+		{ $$ = concat_str( 4, $1, "( ", $3, " )"); }
+	| PARENTESIS_ABRE Expression PARENTESIS_CIERRA
+		{ $$ = concat_str( 3, "( ", $2, " )"); }
 	;
 
-
-
-
+Main 
+	: TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock
+		{ $$ = concat_str(3, $1, " main ()\n",$6); }
+	;
 
 %%
 
@@ -120,6 +260,10 @@ concat_str(int argc, ...){
 
    va_end(ap);
    return ans;
+}
+
+void yyerror (char const *s) {
+  		fprintf (stderr, "%s\n", s);
 }
 
 main() {

@@ -2,7 +2,7 @@
 La idea es un lenguaje para calcular salarios de una empresa, impuestos, etc.
 
 // nuestro main.
-Business main() {
+Business {
 	
 	// creacion de un empleado como si fueran objetos.
 	Employee e1 = Employee("juan", "junior", 8000);
@@ -46,3 +46,9 @@ Business main() {
 	// calcula el salario total de todos los empleados.
 	float totalSalary = employees salaryFor 3 month;
 }
+
+
+- lenguaje pensado para usuarios inexpertos
+- void = nothing
+- sin for(;;) solo forEach para mayor simplicidad.
+- cambiar un poco de expression para abajo (salarium.y)
