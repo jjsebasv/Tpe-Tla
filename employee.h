@@ -9,5 +9,5 @@ struct Employee {
 };
 
 void printEmployee( struct Employee e ) {
-	printf("El Empleado: [%d] %s, %s.\n Trabaja hace %d meses, cobrando $%d.\n Categoria: %s\n ----------\n", e.id, e.lastname, e.name, e.antiquity, e.salary, e.category);
+	printf(" Empleado: [%d] %s, %s.\n Trabaja hace %d meses, cobrando $%d.\n Categoria: %s\n ----------\n", e.id, e.lastname, e.name, e.antiquity, e.salary, e.category);
 }

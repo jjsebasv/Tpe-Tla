@@ -20,5 +20,7 @@ i = i + 1;
 int salary =  getSalary( e1, 3, "MONTH");
 int salaryMinusDeductions =  getSalary( e1, 4, "MONTH") - 100 - ( e1.salary * 0.03 );
 printEmployee( e1);
+getEmployee( employees, 53853, (int)sizeof(employees)/(int)sizeof(employees[0]) );
+getAll(employees, (int)sizeof(employees)/(int)sizeof(employees[0]) );
 return 0;
 }

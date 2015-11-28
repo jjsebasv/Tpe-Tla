@@ -29,14 +29,15 @@
 
 
 %token EMPLOYEE
+%token SALARYFOR SHOW_EMPLOYEE GET_EMPLOYEE GET_ALL
+%token NAME LASTNAME ANTIQUITY ID SALARY CATEGORY
+%token WEEK MONTH YEAR
+
 %token <strval> DIGITO
 %token <strval> VAR
 %token <strval> TYPE
 %token <strval> STRING
 
-%token SALARYFOR SHOW_EMPLOYEE
-%token <strval> NAME LASTNAME ANTIQUITY ID SALARY CATEGORY
-%token <strval> WEEK MONTH YEAR QUOTATION_MARK
 
 %type <strval> SpecialFunction
 %type <strval> TimeLapse
@@ -159,6 +160,10 @@ SpecialFunction
 		{ $$ = concat_str( 8, " getSalary( ", $1, ", ", $3, ", ", $4, ") - ", $7 );}
 	| SHOW_EMPLOYEE VAR
 		{ $$ = concat_str( 3, "printEmployee( ", $2, ")" ); }
+	| GET_EMPLOYEE DIGITO VAR
+		{ $$ = concat_str( 9, "getEmployee( ", $3,", ", $2, ", (int)sizeof(",$3,")/(int)sizeof(",$3,"[0]) )"); }
+	| GET_ALL VAR
+		{ $$ = concat_str( 7, "getAll(", $2, ", (int)sizeof(",$2,")/(int)sizeof(",$2,"[0]) )"); }
 	; 
 
 Deductions

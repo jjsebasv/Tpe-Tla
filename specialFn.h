@@ -25,9 +25,8 @@ float getSalary(struct Employee e, int lapse, char* timelapse) {
 	return t;
 }
 
-struct Employee getEmployee( struct Employee company[], int id) {
+struct Employee getEmployee( struct Employee (*company), int id, int size) {
 	int i = 0;
-	int size = sizeof(company)/sizeof(company[0]);
 	struct Employee e;
 	while ( i < size ){
 		e = company[i];
@@ -38,4 +37,13 @@ struct Employee getEmployee( struct Employee company[], int id) {
   	i++;
 	}
 	return e;
+}
+
+void getAll(struct Employee (*company), int size) {
+	int i = 0;
+	printf(" ******** PLANTA DE EMPLEADOS ******** \n");
+	for ( i; i < size ; ++i)	{
+		printEmployee(company[i]);
+	}
+	printf(" ************************************* \n");
 }

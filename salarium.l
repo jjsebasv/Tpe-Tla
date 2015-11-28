@@ -11,6 +11,8 @@
 [\"].*[\"]						{yylval.strval=strdup(yytext);return STRING;}
 "salaryFor"						{return SALARYFOR;}
 "showEmployee"					{return SHOW_EMPLOYEE;}
+"getEmployee"					{return GET_EMPLOYEE;}
+"getAll"						{return GET_ALL;}
 "week"|"weeks"					{return WEEK;}
 "month"|"months"				{return MONTH;}
 "year"|"years"					{return YEAR;}

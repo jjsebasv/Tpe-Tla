@@ -22,7 +22,8 @@ int main(void) {
 	};
 
 	showEmployee e1;
-
+	getEmployee 53853 employees;
+	getAll employees;
 
 	return 0;
 }
