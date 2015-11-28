@@ -15,6 +15,12 @@ int main(void) {
 	}
 
 	int salary = e1 salaryFor 3 month;
+
+	int salaryMinusDeductions = e1 salaryFor 4 month minusDeductions { 
+		tax1 = 100,
+		retirement = (e1.salary * 0.03)
+	};
+
 	showEmployee e1;
 
 	return 0;

@@ -50,7 +50,8 @@
 "antiquity:"					{return ANTIQUITY;}
 "salary:"						{return SALARY;}
 "rank:"							{return RANK;}
-([-]?[1-9][0-9]*)|0				{yylval.strval=strdup(yytext);return DIGITO;}
+"minusDeductions"				{return MINUSDEDUCTIONS;}
+([-]?[1-9][0-9]*)|0|0.[0-9]+	{yylval.strval=strdup(yytext);return DIGITO;}
 float|int|char\*				{yylval.strval=strdup(yytext);return TYPE;}
 [a-zA-Z][a-zA-Z0-9]*			{yylval.strval=strdup(yytext);return VAR;}
 "{"								{return C_BRACKET_ABRE;}

@@ -21,7 +21,7 @@
 %token ASSIGN GT LT GE LE EQ
 %token AND OR NOT NE
 %token TRUE FALSE_T NULL_T BREAK
-%token COLON SEMICOLON COMMA DOT
+%token COLON SEMICOLON COMMA DOT MINUSDEDUCTIONS
 %token MAIN
 %token VOID
 %token END RETURN
@@ -61,6 +61,7 @@
 %type <strval> CommaVal
 %type <strval> Term
 %type <strval> EmpValues
+%type <strval> Deductions
 
 %start Program
 
@@ -154,9 +155,18 @@ SpecialFunction
 		{ $$ = concat_str( 13,"{ \"", $2, "\", \"", $5, "\", \"", $8, "\", ", $11, ", ", $14, ", ", $17, " }" ); }
 	| VAR SALARYFOR DIGITO TimeLapse
 		{ $$ = concat_str( 7, " getSalary( ", $1, ", ", $3, ", ", $4, ")" );}
+	| VAR SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA
+		{ $$ = concat_str( 8, " getSalary( ", $1, ", ", $3, ", ", $4, ") - ", $7 );}
 	| SHOW_EMPLOYEE VAR
 		{ $$ = concat_str( 3, "printEmployee( ", $2, ")" ); }
 	; 
+
+Deductions
+	:VAR ASSIGN AddExp COMMA Deductions
+		{ $$ = concat_str(3, $3, " - ", $5); }
+	| VAR ASSIGN AddExp
+		{ $$ = $3; }
+	;
 
 EmpValues
 	: VAR COMMA EmpValues
@@ -261,6 +271,8 @@ Term
 		{ $$ = $1; }
 	| NULL_T
 		{ $$ = "NULL_T"; } 
+	| VAR DOT VAR
+		{ $$ = concat_str(3, $1, ".", $3); }
 	| VAR S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR
 		{ $$ = concat_str( 5, $1, "[", $3, "].", $6 ); }
 	| VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR

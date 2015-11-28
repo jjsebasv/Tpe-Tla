@@ -14,6 +14,7 @@ i = i + 1;
 
 }
 int salary =  getSalary( e1, 3, "MONTH");
+int salaryMinusDeductions =  getSalary( e1, 4, "MONTH") - 100 - ( e1.salary * 0.03 );
 printEmployee( e1);
 return 0;
 }
