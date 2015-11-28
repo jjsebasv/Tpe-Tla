@@ -31,15 +31,20 @@
 #define SEMICOLON 287
 #define COMMA 288
 #define DOT 289
-#define PRINT 290
-#define CASE 291
-#define DEFAULT 292
-#define END 293
-#define RETURN 294
-#define DIGITO 295
-#define VAR 296
-#define TYPE 297
-#define STRING 298
+#define END 290
+#define RETURN 291
+#define SALARYFOR 292
+#define MONTH 293
+#define NAME 294
+#define SALARY 295
+#define RANK 296
+#define ID 297
+#define LASTNAME 298
+#define EMPLOYEE 299
+#define DIGITO 300
+#define VAR 301
+#define TYPE 302
+#define STRING 303
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
@@ -48,6 +53,7 @@
 #define YYSTYPE_IS_DECLARED 1
 typedef union {
 	char* strval;
+	struct Employee* employee;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
 extern YYSTYPE yylval;

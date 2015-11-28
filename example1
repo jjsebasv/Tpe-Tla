@@ -48,6 +48,9 @@ Business {
 }
 
 
+| EMPLOYEE VAR ASSIGN NAME STRING LASTNAME STRING RANK STRING SALARY DIGITO ID DIGITO SEMICOLON Statement
+		{ $$ = concat_str( 15, "struct Employee", " ", $2, " = {", $5 , " , ", $7, " , ", $9, " , ", $11, " , ", $13, " };\n", $15 ); }
+
 - lenguaje pensado para usuarios inexpertos
 - void = nothing
 - sin for(;;) solo forEach para mayor simplicidad.

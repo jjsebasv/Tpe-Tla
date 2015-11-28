@@ -7,23 +7,36 @@
 	#include <stdarg.h>
 
 	char* string_concat(int argc, ...);
+	struct Employee {
+		char* name; 
+		char* lastname;        
+		char* rank;    
+		float salary;
+		int id;
+	};
+
 %}
+
+%union {
+	char* strval;
+	struct Employee* employee;
+}
 
 %token PARENTESIS_ABRE PARENTESIS_CIERRA C_BRACKET_ABRE C_BRACKET_CIERRA
 %token MAIN VOID
-
-
 %token WHILE IF ELSE DO
 %token PLUS MINUS MULT DIV MOD
 %token ASSIGN GT LT GE LE EQ
 %token AND OR NOT NE
 %token TRUE FALSE_T NULL_T BREAK
 %token COLON SEMICOLON COMMA DOT
-%token PRINT MAIN
+%token MAIN
 %token VOID
-%token CASE DEFAULT END RETURN
+%token END RETURN
+%token SALARYFOR MONTH NAME SALARY RANK ID LASTNAME
 
 
+%token EMPLOYEE
 %token <strval> DIGITO
 %token <strval> VAR
 %token <strval> TYPE
@@ -49,10 +62,6 @@
 %type <strval> Value_2
 %type <strval> Term
 
-%union {
-	char* strval;
-}
-
 
 %start Program
 
@@ -74,9 +83,9 @@ Functions
 
 Function
 	: TYPE VAR Parameters CodeBlock
-		{ $$ = concat_str(7, $1, " ~_", $2, $3, "\n", $4, "\n"); }
+		{ $$ = concat_str(7, $1," ", $2, $3, "\n", $4, "\n"); }
 	| VOID VAR Parameters CodeBlock
-		{ $$ = concat_str(7, "void "," ~_", $2, $3, "\n", $4, "\n"); }
+		{ $$ = concat_str(7, "void ", " ",$2, $3, "\n", $4, "\n"); }
 	;
 
 Parameters
@@ -100,7 +109,7 @@ CommaVariable
 
 Variable 
 	: TYPE VAR
-		{ $$ = concat_str( 3, $1, " ~_", $2); }
+		{ $$ = concat_str( 3, $1, " ", $2); }
 	;
 
 CodeBlock
@@ -109,14 +118,18 @@ CodeBlock
 	;
 
 Statement
-	: Variable SEMICOLON Statement
+	: Variable SEMICOLON Statement 
 		{ $$ = concat_str( 3, $1, ";\n",  $3); }
+	| EMPLOYEE VAR ASSIGN NAME STRING LASTNAME STRING RANK STRING SALARY DIGITO ID DIGITO SEMICOLON Statement
+		{ $$ = concat_str( 14, "struct Employee ", $2, " = { ", $5, " , ", $7, " , ", $9 , " , ", $11, " , ",$13 ," };\n", $15); }
 	| Expression SEMICOLON Statement
 		{ $$ = concat_str( 3, $1, ";\n", $3); }
 	| Variable ASSIGN Expression SEMICOLON Statement
 		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
 	| VAR ASSIGN Expression SEMICOLON Statement
-		{ $$ = concat_str( 6, "~_", $1, " = ", $3, ";\n", $5); }
+		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
+	| Variable ASSIGN VAR SALARYFOR DIGITO MONTH SEMICOLON Statement
+		{ $$ = concat_str( 9, $1, " = ", "salaryFor( ", $3, " , " , $5 , " , ", "2 );\n", $8 ); }
 	| WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement
 		{ $$ = concat_str( 6,"while ( ", $3, " )\n", $5, "\n", $6); }
 	| IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement
@@ -210,7 +223,7 @@ Value_2
 
 Term
 	: VAR
-		{ $$ = concat_str(2, "~_", $1); }
+		{ $$ = $1; }
 	| DIGITO
 		{ $$ = $1; }
 	| TRUE
@@ -221,8 +234,6 @@ Term
 		{ $$ = $1; }
 	| NULL_T
 		{ $$ = "NULL_T"; }
-	| VAR DOT VAR PARENTESIS_ABRE Value_1 PARENTESIS_CIERRA
-		{ $$ = concat_str( 6, $1, "_", $3, "( ", $5, " )"); }
 	| VAR PARENTESIS_ABRE Value_1 PARENTESIS_CIERRA
 		{ $$ = concat_str( 4, $1, "( ", $3, " )"); }
 	| PARENTESIS_ABRE Expression PARENTESIS_CIERRA

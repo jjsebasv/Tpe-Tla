@@ -9,5 +9,4 @@ rm -f output.c
 yacc -d -t -v salarium.y
 lex salarium.l
 gcc -o parser lex.yy.c y.tab.c -lfl
-gcc -o traduction traduction.c
 

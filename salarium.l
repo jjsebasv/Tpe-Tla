@@ -17,7 +17,6 @@
 "main"							{return MAIN;}
 "void"							{return VOID;}
 "return"						{return RETURN;}
-"print"							{return PRINT;}
 ","								{return COMMA;}
 "+"								{return PLUS;}
 "-"								{return MINUS;}
@@ -36,6 +35,14 @@
 "&&"							{return AND;}
 "!"								{return NOT;}
 ";"								{return SEMICOLON;}
+"Employee"						{return EMPLOYEE;}
+"salaryFor"						{return SALARYFOR;}
+"name:"							{return NAME;}
+"lastname:"						{return LASTNAME;}
+"rank:"							{return RANK;}
+"salary:"						{return SALARY;}
+"id:"							{return ID;}
+"month"							{return MONTH;}
 ([-]?[1-9][0-9]*)|0				{yylval.strval=strdup(yytext);return DIGITO;}
 float|int|char\*    			{yylval.strval=strdup(yytext);return TYPE;}
 [a-zA-Z][a-zA-Z0-9]*			{yylval.strval=strdup(yytext);return VAR;}
