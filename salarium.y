@@ -166,11 +166,11 @@ EmpValues
 
 TimeLapse
 	: WEEK
-		{ $$ = $1; }
+		{ $$ = "\"WEEK\""; }
 	| MONTH
-		{ $$ = $1; }
+		{ $$ = "\"MONTH\""; }
 	| YEAR
-		{ $$ = $1; }
+		{ $$ = "\"YEAR\""; }
 	;
 
 Exp

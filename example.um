@@ -14,8 +14,6 @@ int main(void) {
 		i = i + 1;
 	}
 
-
-
 	int salary = e1 salaryFor 3 month;
 	showEmployee e1;
 
