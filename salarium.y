@@ -51,15 +51,15 @@
 %type <strval> CodeBlock
 %type <strval> Statement
 %type <strval> Main
-%type <strval> Expression
-%type <strval> AdditiveExpression
-%type <strval> EqualityExpression
-%type <strval> MultiplicativeExpression
-%type <strval> RelationalExpression
-%type <strval> ConditionalAndExpression
-%type <strval> ConditionalOrExpression
-%type <strval> Value_1
-%type <strval> Value_2
+%type <strval> Exp
+%type <strval> AddExp
+%type <strval> EqExp
+%type <strval> MultExp
+%type <strval> RelExp
+%type <strval> CondAndExp
+%type <strval> CondOrExp
+%type <strval> FirstVal
+%type <strval> CommaVal
 %type <strval> Term
 
 
@@ -122,23 +122,23 @@ Statement
 		{ $$ = concat_str( 3, $1, ";\n",  $3); }
 	| EMPLOYEE VAR ASSIGN NAME STRING LASTNAME STRING RANK STRING SALARY DIGITO ID DIGITO SEMICOLON Statement
 		{ $$ = concat_str( 14, "struct Employee ", $2, " = { ", $5, " , ", $7, " , ", $9 , " , ", $11, " , ",$13 ," };\n", $15); }
-	| Expression SEMICOLON Statement
+	| Exp SEMICOLON Statement
 		{ $$ = concat_str( 3, $1, ";\n", $3); }
-	| Variable ASSIGN Expression SEMICOLON Statement
+	| Variable ASSIGN Exp SEMICOLON Statement
 		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
-	| VAR ASSIGN Expression SEMICOLON Statement
+	| VAR ASSIGN Exp SEMICOLON Statement
 		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
 	| Variable ASSIGN VAR SALARYFOR DIGITO MONTH SEMICOLON Statement
 		{ $$ = concat_str( 9, $1, " = ", "salaryFor( ", $3, " , " , $5 , " , ", "2 );\n", $8 ); }
-	| WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement
+	| WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock Statement
 		{ $$ = concat_str( 6,"while ( ", $3, " )\n", $5, "\n", $6); }
-	| IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement
+	| IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock Statement
 		{ $$ = concat_str( 6, "if ( ", $3, " )\n", $5, "\n", $6) ; }
-	| IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement
+	| IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement
 		{ $$ = concat_str( 9, "if ( ",  $3, " )\n", $5, "\n", "else\n", $7 , "\n", $8); }
-	| DO CodeBlock WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA SEMICOLON Statement
+	| DO CodeBlock WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA SEMICOLON Statement
 		{ $$ = concat_str( 7, "do\n", $2, "\n", "while ( ", $5, " );\n", $8); }
-	| RETURN Expression SEMICOLON
+	| RETURN Exp SEMICOLON
 		{ $$ = concat_str( 3, "return ", $2, ";");}
 	| BREAK SEMICOLON
 		{ $$ = "break;\n"; }
@@ -146,76 +146,76 @@ Statement
 		{ $$ = ""; }
 	;
 
-Expression
-	: ConditionalOrExpression
+Exp
+	: CondOrExp
 		{ $$ = $1; }
 	;
 
-MultiplicativeExpression
+MultExp
 	: Term
 		{ $$ = $1; }
-	| MultiplicativeExpression MULT Term
+	| MultExp MULT Term
 		{ $$ = concat_str(3, $1, " * ", $3); }
-	| MultiplicativeExpression DIV Term
+	| MultExp DIV Term
 		{ $$ = concat_str(3, $1, " / ", $3); }
-	| MultiplicativeExpression MOD Term
+	| MultExp MOD Term
 		{ $$ = concat_str(3, $1, " % ", $3); }
 	;
 
-AdditiveExpression
-	: MultiplicativeExpression
+AddExp
+	: MultExp
 		{ $$ = $1; }
-    | AdditiveExpression PLUS MultiplicativeExpression
+    | AddExp PLUS MultExp
     	{ $$ = concat_str(3, $1, " + ", $3); }
-	| AdditiveExpression MINUS MultiplicativeExpression
+	| AddExp MINUS MultExp
 		{ $$ = concat_str(3, $1, " - ", $3); }
     ;
 
-RelationalExpression
-	: AdditiveExpression
+RelExp
+	: AddExp
 		{ $$ = $1; }
-    | RelationalExpression LT AdditiveExpression
+    | RelExp LT AddExp
     	{ $$ = concat_str(3, $1, " < ", $3); }
-	| RelationalExpression GT AdditiveExpression
+	| RelExp GT AddExp
 		{ $$ = concat_str(3, $1, " > ", $3); }
-	| RelationalExpression LE AdditiveExpression
+	| RelExp LE AddExp
 		{ $$ = concat_str(3, $1, " <= ", $3); }
-	| RelationalExpression GE AdditiveExpression
+	| RelExp GE AddExp
 		{ $$ = concat_str(3, $1, " >= ", $3); }
 	;
 
-EqualityExpression
-	: RelationalExpression
+EqExp
+	: RelExp
 		{ $$ = $1; }
-    | EqualityExpression EQ RelationalExpression
+    | EqExp EQ RelExp
     	{ $$ = concat_str(3, $1, " == ", $3); }
-    | EqualityExpression NE RelationalExpression
+    | EqExp NE RelExp
     	{ $$ = concat_str(3, $1, " != ", $3); }
     ;
 
-ConditionalAndExpression
-	: EqualityExpression
+CondAndExp
+	: EqExp
 		{ $$ = $1; }
-	| ConditionalAndExpression AND EqualityExpression
+	| CondAndExp AND EqExp
 		{ $$ = concat_str(3, $1, " && ", $3); }
 	;
 
-ConditionalOrExpression
-	: ConditionalAndExpression
+CondOrExp
+	: CondAndExp
 		{ $$ = $1; }
-	| ConditionalOrExpression OR ConditionalAndExpression
+	| CondOrExp OR CondAndExp
 		{ $$ = concat_str(3, $1, " || ", $3); }
 	;
 
-Value_1
-	: Expression Value_2
+FirstVal
+	: Exp CommaVal
 		{ $$ = concat_str( 2, $1, $2); }
 	| 
 		{ $$ = ""; }
 	;
 
-Value_2
-	: Value_2 COMMA Expression 
+CommaVal
+	: CommaVal COMMA Exp 
 		{ $$ = concat_str( 3, $1, ", ", $3); }
 	| 
 		{ $$ = ""; }
@@ -234,9 +234,9 @@ Term
 		{ $$ = $1; }
 	| NULL_T
 		{ $$ = "NULL_T"; }
-	| VAR PARENTESIS_ABRE Value_1 PARENTESIS_CIERRA
+	| VAR PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA
 		{ $$ = concat_str( 4, $1, "( ", $3, " )"); }
-	| PARENTESIS_ABRE Expression PARENTESIS_CIERRA
+	| PARENTESIS_ABRE Exp PARENTESIS_CIERRA
 		{ $$ = concat_str( 3, "( ", $2, " )"); }
 	;
 
