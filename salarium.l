@@ -1,5 +1,7 @@
 %{
 	#include <stdio.h>
+	#include "employee.h"
+	#include "specialFn.h"
 	#include "y.tab.h"
 %}
 %option nounput yylineno
@@ -7,6 +9,11 @@
 %%
 
 [\"].*[\"]						{yylval.strval=strdup(yytext);return STRING;}
+"salaryFor"						{return SALARYFOR;}
+"showEmployee"					{return SHOW_EMPLOYEE;}
+"week"|"weeks"					{return WEEK;}
+"month"|"months"				{return MONTH;}
+"year"|"years"					{return YEAR;}
 "while"							{return WHILE;}
 "do"							{return DO;}
 "if"							{return IF;}
@@ -36,23 +43,26 @@
 "!"								{return NOT;}
 ";"								{return SEMICOLON;}
 "Employee"						{return EMPLOYEE;}
-"salaryFor"						{return SALARYFOR;}
 "name:"							{return NAME;}
 "lastname:"						{return LASTNAME;}
-"rank:"							{return RANK;}
-"salary:"						{return SALARY;}
+"category:"						{return CATEGORY;}
 "id:"							{return ID;}
-"month"							{return MONTH;}
+"antiquity:"					{return ANTIQUITY;}
+"salary:"						{return SALARY;}
+"rank:"							{return RANK;}
 ([-]?[1-9][0-9]*)|0				{yylval.strval=strdup(yytext);return DIGITO;}
-float|int|char\*    			{yylval.strval=strdup(yytext);return TYPE;}
+float|int|char\*				{yylval.strval=strdup(yytext);return TYPE;}
 [a-zA-Z][a-zA-Z0-9]*			{yylval.strval=strdup(yytext);return VAR;}
 "{"								{return C_BRACKET_ABRE;}
 "}"								{return C_BRACKET_CIERRA;}
+"["								{return S_BRACKET_ABRE;}
+"]"								{return S_BRACKET_CIERRA;}
 "("								{return PARENTESIS_ABRE;}
 ")"								{return PARENTESIS_CIERRA;}
 "."								{return DOT;}
 [ \t\n]							;
 .								{printf("unexpected character\n");}
+
 
 
 %%

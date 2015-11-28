@@ -7,22 +7,14 @@
 	#include <stdarg.h>
 
 	char* string_concat(int argc, ...);
-	struct Employee {
-		char* name; 
-		char* lastname;        
-		char* rank;    
-		float salary;
-		int id;
-	};
 
 %}
 
 %union {
 	char* strval;
-	struct Employee* employee;
 }
 
-%token PARENTESIS_ABRE PARENTESIS_CIERRA C_BRACKET_ABRE C_BRACKET_CIERRA
+%token PARENTESIS_ABRE PARENTESIS_CIERRA C_BRACKET_ABRE C_BRACKET_CIERRA S_BRACKET_ABRE S_BRACKET_CIERRA
 %token MAIN VOID
 %token WHILE IF ELSE DO
 %token PLUS MINUS MULT DIV MOD
@@ -41,6 +33,13 @@
 %token <strval> VAR
 %token <strval> TYPE
 %token <strval> STRING
+
+%token SALARYFOR SHOW_EMPLOYEE
+%token <strval> NAME LASTNAME ANTIQUITY ID SALARY CATEGORY
+%token <strval> WEEK MONTH YEAR QUOTATION_MARK
+
+%type <strval> SpecialFunction
+%type <strval> TimeLapse
 
 %type <strval> Variable
 %type <strval> FirstVariable
@@ -61,7 +60,7 @@
 %type <strval> FirstVal
 %type <strval> CommaVal
 %type <strval> Term
-
+%type <strval> EmpValues
 
 %start Program
 
@@ -120,16 +119,20 @@ CodeBlock
 Statement
 	: Variable SEMICOLON Statement 
 		{ $$ = concat_str( 3, $1, ";\n",  $3); }
-	| EMPLOYEE VAR ASSIGN NAME STRING LASTNAME STRING RANK STRING SALARY DIGITO ID DIGITO SEMICOLON Statement
-		{ $$ = concat_str( 14, "struct Employee ", $2, " = { ", $5, " , ", $7, " , ", $9 , " , ", $11, " , ",$13 ," };\n", $15); }
 	| Exp SEMICOLON Statement
 		{ $$ = concat_str( 3, $1, ";\n", $3); }
+	| SpecialFunction SEMICOLON Statement
+		{ $$ = concat_str( 3, $1, ";\n", $3); }
+	| Variable ASSIGN SpecialFunction SEMICOLON Statement
+		{ $$ = concat_str( 5, $1, " = ", $3 , ";\n", $5); }
 	| Variable ASSIGN Exp SEMICOLON Statement
 		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
 	| VAR ASSIGN Exp SEMICOLON Statement
 		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
-	| Variable ASSIGN VAR SALARYFOR DIGITO MONTH SEMICOLON Statement
-		{ $$ = concat_str( 9, $1, " = ", "salaryFor( ", $3, " , " , $5 , " , ", "2 );\n", $8 ); }
+	| EMPLOYEE VAR ASSIGN SpecialFunction SEMICOLON Statement
+		{ $$ = concat_str( 6, "struct Employee ", $2, " = ", $4, ";\n", $6); }
+	| EMPLOYEE VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement
+		{ $$ = concat_str( 8, "struct Employee ", $2, "[", $4, "] = {", $7, "};\n", $9); }
 	| WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock Statement
 		{ $$ = concat_str( 6,"while ( ", $3, " )\n", $5, "\n", $6); }
 	| IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock Statement
@@ -144,6 +147,30 @@ Statement
 		{ $$ = "break;\n"; }
 	| 
 		{ $$ = ""; }
+	;
+
+SpecialFunction
+	: NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO
+		{ $$ = concat_str( 13,"{ \"", $2, "\", \"", $5, "\", \"", $8, "\", ", $11, ", ", $14, ", ", $17, " }" ); }
+	| VAR SALARYFOR DIGITO TimeLapse
+		{ $$ = concat_str( 7, " getSalary( ", $1, ", ", $3, ", ", $4, ")" );}
+	| SHOW_EMPLOYEE VAR
+		{ $$ = concat_str( 3, "printEmployee( ", $2, ")" ); }
+	; 
+
+EmpValues
+	: VAR COMMA EmpValues
+		{ $$ = concat_str(3 , $1, " , ", $3); }
+	| VAR
+		{ $$ = $1; }
+
+TimeLapse
+	: WEEK
+		{ $$ = $1; }
+	| MONTH
+		{ $$ = $1; }
+	| YEAR
+		{ $$ = $1; }
 	;
 
 Exp
@@ -233,7 +260,11 @@ Term
 	| STRING
 		{ $$ = $1; }
 	| NULL_T
-		{ $$ = "NULL_T"; }
+		{ $$ = "NULL_T"; } 
+	| VAR S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR
+		{ $$ = concat_str( 5, $1, "[", $3, "].", $6 ); }
+	| VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR
+		{ $$ = concat_str( 5, $1, "[", $3, "].", $6 ); }
 	| VAR PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA
 		{ $$ = concat_str( 4, $1, "( ", $3, " )"); }
 	| PARENTESIS_ABRE Exp PARENTESIS_CIERRA
@@ -242,7 +273,7 @@ Term
 
 Main 
 	: TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock
-		{ $$ = concat_str(3, $1, " main ()\n",$6); }
+		{ $$ = concat_str(3 , $1, " main ()\n", $6 ); }
 	;
 
 %%
