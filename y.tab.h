@@ -45,6 +45,12 @@
 #define VAR 301
 #define TYPE 302
 #define STRING 303
+#define SHOW_EMPLOYEE 304
+#define ANTIQUITY 305
+#define CATEGORY 306
+#define WEEK 307
+#define YEAR 308
+#define QUOTATION_MARK 309
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
@@ -53,7 +59,6 @@
 #define YYSTYPE_IS_DECLARED 1
 typedef union {
 	char* strval;
-	struct Employee* employee;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
 extern YYSTYPE yylval;

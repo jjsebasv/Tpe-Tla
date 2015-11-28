@@ -1,0 +1,2054 @@
+   0  $accept : Program $end
+
+   1  Program : Functions Main
+   2          | Main
+
+   3  Functions : Functions Function
+   4            | Function
+
+   5  Function : TYPE VAR Parameters CodeBlock
+   6           | VOID VAR Parameters CodeBlock
+
+   7  Parameters : PARENTESIS_ABRE FirstVariable PARENTESIS_CIERRA
+
+   8  FirstVariable : Variable CommaVariable
+   9                |
+
+  10  CommaVariable : CommaVariable COMMA Variable
+  11                |
+
+  12  Variable : TYPE VAR
+
+  13  CodeBlock : C_BRACKET_ABRE Statement C_BRACKET_CIERRA
+
+  14  Statement : Variable SEMICOLON Statement
+  15            | Expression SEMICOLON Statement
+  16            | SpecialFunction SEMICOLON Statement
+  17            | Variable ASSIGN Expression SEMICOLON Statement
+  18            | VAR ASSIGN Expression SEMICOLON Statement
+  19            | EMPLOYEE VAR ASSIGN SpecialFunction SEMICOLON Statement
+  20            | WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement
+  21            | IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement
+  22            | IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement
+  23            | DO CodeBlock WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA SEMICOLON Statement
+  24            | RETURN Expression SEMICOLON
+  25            | BREAK SEMICOLON
+  26            |
+
+  27  SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO
+  28                  | NAME Var_Str COMMA NAME
+  29                  | VAR SALARYFOR DIGITO TimeLapse
+  30                  | SHOW_EMPLOYEE VAR
+
+  31  Var_Str : MULT VAR MULT
+
+  32  NewEmployee : NAME STRING COMMA LASTNAME STRING COMMA CATEGORY STRING COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO
+
+  33  TimeLapse : WEEK
+  34            | MONTH
+  35            | YEAR
+
+  36  Expression : ConditionalOrExpression
+
+  37  MultiplicativeExpression : Term
+  38                           | MultiplicativeExpression MULT Term
+  39                           | MultiplicativeExpression DIV Term
+  40                           | MultiplicativeExpression MOD Term
+
+  41  AdditiveExpression : MultiplicativeExpression
+  42                     | AdditiveExpression PLUS MultiplicativeExpression
+  43                     | AdditiveExpression MINUS MultiplicativeExpression
+
+  44  RelationalExpression : AdditiveExpression
+  45                       | RelationalExpression LT AdditiveExpression
+  46                       | RelationalExpression GT AdditiveExpression
+  47                       | RelationalExpression LE AdditiveExpression
+  48                       | RelationalExpression GE AdditiveExpression
+
+  49  EqualityExpression : RelationalExpression
+  50                     | EqualityExpression EQ RelationalExpression
+  51                     | EqualityExpression NE RelationalExpression
+
+  52  ConditionalAndExpression : EqualityExpression
+  53                           | ConditionalAndExpression AND EqualityExpression
+
+  54  ConditionalOrExpression : ConditionalAndExpression
+  55                          | ConditionalOrExpression OR ConditionalAndExpression
+
+  56  Value_1 : Expression Value_2
+  57          |
+
+  58  Value_2 : Value_2 COMMA Expression
+  59          |
+
+  60  Term : VAR
+  61       | DIGITO
+  62       | TRUE
+  63       | FALSE_T
+  64       | STRING
+  65       | NULL_T
+  66       | VAR PARENTESIS_ABRE Value_1 PARENTESIS_CIERRA
+  67       | PARENTESIS_ABRE Expression PARENTESIS_CIERRA
+
+  68  Main : TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock
+
+state 0
+	$accept : . Program $end  (0)
+
+	VOID  shift 1
+	TYPE  shift 2
+	.  error
+
+	Program  goto 3
+	Functions  goto 4
+	Function  goto 5
+	Main  goto 6
+
+
+state 1
+	Function : VOID . VAR Parameters CodeBlock  (6)
+
+	VAR  shift 7
+	.  error
+
+
+state 2
+	Function : TYPE . VAR Parameters CodeBlock  (5)
+	Main : TYPE . MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock  (68)
+
+	MAIN  shift 8
+	VAR  shift 9
+	.  error
+
+
+state 3
+	$accept : Program . $end  (0)
+
+	$end  accept
+
+
+state 4
+	Program : Functions . Main  (1)
+	Functions : Functions . Function  (3)
+
+	VOID  shift 1
+	TYPE  shift 2
+	.  error
+
+	Function  goto 10
+	Main  goto 11
+
+
+state 5
+	Functions : Function .  (4)
+
+	.  reduce 4
+
+
+state 6
+	Program : Main .  (2)
+
+	.  reduce 2
+
+
+state 7
+	Function : VOID VAR . Parameters CodeBlock  (6)
+
+	PARENTESIS_ABRE  shift 12
+	.  error
+
+	Parameters  goto 13
+
+
+state 8
+	Main : TYPE MAIN . PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock  (68)
+
+	PARENTESIS_ABRE  shift 14
+	.  error
+
+
+state 9
+	Function : TYPE VAR . Parameters CodeBlock  (5)
+
+	PARENTESIS_ABRE  shift 12
+	.  error
+
+	Parameters  goto 15
+
+
+state 10
+	Functions : Functions Function .  (3)
+
+	.  reduce 3
+
+
+state 11
+	Program : Functions Main .  (1)
+
+	.  reduce 1
+
+
+state 12
+	Parameters : PARENTESIS_ABRE . FirstVariable PARENTESIS_CIERRA  (7)
+	FirstVariable : .  (9)
+
+	TYPE  shift 16
+	PARENTESIS_CIERRA  reduce 9
+
+	Variable  goto 17
+	FirstVariable  goto 18
+
+
+state 13
+	Function : VOID VAR Parameters . CodeBlock  (6)
+
+	C_BRACKET_ABRE  shift 19
+	.  error
+
+	CodeBlock  goto 20
+
+
+state 14
+	Main : TYPE MAIN PARENTESIS_ABRE . VOID PARENTESIS_CIERRA CodeBlock  (68)
+
+	VOID  shift 21
+	.  error
+
+
+state 15
+	Function : TYPE VAR Parameters . CodeBlock  (5)
+
+	C_BRACKET_ABRE  shift 19
+	.  error
+
+	CodeBlock  goto 22
+
+
+state 16
+	Variable : TYPE . VAR  (12)
+
+	VAR  shift 23
+	.  error
+
+
+state 17
+	FirstVariable : Variable . CommaVariable  (8)
+	CommaVariable : .  (11)
+
+	.  reduce 11
+
+	CommaVariable  goto 24
+
+
+state 18
+	Parameters : PARENTESIS_ABRE FirstVariable . PARENTESIS_CIERRA  (7)
+
+	PARENTESIS_CIERRA  shift 25
+	.  error
+
+
+state 19
+	CodeBlock : C_BRACKET_ABRE . Statement C_BRACKET_CIERRA  (13)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 43
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 20
+	Function : VOID VAR Parameters CodeBlock .  (6)
+
+	.  reduce 6
+
+
+state 21
+	Main : TYPE MAIN PARENTESIS_ABRE VOID . PARENTESIS_CIERRA CodeBlock  (68)
+
+	PARENTESIS_CIERRA  shift 52
+	.  error
+
+
+state 22
+	Function : TYPE VAR Parameters CodeBlock .  (5)
+
+	.  reduce 5
+
+
+state 23
+	Variable : TYPE VAR .  (12)
+
+	.  reduce 12
+
+
+state 24
+	FirstVariable : Variable CommaVariable .  (8)
+	CommaVariable : CommaVariable . COMMA Variable  (10)
+
+	COMMA  shift 53
+	PARENTESIS_CIERRA  reduce 8
+
+
+state 25
+	Parameters : PARENTESIS_ABRE FirstVariable PARENTESIS_CIERRA .  (7)
+
+	.  reduce 7
+
+
+state 26
+	Term : PARENTESIS_ABRE . Expression PARENTESIS_CIERRA  (67)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Expression  goto 55
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 27
+	Statement : WHILE . PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement  (20)
+
+	PARENTESIS_ABRE  shift 56
+	.  error
+
+
+state 28
+	Statement : IF . PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement  (21)
+	Statement : IF . PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement  (22)
+
+	PARENTESIS_ABRE  shift 57
+	.  error
+
+
+state 29
+	Statement : DO . CodeBlock WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA SEMICOLON Statement  (23)
+
+	C_BRACKET_ABRE  shift 19
+	.  error
+
+	CodeBlock  goto 58
+
+
+state 30
+	Term : TRUE .  (62)
+
+	.  reduce 62
+
+
+state 31
+	Term : FALSE_T .  (63)
+
+	.  reduce 63
+
+
+state 32
+	Term : NULL_T .  (65)
+
+	.  reduce 65
+
+
+state 33
+	Statement : BREAK . SEMICOLON  (25)
+
+	SEMICOLON  shift 59
+	.  error
+
+
+state 34
+	Statement : RETURN . Expression SEMICOLON  (24)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Expression  goto 60
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 35
+	SpecialFunction : NAME . Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+	SpecialFunction : NAME . Var_Str COMMA NAME  (28)
+
+	MULT  shift 61
+	.  error
+
+	Var_Str  goto 62
+
+
+state 36
+	Statement : EMPLOYEE . VAR ASSIGN SpecialFunction SEMICOLON Statement  (19)
+
+	VAR  shift 63
+	.  error
+
+
+state 37
+	Term : DIGITO .  (61)
+
+	.  reduce 61
+
+
+state 38
+	Statement : VAR . ASSIGN Expression SEMICOLON Statement  (18)
+	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse  (29)
+	Term : VAR .  (60)
+	Term : VAR . PARENTESIS_ABRE Value_1 PARENTESIS_CIERRA  (66)
+
+	PARENTESIS_ABRE  shift 64
+	ASSIGN  shift 65
+	SALARYFOR  shift 66
+	PLUS  reduce 60
+	MINUS  reduce 60
+	MULT  reduce 60
+	DIV  reduce 60
+	MOD  reduce 60
+	GT  reduce 60
+	LT  reduce 60
+	GE  reduce 60
+	LE  reduce 60
+	EQ  reduce 60
+	AND  reduce 60
+	OR  reduce 60
+	NE  reduce 60
+	SEMICOLON  reduce 60
+
+
+state 39
+	Term : STRING .  (64)
+
+	.  reduce 64
+
+
+state 40
+	SpecialFunction : SHOW_EMPLOYEE . VAR  (30)
+
+	VAR  shift 67
+	.  error
+
+
+state 41
+	Statement : SpecialFunction . SEMICOLON Statement  (16)
+
+	SEMICOLON  shift 68
+	.  error
+
+
+state 42
+	Statement : Variable . SEMICOLON Statement  (14)
+	Statement : Variable . ASSIGN Expression SEMICOLON Statement  (17)
+
+	ASSIGN  shift 69
+	SEMICOLON  shift 70
+	.  error
+
+
+state 43
+	CodeBlock : C_BRACKET_ABRE Statement . C_BRACKET_CIERRA  (13)
+
+	C_BRACKET_CIERRA  shift 71
+	.  error
+
+
+state 44
+	Statement : Expression . SEMICOLON Statement  (15)
+
+	SEMICOLON  shift 72
+	.  error
+
+
+state 45
+	AdditiveExpression : AdditiveExpression . PLUS MultiplicativeExpression  (42)
+	AdditiveExpression : AdditiveExpression . MINUS MultiplicativeExpression  (43)
+	RelationalExpression : AdditiveExpression .  (44)
+
+	PLUS  shift 73
+	MINUS  shift 74
+	PARENTESIS_CIERRA  reduce 44
+	GT  reduce 44
+	LT  reduce 44
+	GE  reduce 44
+	LE  reduce 44
+	EQ  reduce 44
+	AND  reduce 44
+	OR  reduce 44
+	NE  reduce 44
+	SEMICOLON  reduce 44
+	COMMA  reduce 44
+
+
+state 46
+	EqualityExpression : EqualityExpression . EQ RelationalExpression  (50)
+	EqualityExpression : EqualityExpression . NE RelationalExpression  (51)
+	ConditionalAndExpression : EqualityExpression .  (52)
+
+	EQ  shift 75
+	NE  shift 76
+	PARENTESIS_CIERRA  reduce 52
+	AND  reduce 52
+	OR  reduce 52
+	SEMICOLON  reduce 52
+	COMMA  reduce 52
+
+
+state 47
+	MultiplicativeExpression : MultiplicativeExpression . MULT Term  (38)
+	MultiplicativeExpression : MultiplicativeExpression . DIV Term  (39)
+	MultiplicativeExpression : MultiplicativeExpression . MOD Term  (40)
+	AdditiveExpression : MultiplicativeExpression .  (41)
+
+	MULT  shift 77
+	DIV  shift 78
+	MOD  shift 79
+	PARENTESIS_CIERRA  reduce 41
+	PLUS  reduce 41
+	MINUS  reduce 41
+	GT  reduce 41
+	LT  reduce 41
+	GE  reduce 41
+	LE  reduce 41
+	EQ  reduce 41
+	AND  reduce 41
+	OR  reduce 41
+	NE  reduce 41
+	SEMICOLON  reduce 41
+	COMMA  reduce 41
+
+
+state 48
+	RelationalExpression : RelationalExpression . LT AdditiveExpression  (45)
+	RelationalExpression : RelationalExpression . GT AdditiveExpression  (46)
+	RelationalExpression : RelationalExpression . LE AdditiveExpression  (47)
+	RelationalExpression : RelationalExpression . GE AdditiveExpression  (48)
+	EqualityExpression : RelationalExpression .  (49)
+
+	GT  shift 80
+	LT  shift 81
+	GE  shift 82
+	LE  shift 83
+	PARENTESIS_CIERRA  reduce 49
+	EQ  reduce 49
+	AND  reduce 49
+	OR  reduce 49
+	NE  reduce 49
+	SEMICOLON  reduce 49
+	COMMA  reduce 49
+
+
+state 49
+	ConditionalAndExpression : ConditionalAndExpression . AND EqualityExpression  (53)
+	ConditionalOrExpression : ConditionalAndExpression .  (54)
+
+	AND  shift 84
+	PARENTESIS_CIERRA  reduce 54
+	OR  reduce 54
+	SEMICOLON  reduce 54
+	COMMA  reduce 54
+
+
+state 50
+	Expression : ConditionalOrExpression .  (36)
+	ConditionalOrExpression : ConditionalOrExpression . OR ConditionalAndExpression  (55)
+
+	OR  shift 85
+	PARENTESIS_CIERRA  reduce 36
+	SEMICOLON  reduce 36
+	COMMA  reduce 36
+
+
+state 51
+	MultiplicativeExpression : Term .  (37)
+
+	.  reduce 37
+
+
+state 52
+	Main : TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA . CodeBlock  (68)
+
+	C_BRACKET_ABRE  shift 19
+	.  error
+
+	CodeBlock  goto 86
+
+
+state 53
+	CommaVariable : CommaVariable COMMA . Variable  (10)
+
+	TYPE  shift 16
+	.  error
+
+	Variable  goto 87
+
+
+state 54
+	Term : VAR .  (60)
+	Term : VAR . PARENTESIS_ABRE Value_1 PARENTESIS_CIERRA  (66)
+
+	PARENTESIS_ABRE  shift 64
+	PARENTESIS_CIERRA  reduce 60
+	PLUS  reduce 60
+	MINUS  reduce 60
+	MULT  reduce 60
+	DIV  reduce 60
+	MOD  reduce 60
+	GT  reduce 60
+	LT  reduce 60
+	GE  reduce 60
+	LE  reduce 60
+	EQ  reduce 60
+	AND  reduce 60
+	OR  reduce 60
+	NE  reduce 60
+	SEMICOLON  reduce 60
+	COMMA  reduce 60
+
+
+state 55
+	Term : PARENTESIS_ABRE Expression . PARENTESIS_CIERRA  (67)
+
+	PARENTESIS_CIERRA  shift 88
+	.  error
+
+
+state 56
+	Statement : WHILE PARENTESIS_ABRE . Expression PARENTESIS_CIERRA CodeBlock Statement  (20)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Expression  goto 89
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 57
+	Statement : IF PARENTESIS_ABRE . Expression PARENTESIS_CIERRA CodeBlock Statement  (21)
+	Statement : IF PARENTESIS_ABRE . Expression PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement  (22)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Expression  goto 90
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 58
+	Statement : DO CodeBlock . WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA SEMICOLON Statement  (23)
+
+	WHILE  shift 91
+	.  error
+
+
+state 59
+	Statement : BREAK SEMICOLON .  (25)
+
+	.  reduce 25
+
+
+state 60
+	Statement : RETURN Expression . SEMICOLON  (24)
+
+	SEMICOLON  shift 92
+	.  error
+
+
+state 61
+	Var_Str : MULT . VAR MULT  (31)
+
+	VAR  shift 93
+	.  error
+
+
+state 62
+	SpecialFunction : NAME Var_Str . COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+	SpecialFunction : NAME Var_Str . COMMA NAME  (28)
+
+	COMMA  shift 94
+	.  error
+
+
+state 63
+	Statement : EMPLOYEE VAR . ASSIGN SpecialFunction SEMICOLON Statement  (19)
+
+	ASSIGN  shift 95
+	.  error
+
+
+state 64
+	Term : VAR PARENTESIS_ABRE . Value_1 PARENTESIS_CIERRA  (66)
+	Value_1 : .  (57)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	PARENTESIS_CIERRA  reduce 57
+
+	Expression  goto 96
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Value_1  goto 97
+	Term  goto 51
+
+
+state 65
+	Statement : VAR ASSIGN . Expression SEMICOLON Statement  (18)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Expression  goto 98
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 66
+	SpecialFunction : VAR SALARYFOR . DIGITO TimeLapse  (29)
+
+	DIGITO  shift 99
+	.  error
+
+
+state 67
+	SpecialFunction : SHOW_EMPLOYEE VAR .  (30)
+
+	.  reduce 30
+
+
+state 68
+	Statement : SpecialFunction SEMICOLON . Statement  (16)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 100
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 69
+	Statement : Variable ASSIGN . Expression SEMICOLON Statement  (17)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Expression  goto 101
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 70
+	Statement : Variable SEMICOLON . Statement  (14)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 102
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 71
+	CodeBlock : C_BRACKET_ABRE Statement C_BRACKET_CIERRA .  (13)
+
+	.  reduce 13
+
+
+state 72
+	Statement : Expression SEMICOLON . Statement  (15)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 103
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 73
+	AdditiveExpression : AdditiveExpression PLUS . MultiplicativeExpression  (42)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	MultiplicativeExpression  goto 104
+	Term  goto 51
+
+
+state 74
+	AdditiveExpression : AdditiveExpression MINUS . MultiplicativeExpression  (43)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	MultiplicativeExpression  goto 105
+	Term  goto 51
+
+
+state 75
+	EqualityExpression : EqualityExpression EQ . RelationalExpression  (50)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	AdditiveExpression  goto 45
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 106
+	Term  goto 51
+
+
+state 76
+	EqualityExpression : EqualityExpression NE . RelationalExpression  (51)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	AdditiveExpression  goto 45
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 107
+	Term  goto 51
+
+
+state 77
+	MultiplicativeExpression : MultiplicativeExpression MULT . Term  (38)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Term  goto 108
+
+
+state 78
+	MultiplicativeExpression : MultiplicativeExpression DIV . Term  (39)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Term  goto 109
+
+
+state 79
+	MultiplicativeExpression : MultiplicativeExpression MOD . Term  (40)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Term  goto 110
+
+
+state 80
+	RelationalExpression : RelationalExpression GT . AdditiveExpression  (46)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	AdditiveExpression  goto 111
+	MultiplicativeExpression  goto 47
+	Term  goto 51
+
+
+state 81
+	RelationalExpression : RelationalExpression LT . AdditiveExpression  (45)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	AdditiveExpression  goto 112
+	MultiplicativeExpression  goto 47
+	Term  goto 51
+
+
+state 82
+	RelationalExpression : RelationalExpression GE . AdditiveExpression  (48)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	AdditiveExpression  goto 113
+	MultiplicativeExpression  goto 47
+	Term  goto 51
+
+
+state 83
+	RelationalExpression : RelationalExpression LE . AdditiveExpression  (47)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	AdditiveExpression  goto 114
+	MultiplicativeExpression  goto 47
+	Term  goto 51
+
+
+state 84
+	ConditionalAndExpression : ConditionalAndExpression AND . EqualityExpression  (53)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 115
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	Term  goto 51
+
+
+state 85
+	ConditionalOrExpression : ConditionalOrExpression OR . ConditionalAndExpression  (55)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 116
+	Term  goto 51
+
+
+state 86
+	Main : TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock .  (68)
+
+	.  reduce 68
+
+
+state 87
+	CommaVariable : CommaVariable COMMA Variable .  (10)
+
+	.  reduce 10
+
+
+state 88
+	Term : PARENTESIS_ABRE Expression PARENTESIS_CIERRA .  (67)
+
+	.  reduce 67
+
+
+state 89
+	Statement : WHILE PARENTESIS_ABRE Expression . PARENTESIS_CIERRA CodeBlock Statement  (20)
+
+	PARENTESIS_CIERRA  shift 117
+	.  error
+
+
+state 90
+	Statement : IF PARENTESIS_ABRE Expression . PARENTESIS_CIERRA CodeBlock Statement  (21)
+	Statement : IF PARENTESIS_ABRE Expression . PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement  (22)
+
+	PARENTESIS_CIERRA  shift 118
+	.  error
+
+
+state 91
+	Statement : DO CodeBlock WHILE . PARENTESIS_ABRE Expression PARENTESIS_CIERRA SEMICOLON Statement  (23)
+
+	PARENTESIS_ABRE  shift 119
+	.  error
+
+
+state 92
+	Statement : RETURN Expression SEMICOLON .  (24)
+
+	.  reduce 24
+
+
+state 93
+	Var_Str : MULT VAR . MULT  (31)
+
+	MULT  shift 120
+	.  error
+
+
+state 94
+	SpecialFunction : NAME Var_Str COMMA . LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+	SpecialFunction : NAME Var_Str COMMA . NAME  (28)
+
+	NAME  shift 121
+	LASTNAME  shift 122
+	.  error
+
+
+state 95
+	Statement : EMPLOYEE VAR ASSIGN . SpecialFunction SEMICOLON Statement  (19)
+
+	NAME  shift 35
+	VAR  shift 123
+	SHOW_EMPLOYEE  shift 40
+	.  error
+
+	SpecialFunction  goto 124
+
+
+state 96
+	Value_1 : Expression . Value_2  (56)
+	Value_2 : .  (59)
+
+	.  reduce 59
+
+	Value_2  goto 125
+
+
+state 97
+	Term : VAR PARENTESIS_ABRE Value_1 . PARENTESIS_CIERRA  (66)
+
+	PARENTESIS_CIERRA  shift 126
+	.  error
+
+
+state 98
+	Statement : VAR ASSIGN Expression . SEMICOLON Statement  (18)
+
+	SEMICOLON  shift 127
+	.  error
+
+
+state 99
+	SpecialFunction : VAR SALARYFOR DIGITO . TimeLapse  (29)
+
+	MONTH  shift 128
+	WEEK  shift 129
+	YEAR  shift 130
+	.  error
+
+	TimeLapse  goto 131
+
+
+state 100
+	Statement : SpecialFunction SEMICOLON Statement .  (16)
+
+	.  reduce 16
+
+
+state 101
+	Statement : Variable ASSIGN Expression . SEMICOLON Statement  (17)
+
+	SEMICOLON  shift 132
+	.  error
+
+
+state 102
+	Statement : Variable SEMICOLON Statement .  (14)
+
+	.  reduce 14
+
+
+state 103
+	Statement : Expression SEMICOLON Statement .  (15)
+
+	.  reduce 15
+
+
+state 104
+	MultiplicativeExpression : MultiplicativeExpression . MULT Term  (38)
+	MultiplicativeExpression : MultiplicativeExpression . DIV Term  (39)
+	MultiplicativeExpression : MultiplicativeExpression . MOD Term  (40)
+	AdditiveExpression : AdditiveExpression PLUS MultiplicativeExpression .  (42)
+
+	MULT  shift 77
+	DIV  shift 78
+	MOD  shift 79
+	PARENTESIS_CIERRA  reduce 42
+	PLUS  reduce 42
+	MINUS  reduce 42
+	GT  reduce 42
+	LT  reduce 42
+	GE  reduce 42
+	LE  reduce 42
+	EQ  reduce 42
+	AND  reduce 42
+	OR  reduce 42
+	NE  reduce 42
+	SEMICOLON  reduce 42
+	COMMA  reduce 42
+
+
+state 105
+	MultiplicativeExpression : MultiplicativeExpression . MULT Term  (38)
+	MultiplicativeExpression : MultiplicativeExpression . DIV Term  (39)
+	MultiplicativeExpression : MultiplicativeExpression . MOD Term  (40)
+	AdditiveExpression : AdditiveExpression MINUS MultiplicativeExpression .  (43)
+
+	MULT  shift 77
+	DIV  shift 78
+	MOD  shift 79
+	PARENTESIS_CIERRA  reduce 43
+	PLUS  reduce 43
+	MINUS  reduce 43
+	GT  reduce 43
+	LT  reduce 43
+	GE  reduce 43
+	LE  reduce 43
+	EQ  reduce 43
+	AND  reduce 43
+	OR  reduce 43
+	NE  reduce 43
+	SEMICOLON  reduce 43
+	COMMA  reduce 43
+
+
+state 106
+	RelationalExpression : RelationalExpression . LT AdditiveExpression  (45)
+	RelationalExpression : RelationalExpression . GT AdditiveExpression  (46)
+	RelationalExpression : RelationalExpression . LE AdditiveExpression  (47)
+	RelationalExpression : RelationalExpression . GE AdditiveExpression  (48)
+	EqualityExpression : EqualityExpression EQ RelationalExpression .  (50)
+
+	GT  shift 80
+	LT  shift 81
+	GE  shift 82
+	LE  shift 83
+	PARENTESIS_CIERRA  reduce 50
+	EQ  reduce 50
+	AND  reduce 50
+	OR  reduce 50
+	NE  reduce 50
+	SEMICOLON  reduce 50
+	COMMA  reduce 50
+
+
+state 107
+	RelationalExpression : RelationalExpression . LT AdditiveExpression  (45)
+	RelationalExpression : RelationalExpression . GT AdditiveExpression  (46)
+	RelationalExpression : RelationalExpression . LE AdditiveExpression  (47)
+	RelationalExpression : RelationalExpression . GE AdditiveExpression  (48)
+	EqualityExpression : EqualityExpression NE RelationalExpression .  (51)
+
+	GT  shift 80
+	LT  shift 81
+	GE  shift 82
+	LE  shift 83
+	PARENTESIS_CIERRA  reduce 51
+	EQ  reduce 51
+	AND  reduce 51
+	OR  reduce 51
+	NE  reduce 51
+	SEMICOLON  reduce 51
+	COMMA  reduce 51
+
+
+state 108
+	MultiplicativeExpression : MultiplicativeExpression MULT Term .  (38)
+
+	.  reduce 38
+
+
+state 109
+	MultiplicativeExpression : MultiplicativeExpression DIV Term .  (39)
+
+	.  reduce 39
+
+
+state 110
+	MultiplicativeExpression : MultiplicativeExpression MOD Term .  (40)
+
+	.  reduce 40
+
+
+state 111
+	AdditiveExpression : AdditiveExpression . PLUS MultiplicativeExpression  (42)
+	AdditiveExpression : AdditiveExpression . MINUS MultiplicativeExpression  (43)
+	RelationalExpression : RelationalExpression GT AdditiveExpression .  (46)
+
+	PLUS  shift 73
+	MINUS  shift 74
+	PARENTESIS_CIERRA  reduce 46
+	GT  reduce 46
+	LT  reduce 46
+	GE  reduce 46
+	LE  reduce 46
+	EQ  reduce 46
+	AND  reduce 46
+	OR  reduce 46
+	NE  reduce 46
+	SEMICOLON  reduce 46
+	COMMA  reduce 46
+
+
+state 112
+	AdditiveExpression : AdditiveExpression . PLUS MultiplicativeExpression  (42)
+	AdditiveExpression : AdditiveExpression . MINUS MultiplicativeExpression  (43)
+	RelationalExpression : RelationalExpression LT AdditiveExpression .  (45)
+
+	PLUS  shift 73
+	MINUS  shift 74
+	PARENTESIS_CIERRA  reduce 45
+	GT  reduce 45
+	LT  reduce 45
+	GE  reduce 45
+	LE  reduce 45
+	EQ  reduce 45
+	AND  reduce 45
+	OR  reduce 45
+	NE  reduce 45
+	SEMICOLON  reduce 45
+	COMMA  reduce 45
+
+
+state 113
+	AdditiveExpression : AdditiveExpression . PLUS MultiplicativeExpression  (42)
+	AdditiveExpression : AdditiveExpression . MINUS MultiplicativeExpression  (43)
+	RelationalExpression : RelationalExpression GE AdditiveExpression .  (48)
+
+	PLUS  shift 73
+	MINUS  shift 74
+	PARENTESIS_CIERRA  reduce 48
+	GT  reduce 48
+	LT  reduce 48
+	GE  reduce 48
+	LE  reduce 48
+	EQ  reduce 48
+	AND  reduce 48
+	OR  reduce 48
+	NE  reduce 48
+	SEMICOLON  reduce 48
+	COMMA  reduce 48
+
+
+state 114
+	AdditiveExpression : AdditiveExpression . PLUS MultiplicativeExpression  (42)
+	AdditiveExpression : AdditiveExpression . MINUS MultiplicativeExpression  (43)
+	RelationalExpression : RelationalExpression LE AdditiveExpression .  (47)
+
+	PLUS  shift 73
+	MINUS  shift 74
+	PARENTESIS_CIERRA  reduce 47
+	GT  reduce 47
+	LT  reduce 47
+	GE  reduce 47
+	LE  reduce 47
+	EQ  reduce 47
+	AND  reduce 47
+	OR  reduce 47
+	NE  reduce 47
+	SEMICOLON  reduce 47
+	COMMA  reduce 47
+
+
+state 115
+	EqualityExpression : EqualityExpression . EQ RelationalExpression  (50)
+	EqualityExpression : EqualityExpression . NE RelationalExpression  (51)
+	ConditionalAndExpression : ConditionalAndExpression AND EqualityExpression .  (53)
+
+	EQ  shift 75
+	NE  shift 76
+	PARENTESIS_CIERRA  reduce 53
+	AND  reduce 53
+	OR  reduce 53
+	SEMICOLON  reduce 53
+	COMMA  reduce 53
+
+
+state 116
+	ConditionalAndExpression : ConditionalAndExpression . AND EqualityExpression  (53)
+	ConditionalOrExpression : ConditionalOrExpression OR ConditionalAndExpression .  (55)
+
+	AND  shift 84
+	PARENTESIS_CIERRA  reduce 55
+	OR  reduce 55
+	SEMICOLON  reduce 55
+	COMMA  reduce 55
+
+
+state 117
+	Statement : WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA . CodeBlock Statement  (20)
+
+	C_BRACKET_ABRE  shift 19
+	.  error
+
+	CodeBlock  goto 133
+
+
+state 118
+	Statement : IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA . CodeBlock Statement  (21)
+	Statement : IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA . CodeBlock ELSE CodeBlock Statement  (22)
+
+	C_BRACKET_ABRE  shift 19
+	.  error
+
+	CodeBlock  goto 134
+
+
+state 119
+	Statement : DO CodeBlock WHILE PARENTESIS_ABRE . Expression PARENTESIS_CIERRA SEMICOLON Statement  (23)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Expression  goto 135
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 120
+	Var_Str : MULT VAR MULT .  (31)
+
+	.  reduce 31
+
+
+state 121
+	SpecialFunction : NAME Var_Str COMMA NAME .  (28)
+
+	.  reduce 28
+
+
+state 122
+	SpecialFunction : NAME Var_Str COMMA LASTNAME . Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+
+	MULT  shift 61
+	.  error
+
+	Var_Str  goto 136
+
+
+state 123
+	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse  (29)
+
+	SALARYFOR  shift 66
+	.  error
+
+
+state 124
+	Statement : EMPLOYEE VAR ASSIGN SpecialFunction . SEMICOLON Statement  (19)
+
+	SEMICOLON  shift 137
+	.  error
+
+
+state 125
+	Value_1 : Expression Value_2 .  (56)
+	Value_2 : Value_2 . COMMA Expression  (58)
+
+	COMMA  shift 138
+	PARENTESIS_CIERRA  reduce 56
+
+
+state 126
+	Term : VAR PARENTESIS_ABRE Value_1 PARENTESIS_CIERRA .  (66)
+
+	.  reduce 66
+
+
+state 127
+	Statement : VAR ASSIGN Expression SEMICOLON . Statement  (18)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 139
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 128
+	TimeLapse : MONTH .  (34)
+
+	.  reduce 34
+
+
+state 129
+	TimeLapse : WEEK .  (33)
+
+	.  reduce 33
+
+
+state 130
+	TimeLapse : YEAR .  (35)
+
+	.  reduce 35
+
+
+state 131
+	SpecialFunction : VAR SALARYFOR DIGITO TimeLapse .  (29)
+
+	.  reduce 29
+
+
+state 132
+	Statement : Variable ASSIGN Expression SEMICOLON . Statement  (17)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 140
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 133
+	Statement : WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock . Statement  (20)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 141
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 134
+	Statement : IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock . Statement  (21)
+	Statement : IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock . ELSE CodeBlock Statement  (22)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	ELSE  shift 142
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 143
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 135
+	Statement : DO CodeBlock WHILE PARENTESIS_ABRE Expression . PARENTESIS_CIERRA SEMICOLON Statement  (23)
+
+	PARENTESIS_CIERRA  shift 144
+	.  error
+
+
+state 136
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str . COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+
+	COMMA  shift 145
+	.  error
+
+
+state 137
+	Statement : EMPLOYEE VAR ASSIGN SpecialFunction SEMICOLON . Statement  (19)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 146
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 138
+	Value_2 : Value_2 COMMA . Expression  (58)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 37
+	VAR  shift 54
+	STRING  shift 39
+	.  error
+
+	Expression  goto 147
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 139
+	Statement : VAR ASSIGN Expression SEMICOLON Statement .  (18)
+
+	.  reduce 18
+
+
+state 140
+	Statement : Variable ASSIGN Expression SEMICOLON Statement .  (17)
+
+	.  reduce 17
+
+
+state 141
+	Statement : WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement .  (20)
+
+	.  reduce 20
+
+
+state 142
+	Statement : IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock ELSE . CodeBlock Statement  (22)
+
+	C_BRACKET_ABRE  shift 19
+	.  error
+
+	CodeBlock  goto 148
+
+
+state 143
+	Statement : IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement .  (21)
+
+	.  reduce 21
+
+
+state 144
+	Statement : DO CodeBlock WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA . SEMICOLON Statement  (23)
+
+	SEMICOLON  shift 149
+	.  error
+
+
+state 145
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA . CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+
+	CATEGORY  shift 150
+	.  error
+
+
+state 146
+	Statement : EMPLOYEE VAR ASSIGN SpecialFunction SEMICOLON Statement .  (19)
+
+	.  reduce 19
+
+
+state 147
+	Value_2 : Value_2 COMMA Expression .  (58)
+
+	.  reduce 58
+
+
+state 148
+	Statement : IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock ELSE CodeBlock . Statement  (22)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 151
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 149
+	Statement : DO CodeBlock WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA SEMICOLON . Statement  (23)
+	Statement : .  (26)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	DIGITO  shift 37
+	VAR  shift 38
+	TYPE  shift 16
+	STRING  shift 39
+	SHOW_EMPLOYEE  shift 40
+	C_BRACKET_CIERRA  reduce 26
+
+	SpecialFunction  goto 41
+	Variable  goto 42
+	Statement  goto 152
+	Expression  goto 44
+	AdditiveExpression  goto 45
+	EqualityExpression  goto 46
+	MultiplicativeExpression  goto 47
+	RelationalExpression  goto 48
+	ConditionalAndExpression  goto 49
+	ConditionalOrExpression  goto 50
+	Term  goto 51
+
+
+state 150
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY . Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+
+	MULT  shift 61
+	.  error
+
+	Var_Str  goto 153
+
+
+state 151
+	Statement : IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement .  (22)
+
+	.  reduce 22
+
+
+state 152
+	Statement : DO CodeBlock WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA SEMICOLON Statement .  (23)
+
+	.  reduce 23
+
+
+state 153
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str . COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+
+	COMMA  shift 154
+	.  error
+
+
+state 154
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA . ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+
+	ID  shift 155
+	.  error
+
+
+state 155
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID . DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+
+	DIGITO  shift 156
+	.  error
+
+
+state 156
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO . COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+
+	COMMA  shift 157
+	.  error
+
+
+state 157
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA . ANTIQUITY DIGITO COMMA SALARY DIGITO  (27)
+
+	ANTIQUITY  shift 158
+	.  error
+
+
+state 158
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY . DIGITO COMMA SALARY DIGITO  (27)
+
+	DIGITO  shift 159
+	.  error
+
+
+state 159
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO . COMMA SALARY DIGITO  (27)
+
+	COMMA  shift 160
+	.  error
+
+
+state 160
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA . SALARY DIGITO  (27)
+
+	SALARY  shift 161
+	.  error
+
+
+state 161
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY . DIGITO  (27)
+
+	DIGITO  shift 162
+	.  error
+
+
+state 162
+	SpecialFunction : NAME Var_Str COMMA LASTNAME Var_Str COMMA CATEGORY Var_Str COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO .  (27)
+
+	.  reduce 27
+
+
+Rules never reduced:
+	NewEmployee : NAME STRING COMMA LASTNAME STRING COMMA CATEGORY STRING COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (32)
+
+
+55 terminals, 25 nonterminals
+69 grammar rules, 163 states

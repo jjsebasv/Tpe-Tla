@@ -1,10 +1,9 @@
 int main(void) {
-	Employee e1 = name: "juan" lastname: "perez" rank: "junior" salary: 10000 id: 1;
 	int i = 0;
-	float salaryTwoMonth = e1 salaryFor 2 month;
 	while(i < 10) {
 		printf("%s", "hola \n");
 		i = i + 1;
 	}
+	Employee e = name: *Pedro*, lastname: *Gimenez*, category: *Junior*, id: 53853, antiquity: 1, salary: 1500;
 	return 0;
 }
