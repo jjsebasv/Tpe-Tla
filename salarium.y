@@ -129,7 +129,7 @@ Statement
 	| VAR ASSIGN Expression SEMICOLON Statement
 		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
 	| EMPLOYEE VAR ASSIGN SpecialFunction SEMICOLON Statement
-		{ $$ = concat_str( 5, "struct Employee", $2, " = ", $4, ";\n", $6); }
+		{ $$ = concat_str( 5, "struct Employee ", $2, " = ", $4, ";\n", $6); }
 	| WHILE PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement
 		{ $$ = concat_str( 6,"while ( ", $3, " )\n", $5, "\n", $6); }
 	| IF PARENTESIS_ABRE Expression PARENTESIS_CIERRA CodeBlock Statement
@@ -159,7 +159,7 @@ SpecialFunction
 
 Var_Str
 	: MULT VAR MULT
-		{ $$ = concat_str(3, "'", $2, "'"); }
+		{ $$ = concat_str(3, "\"", $2, "\""); }
 	;
 
 NewEmployee

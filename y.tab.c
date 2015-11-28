@@ -734,7 +734,7 @@ case 18:
 break;
 case 19:
 #line 132 "salarium.y"
-	{ yyval.strval = concat_str( 5, "struct Employee", yystack.l_mark[-4].strval, " = ", yystack.l_mark[-2].strval, ";\n", yystack.l_mark[0].strval); }
+	{ yyval.strval = concat_str( 5, "struct Employee ", yystack.l_mark[-4].strval, " = ", yystack.l_mark[-2].strval, ";\n", yystack.l_mark[0].strval); }
 break;
 case 20:
 #line 134 "salarium.y"
@@ -782,7 +782,7 @@ case 30:
 break;
 case 31:
 #line 162 "salarium.y"
-	{ yyval.strval = concat_str(3, "'", yystack.l_mark[-1].strval, "'"); }
+	{ yyval.strval = concat_str(3, "\"", yystack.l_mark[-1].strval, "\""); }
 break;
 case 32:
 #line 167 "salarium.y"
