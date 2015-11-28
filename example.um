@@ -1,16 +1,16 @@
 int main(void) {
 
 	Employee e1 = name: Pedro, lastname: Gimenez, category: Junior, id: 53853, antiquity: 1, salary: 1500;
-	Employee e2 = name: Pedro, lastname: Gimenez, category: Junior, id: 53853, antiquity: 1, salary: 1500;
-	Employee e3 = name: Pedro, lastname: Gimenez, category: Junior, id: 53853, antiquity: 1, salary: 1500;
-	Employee e4 = name: Pedro, lastname: Gimenez, category: Junior, id: 53853, antiquity: 1, salary: 1500;
-	Employee e5 = name: Pedro, lastname: Gimenez, category: Junior, id: 53853, antiquity: 1, salary: 1500;
+	Employee e2 = name: Pedro, lastname: Gimenez, category: Junior, id: 53854, antiquity: 1, salary: 1500;
+	Employee e3 = name: Pedro, lastname: Gimenez, category: Junior, id: 53855, antiquity: 1, salary: 1500;
+	Employee e4 = name: Pedro, lastname: Gimenez, category: Junior, id: 53856, antiquity: 1, salary: 1500;
+	Employee e5 = name: Pedro, lastname: Gimenez, category: Junior, id: 53857, antiquity: 1, salary: 1500;
 
 	Employee employees[5] = e1, e2, e3, e4, e5;
 
 	int i = 0;
 	while(i < 5) {
-		printf("%s", employees[i].name);
+		printf("%s\n", employees[i].name);
 		i = i + 1;
 	}
 
@@ -22,6 +22,8 @@ int main(void) {
 	};
 
 	showEmployee e1;
+	getEmployee 53853 employees;
+	getAll employees;
 
 	return 0;
 }

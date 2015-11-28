@@ -41,63 +41,65 @@
   30                  | VAR SALARYFOR DIGITO TimeLapse
   31                  | VAR SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA
   32                  | SHOW_EMPLOYEE VAR
+  33                  | GET_EMPLOYEE DIGITO VAR
+  34                  | GET_ALL VAR
 
-  33  Deductions : VAR ASSIGN AddExp COMMA Deductions
-  34             | VAR ASSIGN AddExp
+  35  Deductions : VAR ASSIGN AddExp COMMA Deductions
+  36             | VAR ASSIGN AddExp
 
-  35  EmpValues : VAR COMMA EmpValues
-  36            | VAR
+  37  EmpValues : VAR COMMA EmpValues
+  38            | VAR
 
-  37  TimeLapse : WEEK
-  38            | MONTH
-  39            | YEAR
+  39  TimeLapse : WEEK
+  40            | MONTH
+  41            | YEAR
 
-  40  Exp : CondOrExp
+  42  Exp : CondOrExp
 
-  41  MultExp : Term
-  42          | MultExp MULT Term
-  43          | MultExp DIV Term
-  44          | MultExp MOD Term
+  43  MultExp : Term
+  44          | MultExp MULT Term
+  45          | MultExp DIV Term
+  46          | MultExp MOD Term
 
-  45  AddExp : MultExp
-  46         | AddExp PLUS MultExp
-  47         | AddExp MINUS MultExp
+  47  AddExp : MultExp
+  48         | AddExp PLUS MultExp
+  49         | AddExp MINUS MultExp
 
-  48  RelExp : AddExp
-  49         | RelExp LT AddExp
-  50         | RelExp GT AddExp
-  51         | RelExp LE AddExp
-  52         | RelExp GE AddExp
+  50  RelExp : AddExp
+  51         | RelExp LT AddExp
+  52         | RelExp GT AddExp
+  53         | RelExp LE AddExp
+  54         | RelExp GE AddExp
 
-  53  EqExp : RelExp
-  54        | EqExp EQ RelExp
-  55        | EqExp NE RelExp
+  55  EqExp : RelExp
+  56        | EqExp EQ RelExp
+  57        | EqExp NE RelExp
 
-  56  CondAndExp : EqExp
-  57             | CondAndExp AND EqExp
+  58  CondAndExp : EqExp
+  59             | CondAndExp AND EqExp
 
-  58  CondOrExp : CondAndExp
-  59            | CondOrExp OR CondAndExp
+  60  CondOrExp : CondAndExp
+  61            | CondOrExp OR CondAndExp
 
-  60  FirstVal : Exp CommaVal
-  61           |
-
-  62  CommaVal : CommaVal COMMA Exp
+  62  FirstVal : Exp CommaVal
   63           |
 
-  64  Term : VAR
-  65       | DIGITO
-  66       | TRUE
-  67       | FALSE_T
-  68       | STRING
-  69       | NULL_T
-  70       | VAR DOT VAR
-  71       | VAR S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR
-  72       | VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR
-  73       | VAR PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA
-  74       | PARENTESIS_ABRE Exp PARENTESIS_CIERRA
+  64  CommaVal : CommaVal COMMA Exp
+  65           |
 
-  75  Main : TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock
+  66  Term : VAR
+  67       | DIGITO
+  68       | TRUE
+  69       | FALSE_T
+  70       | STRING
+  71       | NULL_T
+  72       | VAR DOT VAR
+  73       | VAR S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR
+  74       | VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR
+  75       | VAR PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA
+  76       | PARENTESIS_ABRE Exp PARENTESIS_CIERRA
+
+  77  Main : TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock
 
 state 0
 	$accept : . Program $end  (0)
@@ -121,7 +123,7 @@ state 1
 
 state 2
 	Function : TYPE . VAR Parameters CodeBlock  (5)
-	Main : TYPE . MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock  (75)
+	Main : TYPE . MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock  (77)
 
 	MAIN  shift 8
 	VAR  shift 9
@@ -168,7 +170,7 @@ state 7
 
 
 state 8
-	Main : TYPE MAIN . PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock  (75)
+	Main : TYPE MAIN . PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock  (77)
 
 	PARENTESIS_ABRE  shift 14
 	.  error
@@ -216,7 +218,7 @@ state 13
 
 
 state 14
-	Main : TYPE MAIN PARENTESIS_ABRE . VOID PARENTESIS_CIERRA CodeBlock  (75)
+	Main : TYPE MAIN PARENTESIS_ABRE . VOID PARENTESIS_CIERRA CodeBlock  (77)
 
 	VOID  shift 21
 	.  error
@@ -269,24 +271,26 @@ state 19
 	RETURN  shift 34
 	NAME  shift 35
 	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
 	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
+	STRING  shift 42
 	C_BRACKET_CIERRA  reduce 28
 
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 43
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 45
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
 state 20
@@ -296,9 +300,9 @@ state 20
 
 
 state 21
-	Main : TYPE MAIN PARENTESIS_ABRE VOID . PARENTESIS_CIERRA CodeBlock  (75)
+	Main : TYPE MAIN PARENTESIS_ABRE VOID . PARENTESIS_CIERRA CodeBlock  (77)
 
-	PARENTESIS_CIERRA  shift 52
+	PARENTESIS_CIERRA  shift 54
 	.  error
 
 
@@ -318,7 +322,7 @@ state 24
 	FirstVariable : Variable CommaVariable .  (8)
 	CommaVariable : CommaVariable . COMMA Variable  (10)
 
-	COMMA  shift 53
+	COMMA  shift 55
 	PARENTESIS_CIERRA  reduce 8
 
 
@@ -329,31 +333,31 @@ state 25
 
 
 state 26
-	Term : PARENTESIS_ABRE . Exp PARENTESIS_CIERRA  (74)
+	Term : PARENTESIS_ABRE . Exp PARENTESIS_CIERRA  (76)
 
 	PARENTESIS_ABRE  shift 26
 	TRUE  shift 30
 	FALSE_T  shift 31
 	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
 	.  error
 
-	Exp  goto 55
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	Exp  goto 57
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
 state 27
 	Statement : WHILE . PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock Statement  (22)
 
-	PARENTESIS_ABRE  shift 56
+	PARENTESIS_ABRE  shift 58
 	.  error
 
 
@@ -361,7 +365,7 @@ state 28
 	Statement : IF . PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock Statement  (23)
 	Statement : IF . PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement  (24)
 
-	PARENTESIS_ABRE  shift 57
+	PARENTESIS_ABRE  shift 59
 	.  error
 
 
@@ -371,31 +375,31 @@ state 29
 	C_BRACKET_ABRE  shift 19
 	.  error
 
-	CodeBlock  goto 58
+	CodeBlock  goto 60
 
 
 state 30
-	Term : TRUE .  (66)
+	Term : TRUE .  (68)
 
-	.  reduce 66
+	.  reduce 68
 
 
 state 31
-	Term : FALSE_T .  (67)
+	Term : FALSE_T .  (69)
 
-	.  reduce 67
+	.  reduce 69
 
 
 state 32
-	Term : NULL_T .  (69)
+	Term : NULL_T .  (71)
 
-	.  reduce 69
+	.  reduce 71
 
 
 state 33
 	Statement : BREAK . SEMICOLON  (27)
 
-	SEMICOLON  shift 59
+	SEMICOLON  shift 61
 	.  error
 
 
@@ -406,25 +410,25 @@ state 34
 	TRUE  shift 30
 	FALSE_T  shift 31
 	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
 	.  error
 
-	Exp  goto 60
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	Exp  goto 62
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
 state 35
 	SpecialFunction : NAME . VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
 
-	VAR  shift 61
+	VAR  shift 63
 	.  error
 
 
@@ -432,986 +436,148 @@ state 36
 	Statement : EMPLOYEE . VAR ASSIGN SpecialFunction SEMICOLON Statement  (20)
 	Statement : EMPLOYEE . VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement  (21)
 
-	VAR  shift 62
+	VAR  shift 64
 	.  error
 
 
 state 37
-	Term : DIGITO .  (65)
+	SpecialFunction : SHOW_EMPLOYEE . VAR  (32)
 
-	.  reduce 65
+	VAR  shift 65
+	.  error
 
 
 state 38
-	Statement : VAR . ASSIGN Exp SEMICOLON Statement  (19)
-	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse  (30)
-	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
-	Term : VAR .  (64)
-	Term : VAR . DOT VAR  (70)
-	Term : VAR . S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR  (71)
-	Term : VAR . S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR  (72)
-	Term : VAR . PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA  (73)
+	SpecialFunction : GET_EMPLOYEE . DIGITO VAR  (33)
 
-	PARENTESIS_ABRE  shift 63
-	S_BRACKET_ABRE  shift 64
-	ASSIGN  shift 65
-	DOT  shift 66
-	SALARYFOR  shift 67
-	PLUS  reduce 64
-	MINUS  reduce 64
-	MULT  reduce 64
-	DIV  reduce 64
-	MOD  reduce 64
-	GT  reduce 64
-	LT  reduce 64
-	GE  reduce 64
-	LE  reduce 64
-	EQ  reduce 64
-	AND  reduce 64
-	OR  reduce 64
-	NE  reduce 64
-	SEMICOLON  reduce 64
+	DIGITO  shift 66
+	.  error
 
 
 state 39
-	Term : STRING .  (68)
+	SpecialFunction : GET_ALL . VAR  (34)
 
-	.  reduce 68
+	VAR  shift 67
+	.  error
 
 
 state 40
-	SpecialFunction : SHOW_EMPLOYEE . VAR  (32)
+	Term : DIGITO .  (67)
 
-	VAR  shift 68
-	.  error
+	.  reduce 67
 
 
 state 41
-	Statement : SpecialFunction . SEMICOLON Statement  (16)
+	Statement : VAR . ASSIGN Exp SEMICOLON Statement  (19)
+	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse  (30)
+	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
+	Term : VAR .  (66)
+	Term : VAR . DOT VAR  (72)
+	Term : VAR . S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR  (73)
+	Term : VAR . S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR  (74)
+	Term : VAR . PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA  (75)
 
-	SEMICOLON  shift 69
-	.  error
+	PARENTESIS_ABRE  shift 68
+	S_BRACKET_ABRE  shift 69
+	ASSIGN  shift 70
+	DOT  shift 71
+	SALARYFOR  shift 72
+	PLUS  reduce 66
+	MINUS  reduce 66
+	MULT  reduce 66
+	DIV  reduce 66
+	MOD  reduce 66
+	GT  reduce 66
+	LT  reduce 66
+	GE  reduce 66
+	LE  reduce 66
+	EQ  reduce 66
+	AND  reduce 66
+	OR  reduce 66
+	NE  reduce 66
+	SEMICOLON  reduce 66
 
 
 state 42
-	Statement : Variable . SEMICOLON Statement  (14)
-	Statement : Variable . ASSIGN SpecialFunction SEMICOLON Statement  (17)
-	Statement : Variable . ASSIGN Exp SEMICOLON Statement  (18)
+	Term : STRING .  (70)
 
-	ASSIGN  shift 70
-	SEMICOLON  shift 71
-	.  error
+	.  reduce 70
 
 
 state 43
-	CodeBlock : C_BRACKET_ABRE Statement . C_BRACKET_CIERRA  (13)
-
-	C_BRACKET_CIERRA  shift 72
-	.  error
-
-
-state 44
-	Statement : Exp . SEMICOLON Statement  (15)
+	Statement : SpecialFunction . SEMICOLON Statement  (16)
 
 	SEMICOLON  shift 73
 	.  error
 
 
-state 45
-	AddExp : AddExp . PLUS MultExp  (46)
-	AddExp : AddExp . MINUS MultExp  (47)
-	RelExp : AddExp .  (48)
+state 44
+	Statement : Variable . SEMICOLON Statement  (14)
+	Statement : Variable . ASSIGN SpecialFunction SEMICOLON Statement  (17)
+	Statement : Variable . ASSIGN Exp SEMICOLON Statement  (18)
 
-	PLUS  shift 74
-	MINUS  shift 75
-	PARENTESIS_CIERRA  reduce 48
-	GT  reduce 48
-	LT  reduce 48
-	GE  reduce 48
-	LE  reduce 48
-	EQ  reduce 48
-	AND  reduce 48
-	OR  reduce 48
-	NE  reduce 48
-	SEMICOLON  reduce 48
-	COMMA  reduce 48
+	ASSIGN  shift 74
+	SEMICOLON  shift 75
+	.  error
+
+
+state 45
+	CodeBlock : C_BRACKET_ABRE Statement . C_BRACKET_CIERRA  (13)
+
+	C_BRACKET_CIERRA  shift 76
+	.  error
 
 
 state 46
-	EqExp : EqExp . EQ RelExp  (54)
-	EqExp : EqExp . NE RelExp  (55)
-	CondAndExp : EqExp .  (56)
+	Statement : Exp . SEMICOLON Statement  (15)
 
-	EQ  shift 76
-	NE  shift 77
-	PARENTESIS_CIERRA  reduce 56
-	AND  reduce 56
-	OR  reduce 56
-	SEMICOLON  reduce 56
-	COMMA  reduce 56
+	SEMICOLON  shift 77
+	.  error
 
 
 state 47
-	MultExp : MultExp . MULT Term  (42)
-	MultExp : MultExp . DIV Term  (43)
-	MultExp : MultExp . MOD Term  (44)
-	AddExp : MultExp .  (45)
+	AddExp : AddExp . PLUS MultExp  (48)
+	AddExp : AddExp . MINUS MultExp  (49)
+	RelExp : AddExp .  (50)
 
-	MULT  shift 78
-	DIV  shift 79
-	MOD  shift 80
-	PARENTESIS_CIERRA  reduce 45
-	C_BRACKET_CIERRA  reduce 45
-	PLUS  reduce 45
-	MINUS  reduce 45
-	GT  reduce 45
-	LT  reduce 45
-	GE  reduce 45
-	LE  reduce 45
-	EQ  reduce 45
-	AND  reduce 45
-	OR  reduce 45
-	NE  reduce 45
-	SEMICOLON  reduce 45
-	COMMA  reduce 45
+	PLUS  shift 78
+	MINUS  shift 79
+	PARENTESIS_CIERRA  reduce 50
+	GT  reduce 50
+	LT  reduce 50
+	GE  reduce 50
+	LE  reduce 50
+	EQ  reduce 50
+	AND  reduce 50
+	OR  reduce 50
+	NE  reduce 50
+	SEMICOLON  reduce 50
+	COMMA  reduce 50
 
 
 state 48
-	RelExp : RelExp . LT AddExp  (49)
-	RelExp : RelExp . GT AddExp  (50)
-	RelExp : RelExp . LE AddExp  (51)
-	RelExp : RelExp . GE AddExp  (52)
-	EqExp : RelExp .  (53)
+	EqExp : EqExp . EQ RelExp  (56)
+	EqExp : EqExp . NE RelExp  (57)
+	CondAndExp : EqExp .  (58)
 
-	GT  shift 81
-	LT  shift 82
-	GE  shift 83
-	LE  shift 84
-	PARENTESIS_CIERRA  reduce 53
-	EQ  reduce 53
-	AND  reduce 53
-	OR  reduce 53
-	NE  reduce 53
-	SEMICOLON  reduce 53
-	COMMA  reduce 53
-
-
-state 49
-	CondAndExp : CondAndExp . AND EqExp  (57)
-	CondOrExp : CondAndExp .  (58)
-
-	AND  shift 85
+	EQ  shift 80
+	NE  shift 81
 	PARENTESIS_CIERRA  reduce 58
+	AND  reduce 58
 	OR  reduce 58
 	SEMICOLON  reduce 58
 	COMMA  reduce 58
 
 
-state 50
-	Exp : CondOrExp .  (40)
-	CondOrExp : CondOrExp . OR CondAndExp  (59)
-
-	OR  shift 86
-	PARENTESIS_CIERRA  reduce 40
-	SEMICOLON  reduce 40
-	COMMA  reduce 40
-
-
-state 51
-	MultExp : Term .  (41)
-
-	.  reduce 41
-
-
-state 52
-	Main : TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA . CodeBlock  (75)
-
-	C_BRACKET_ABRE  shift 19
-	.  error
-
-	CodeBlock  goto 87
-
-
-state 53
-	CommaVariable : CommaVariable COMMA . Variable  (10)
-
-	TYPE  shift 16
-	.  error
-
-	Variable  goto 88
-
-
-state 54
-	Term : VAR .  (64)
-	Term : VAR . DOT VAR  (70)
-	Term : VAR . S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR  (71)
-	Term : VAR . S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR  (72)
-	Term : VAR . PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA  (73)
-
-	PARENTESIS_ABRE  shift 63
-	S_BRACKET_ABRE  shift 64
-	DOT  shift 66
-	PARENTESIS_CIERRA  reduce 64
-	C_BRACKET_CIERRA  reduce 64
-	PLUS  reduce 64
-	MINUS  reduce 64
-	MULT  reduce 64
-	DIV  reduce 64
-	MOD  reduce 64
-	GT  reduce 64
-	LT  reduce 64
-	GE  reduce 64
-	LE  reduce 64
-	EQ  reduce 64
-	AND  reduce 64
-	OR  reduce 64
-	NE  reduce 64
-	SEMICOLON  reduce 64
-	COMMA  reduce 64
-
-
-state 55
-	Term : PARENTESIS_ABRE Exp . PARENTESIS_CIERRA  (74)
-
-	PARENTESIS_CIERRA  shift 89
-	.  error
-
-
-state 56
-	Statement : WHILE PARENTESIS_ABRE . Exp PARENTESIS_CIERRA CodeBlock Statement  (22)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	Exp  goto 90
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
-
-
-state 57
-	Statement : IF PARENTESIS_ABRE . Exp PARENTESIS_CIERRA CodeBlock Statement  (23)
-	Statement : IF PARENTESIS_ABRE . Exp PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement  (24)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	Exp  goto 91
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
-
-
-state 58
-	Statement : DO CodeBlock . WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA SEMICOLON Statement  (25)
-
-	WHILE  shift 92
-	.  error
-
-
-state 59
-	Statement : BREAK SEMICOLON .  (27)
-
-	.  reduce 27
-
-
-state 60
-	Statement : RETURN Exp . SEMICOLON  (26)
-
-	SEMICOLON  shift 93
-	.  error
-
-
-state 61
-	SpecialFunction : NAME VAR . COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
-
-	COMMA  shift 94
-	.  error
-
-
-state 62
-	Statement : EMPLOYEE VAR . ASSIGN SpecialFunction SEMICOLON Statement  (20)
-	Statement : EMPLOYEE VAR . S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement  (21)
-
-	S_BRACKET_ABRE  shift 95
-	ASSIGN  shift 96
-	.  error
-
-
-state 63
-	Term : VAR PARENTESIS_ABRE . FirstVal PARENTESIS_CIERRA  (73)
-	FirstVal : .  (61)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	PARENTESIS_CIERRA  reduce 61
-
-	Exp  goto 97
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	FirstVal  goto 98
-	Term  goto 51
-
-
-state 64
-	Term : VAR S_BRACKET_ABRE . VAR S_BRACKET_CIERRA DOT VAR  (71)
-	Term : VAR S_BRACKET_ABRE . DIGITO S_BRACKET_CIERRA DOT VAR  (72)
-
-	DIGITO  shift 99
-	VAR  shift 100
-	.  error
-
-
-state 65
-	Statement : VAR ASSIGN . Exp SEMICOLON Statement  (19)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	Exp  goto 101
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
-
-
-state 66
-	Term : VAR DOT . VAR  (70)
-
-	VAR  shift 102
-	.  error
-
-
-state 67
-	SpecialFunction : VAR SALARYFOR . DIGITO TimeLapse  (30)
-	SpecialFunction : VAR SALARYFOR . DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
-
-	DIGITO  shift 103
-	.  error
-
-
-state 68
-	SpecialFunction : SHOW_EMPLOYEE VAR .  (32)
-
-	.  reduce 32
-
-
-state 69
-	Statement : SpecialFunction SEMICOLON . Statement  (16)
-	Statement : .  (28)
-
-	PARENTESIS_ABRE  shift 26
-	WHILE  shift 27
-	IF  shift 28
-	DO  shift 29
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	BREAK  shift 33
-	RETURN  shift 34
-	NAME  shift 35
-	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
-	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
-	C_BRACKET_CIERRA  reduce 28
-
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 104
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
-
-
-state 70
-	Statement : Variable ASSIGN . SpecialFunction SEMICOLON Statement  (17)
-	Statement : Variable ASSIGN . Exp SEMICOLON Statement  (18)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	NAME  shift 35
-	DIGITO  shift 37
-	VAR  shift 105
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
-	.  error
-
-	SpecialFunction  goto 106
-	Exp  goto 107
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
-
-
-state 71
-	Statement : Variable SEMICOLON . Statement  (14)
-	Statement : .  (28)
-
-	PARENTESIS_ABRE  shift 26
-	WHILE  shift 27
-	IF  shift 28
-	DO  shift 29
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	BREAK  shift 33
-	RETURN  shift 34
-	NAME  shift 35
-	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
-	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
-	C_BRACKET_CIERRA  reduce 28
-
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 108
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
-
-
-state 72
-	CodeBlock : C_BRACKET_ABRE Statement C_BRACKET_CIERRA .  (13)
-
-	.  reduce 13
-
-
-state 73
-	Statement : Exp SEMICOLON . Statement  (15)
-	Statement : .  (28)
-
-	PARENTESIS_ABRE  shift 26
-	WHILE  shift 27
-	IF  shift 28
-	DO  shift 29
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	BREAK  shift 33
-	RETURN  shift 34
-	NAME  shift 35
-	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
-	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
-	C_BRACKET_CIERRA  reduce 28
-
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 109
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
-
-
-state 74
-	AddExp : AddExp PLUS . MultExp  (46)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	MultExp  goto 110
-	Term  goto 51
-
-
-state 75
-	AddExp : AddExp MINUS . MultExp  (47)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	MultExp  goto 111
-	Term  goto 51
-
-
-state 76
-	EqExp : EqExp EQ . RelExp  (54)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	AddExp  goto 45
-	MultExp  goto 47
-	RelExp  goto 112
-	Term  goto 51
-
-
-state 77
-	EqExp : EqExp NE . RelExp  (55)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	AddExp  goto 45
-	MultExp  goto 47
-	RelExp  goto 113
-	Term  goto 51
-
-
-state 78
-	MultExp : MultExp MULT . Term  (42)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	Term  goto 114
-
-
-state 79
-	MultExp : MultExp DIV . Term  (43)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	Term  goto 115
-
-
-state 80
-	MultExp : MultExp MOD . Term  (44)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	Term  goto 116
-
-
-state 81
-	RelExp : RelExp GT . AddExp  (50)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	AddExp  goto 117
-	MultExp  goto 47
-	Term  goto 51
-
-
-state 82
-	RelExp : RelExp LT . AddExp  (49)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	AddExp  goto 118
-	MultExp  goto 47
-	Term  goto 51
-
-
-state 83
-	RelExp : RelExp GE . AddExp  (52)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	AddExp  goto 119
-	MultExp  goto 47
-	Term  goto 51
-
-
-state 84
-	RelExp : RelExp LE . AddExp  (51)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	AddExp  goto 120
-	MultExp  goto 47
-	Term  goto 51
-
-
-state 85
-	CondAndExp : CondAndExp AND . EqExp  (57)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	AddExp  goto 45
-	EqExp  goto 121
-	MultExp  goto 47
-	RelExp  goto 48
-	Term  goto 51
-
-
-state 86
-	CondOrExp : CondOrExp OR . CondAndExp  (59)
-
-	PARENTESIS_ABRE  shift 26
-	TRUE  shift 30
-	FALSE_T  shift 31
-	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
-	.  error
-
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 122
-	Term  goto 51
-
-
-state 87
-	Main : TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock .  (75)
-
-	.  reduce 75
-
-
-state 88
-	CommaVariable : CommaVariable COMMA Variable .  (10)
-
-	.  reduce 10
-
-
-state 89
-	Term : PARENTESIS_ABRE Exp PARENTESIS_CIERRA .  (74)
-
-	.  reduce 74
-
-
-state 90
-	Statement : WHILE PARENTESIS_ABRE Exp . PARENTESIS_CIERRA CodeBlock Statement  (22)
-
-	PARENTESIS_CIERRA  shift 123
-	.  error
-
-
-state 91
-	Statement : IF PARENTESIS_ABRE Exp . PARENTESIS_CIERRA CodeBlock Statement  (23)
-	Statement : IF PARENTESIS_ABRE Exp . PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement  (24)
-
-	PARENTESIS_CIERRA  shift 124
-	.  error
-
-
-state 92
-	Statement : DO CodeBlock WHILE . PARENTESIS_ABRE Exp PARENTESIS_CIERRA SEMICOLON Statement  (25)
-
-	PARENTESIS_ABRE  shift 125
-	.  error
-
-
-state 93
-	Statement : RETURN Exp SEMICOLON .  (26)
-
-	.  reduce 26
-
-
-state 94
-	SpecialFunction : NAME VAR COMMA . LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
-
-	LASTNAME  shift 126
-	.  error
-
-
-state 95
-	Statement : EMPLOYEE VAR S_BRACKET_ABRE . DIGITO S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement  (21)
-
-	DIGITO  shift 127
-	.  error
-
-
-state 96
-	Statement : EMPLOYEE VAR ASSIGN . SpecialFunction SEMICOLON Statement  (20)
-
-	NAME  shift 35
-	VAR  shift 128
-	SHOW_EMPLOYEE  shift 40
-	.  error
-
-	SpecialFunction  goto 129
-
-
-state 97
-	FirstVal : Exp . CommaVal  (60)
-	CommaVal : .  (63)
-
-	.  reduce 63
-
-	CommaVal  goto 130
-
-
-state 98
-	Term : VAR PARENTESIS_ABRE FirstVal . PARENTESIS_CIERRA  (73)
-
-	PARENTESIS_CIERRA  shift 131
-	.  error
-
-
-state 99
-	Term : VAR S_BRACKET_ABRE DIGITO . S_BRACKET_CIERRA DOT VAR  (72)
-
-	S_BRACKET_CIERRA  shift 132
-	.  error
-
-
-state 100
-	Term : VAR S_BRACKET_ABRE VAR . S_BRACKET_CIERRA DOT VAR  (71)
-
-	S_BRACKET_CIERRA  shift 133
-	.  error
-
-
-state 101
-	Statement : VAR ASSIGN Exp . SEMICOLON Statement  (19)
-
-	SEMICOLON  shift 134
-	.  error
-
-
-state 102
-	Term : VAR DOT VAR .  (70)
-
-	.  reduce 70
-
-
-state 103
-	SpecialFunction : VAR SALARYFOR DIGITO . TimeLapse  (30)
-	SpecialFunction : VAR SALARYFOR DIGITO . TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
-
-	MONTH  shift 135
-	WEEK  shift 136
-	YEAR  shift 137
-	.  error
-
-	TimeLapse  goto 138
-
-
-state 104
-	Statement : SpecialFunction SEMICOLON Statement .  (16)
-
-	.  reduce 16
-
-
-state 105
-	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse  (30)
-	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
-	Term : VAR .  (64)
-	Term : VAR . DOT VAR  (70)
-	Term : VAR . S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR  (71)
-	Term : VAR . S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR  (72)
-	Term : VAR . PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA  (73)
-
-	PARENTESIS_ABRE  shift 63
-	S_BRACKET_ABRE  shift 64
-	DOT  shift 66
-	SALARYFOR  shift 67
-	PLUS  reduce 64
-	MINUS  reduce 64
-	MULT  reduce 64
-	DIV  reduce 64
-	MOD  reduce 64
-	GT  reduce 64
-	LT  reduce 64
-	GE  reduce 64
-	LE  reduce 64
-	EQ  reduce 64
-	AND  reduce 64
-	OR  reduce 64
-	NE  reduce 64
-	SEMICOLON  reduce 64
-
-
-state 106
-	Statement : Variable ASSIGN SpecialFunction . SEMICOLON Statement  (17)
-
-	SEMICOLON  shift 139
-	.  error
-
-
-state 107
-	Statement : Variable ASSIGN Exp . SEMICOLON Statement  (18)
-
-	SEMICOLON  shift 140
-	.  error
-
-
-state 108
-	Statement : Variable SEMICOLON Statement .  (14)
-
-	.  reduce 14
-
-
-state 109
-	Statement : Exp SEMICOLON Statement .  (15)
-
-	.  reduce 15
-
-
-state 110
-	MultExp : MultExp . MULT Term  (42)
-	MultExp : MultExp . DIV Term  (43)
-	MultExp : MultExp . MOD Term  (44)
-	AddExp : AddExp PLUS MultExp .  (46)
-
-	MULT  shift 78
-	DIV  shift 79
-	MOD  shift 80
-	PARENTESIS_CIERRA  reduce 46
-	C_BRACKET_CIERRA  reduce 46
-	PLUS  reduce 46
-	MINUS  reduce 46
-	GT  reduce 46
-	LT  reduce 46
-	GE  reduce 46
-	LE  reduce 46
-	EQ  reduce 46
-	AND  reduce 46
-	OR  reduce 46
-	NE  reduce 46
-	SEMICOLON  reduce 46
-	COMMA  reduce 46
-
-
-state 111
-	MultExp : MultExp . MULT Term  (42)
-	MultExp : MultExp . DIV Term  (43)
-	MultExp : MultExp . MOD Term  (44)
-	AddExp : AddExp MINUS MultExp .  (47)
-
-	MULT  shift 78
-	DIV  shift 79
-	MOD  shift 80
+state 49
+	MultExp : MultExp . MULT Term  (44)
+	MultExp : MultExp . DIV Term  (45)
+	MultExp : MultExp . MOD Term  (46)
+	AddExp : MultExp .  (47)
+
+	MULT  shift 82
+	DIV  shift 83
+	MOD  shift 84
 	PARENTESIS_CIERRA  reduce 47
 	C_BRACKET_CIERRA  reduce 47
 	PLUS  reduce 47
@@ -1428,37 +594,17 @@ state 111
 	COMMA  reduce 47
 
 
-state 112
-	RelExp : RelExp . LT AddExp  (49)
-	RelExp : RelExp . GT AddExp  (50)
-	RelExp : RelExp . LE AddExp  (51)
-	RelExp : RelExp . GE AddExp  (52)
-	EqExp : EqExp EQ RelExp .  (54)
+state 50
+	RelExp : RelExp . LT AddExp  (51)
+	RelExp : RelExp . GT AddExp  (52)
+	RelExp : RelExp . LE AddExp  (53)
+	RelExp : RelExp . GE AddExp  (54)
+	EqExp : RelExp .  (55)
 
-	GT  shift 81
-	LT  shift 82
-	GE  shift 83
-	LE  shift 84
-	PARENTESIS_CIERRA  reduce 54
-	EQ  reduce 54
-	AND  reduce 54
-	OR  reduce 54
-	NE  reduce 54
-	SEMICOLON  reduce 54
-	COMMA  reduce 54
-
-
-state 113
-	RelExp : RelExp . LT AddExp  (49)
-	RelExp : RelExp . GT AddExp  (50)
-	RelExp : RelExp . LE AddExp  (51)
-	RelExp : RelExp . GE AddExp  (52)
-	EqExp : EqExp NE RelExp .  (55)
-
-	GT  shift 81
-	LT  shift 82
-	GE  shift 83
-	LE  shift 84
+	GT  shift 85
+	LT  shift 86
+	GE  shift 87
+	LE  shift 88
 	PARENTESIS_CIERRA  reduce 55
 	EQ  reduce 55
 	AND  reduce 55
@@ -1468,52 +614,855 @@ state 113
 	COMMA  reduce 55
 
 
-state 114
-	MultExp : MultExp MULT Term .  (42)
+state 51
+	CondAndExp : CondAndExp . AND EqExp  (59)
+	CondOrExp : CondAndExp .  (60)
 
-	.  reduce 42
+	AND  shift 89
+	PARENTESIS_CIERRA  reduce 60
+	OR  reduce 60
+	SEMICOLON  reduce 60
+	COMMA  reduce 60
 
 
-state 115
-	MultExp : MultExp DIV Term .  (43)
+state 52
+	Exp : CondOrExp .  (42)
+	CondOrExp : CondOrExp . OR CondAndExp  (61)
+
+	OR  shift 90
+	PARENTESIS_CIERRA  reduce 42
+	SEMICOLON  reduce 42
+	COMMA  reduce 42
+
+
+state 53
+	MultExp : Term .  (43)
 
 	.  reduce 43
 
 
+state 54
+	Main : TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA . CodeBlock  (77)
+
+	C_BRACKET_ABRE  shift 19
+	.  error
+
+	CodeBlock  goto 91
+
+
+state 55
+	CommaVariable : CommaVariable COMMA . Variable  (10)
+
+	TYPE  shift 16
+	.  error
+
+	Variable  goto 92
+
+
+state 56
+	Term : VAR .  (66)
+	Term : VAR . DOT VAR  (72)
+	Term : VAR . S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR  (73)
+	Term : VAR . S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR  (74)
+	Term : VAR . PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA  (75)
+
+	PARENTESIS_ABRE  shift 68
+	S_BRACKET_ABRE  shift 69
+	DOT  shift 71
+	PARENTESIS_CIERRA  reduce 66
+	C_BRACKET_CIERRA  reduce 66
+	PLUS  reduce 66
+	MINUS  reduce 66
+	MULT  reduce 66
+	DIV  reduce 66
+	MOD  reduce 66
+	GT  reduce 66
+	LT  reduce 66
+	GE  reduce 66
+	LE  reduce 66
+	EQ  reduce 66
+	AND  reduce 66
+	OR  reduce 66
+	NE  reduce 66
+	SEMICOLON  reduce 66
+	COMMA  reduce 66
+
+
+state 57
+	Term : PARENTESIS_ABRE Exp . PARENTESIS_CIERRA  (76)
+
+	PARENTESIS_CIERRA  shift 93
+	.  error
+
+
+state 58
+	Statement : WHILE PARENTESIS_ABRE . Exp PARENTESIS_CIERRA CodeBlock Statement  (22)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	Exp  goto 94
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
+
+
+state 59
+	Statement : IF PARENTESIS_ABRE . Exp PARENTESIS_CIERRA CodeBlock Statement  (23)
+	Statement : IF PARENTESIS_ABRE . Exp PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement  (24)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	Exp  goto 95
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
+
+
+state 60
+	Statement : DO CodeBlock . WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA SEMICOLON Statement  (25)
+
+	WHILE  shift 96
+	.  error
+
+
+state 61
+	Statement : BREAK SEMICOLON .  (27)
+
+	.  reduce 27
+
+
+state 62
+	Statement : RETURN Exp . SEMICOLON  (26)
+
+	SEMICOLON  shift 97
+	.  error
+
+
+state 63
+	SpecialFunction : NAME VAR . COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
+
+	COMMA  shift 98
+	.  error
+
+
+state 64
+	Statement : EMPLOYEE VAR . ASSIGN SpecialFunction SEMICOLON Statement  (20)
+	Statement : EMPLOYEE VAR . S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement  (21)
+
+	S_BRACKET_ABRE  shift 99
+	ASSIGN  shift 100
+	.  error
+
+
+state 65
+	SpecialFunction : SHOW_EMPLOYEE VAR .  (32)
+
+	.  reduce 32
+
+
+state 66
+	SpecialFunction : GET_EMPLOYEE DIGITO . VAR  (33)
+
+	VAR  shift 101
+	.  error
+
+
+state 67
+	SpecialFunction : GET_ALL VAR .  (34)
+
+	.  reduce 34
+
+
+state 68
+	Term : VAR PARENTESIS_ABRE . FirstVal PARENTESIS_CIERRA  (75)
+	FirstVal : .  (63)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	PARENTESIS_CIERRA  reduce 63
+
+	Exp  goto 102
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	FirstVal  goto 103
+	Term  goto 53
+
+
+state 69
+	Term : VAR S_BRACKET_ABRE . VAR S_BRACKET_CIERRA DOT VAR  (73)
+	Term : VAR S_BRACKET_ABRE . DIGITO S_BRACKET_CIERRA DOT VAR  (74)
+
+	DIGITO  shift 104
+	VAR  shift 105
+	.  error
+
+
+state 70
+	Statement : VAR ASSIGN . Exp SEMICOLON Statement  (19)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	Exp  goto 106
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
+
+
+state 71
+	Term : VAR DOT . VAR  (72)
+
+	VAR  shift 107
+	.  error
+
+
+state 72
+	SpecialFunction : VAR SALARYFOR . DIGITO TimeLapse  (30)
+	SpecialFunction : VAR SALARYFOR . DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
+
+	DIGITO  shift 108
+	.  error
+
+
+state 73
+	Statement : SpecialFunction SEMICOLON . Statement  (16)
+	Statement : .  (28)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
+	TYPE  shift 16
+	STRING  shift 42
+	C_BRACKET_CIERRA  reduce 28
+
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 109
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
+
+
+state 74
+	Statement : Variable ASSIGN . SpecialFunction SEMICOLON Statement  (17)
+	Statement : Variable ASSIGN . Exp SEMICOLON Statement  (18)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	NAME  shift 35
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 110
+	STRING  shift 42
+	.  error
+
+	SpecialFunction  goto 111
+	Exp  goto 112
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
+
+
+state 75
+	Statement : Variable SEMICOLON . Statement  (14)
+	Statement : .  (28)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
+	TYPE  shift 16
+	STRING  shift 42
+	C_BRACKET_CIERRA  reduce 28
+
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 113
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
+
+
+state 76
+	CodeBlock : C_BRACKET_ABRE Statement C_BRACKET_CIERRA .  (13)
+
+	.  reduce 13
+
+
+state 77
+	Statement : Exp SEMICOLON . Statement  (15)
+	Statement : .  (28)
+
+	PARENTESIS_ABRE  shift 26
+	WHILE  shift 27
+	IF  shift 28
+	DO  shift 29
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	BREAK  shift 33
+	RETURN  shift 34
+	NAME  shift 35
+	EMPLOYEE  shift 36
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
+	TYPE  shift 16
+	STRING  shift 42
+	C_BRACKET_CIERRA  reduce 28
+
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 114
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
+
+
+state 78
+	AddExp : AddExp PLUS . MultExp  (48)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	MultExp  goto 115
+	Term  goto 53
+
+
+state 79
+	AddExp : AddExp MINUS . MultExp  (49)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	MultExp  goto 116
+	Term  goto 53
+
+
+state 80
+	EqExp : EqExp EQ . RelExp  (56)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	AddExp  goto 47
+	MultExp  goto 49
+	RelExp  goto 117
+	Term  goto 53
+
+
+state 81
+	EqExp : EqExp NE . RelExp  (57)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	AddExp  goto 47
+	MultExp  goto 49
+	RelExp  goto 118
+	Term  goto 53
+
+
+state 82
+	MultExp : MultExp MULT . Term  (44)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	Term  goto 119
+
+
+state 83
+	MultExp : MultExp DIV . Term  (45)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	Term  goto 120
+
+
+state 84
+	MultExp : MultExp MOD . Term  (46)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	Term  goto 121
+
+
+state 85
+	RelExp : RelExp GT . AddExp  (52)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	AddExp  goto 122
+	MultExp  goto 49
+	Term  goto 53
+
+
+state 86
+	RelExp : RelExp LT . AddExp  (51)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	AddExp  goto 123
+	MultExp  goto 49
+	Term  goto 53
+
+
+state 87
+	RelExp : RelExp GE . AddExp  (54)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	AddExp  goto 124
+	MultExp  goto 49
+	Term  goto 53
+
+
+state 88
+	RelExp : RelExp LE . AddExp  (53)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	AddExp  goto 125
+	MultExp  goto 49
+	Term  goto 53
+
+
+state 89
+	CondAndExp : CondAndExp AND . EqExp  (59)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	AddExp  goto 47
+	EqExp  goto 126
+	MultExp  goto 49
+	RelExp  goto 50
+	Term  goto 53
+
+
+state 90
+	CondOrExp : CondOrExp OR . CondAndExp  (61)
+
+	PARENTESIS_ABRE  shift 26
+	TRUE  shift 30
+	FALSE_T  shift 31
+	NULL_T  shift 32
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
+	.  error
+
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 127
+	Term  goto 53
+
+
+state 91
+	Main : TYPE MAIN PARENTESIS_ABRE VOID PARENTESIS_CIERRA CodeBlock .  (77)
+
+	.  reduce 77
+
+
+state 92
+	CommaVariable : CommaVariable COMMA Variable .  (10)
+
+	.  reduce 10
+
+
+state 93
+	Term : PARENTESIS_ABRE Exp PARENTESIS_CIERRA .  (76)
+
+	.  reduce 76
+
+
+state 94
+	Statement : WHILE PARENTESIS_ABRE Exp . PARENTESIS_CIERRA CodeBlock Statement  (22)
+
+	PARENTESIS_CIERRA  shift 128
+	.  error
+
+
+state 95
+	Statement : IF PARENTESIS_ABRE Exp . PARENTESIS_CIERRA CodeBlock Statement  (23)
+	Statement : IF PARENTESIS_ABRE Exp . PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement  (24)
+
+	PARENTESIS_CIERRA  shift 129
+	.  error
+
+
+state 96
+	Statement : DO CodeBlock WHILE . PARENTESIS_ABRE Exp PARENTESIS_CIERRA SEMICOLON Statement  (25)
+
+	PARENTESIS_ABRE  shift 130
+	.  error
+
+
+state 97
+	Statement : RETURN Exp SEMICOLON .  (26)
+
+	.  reduce 26
+
+
+state 98
+	SpecialFunction : NAME VAR COMMA . LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
+
+	LASTNAME  shift 131
+	.  error
+
+
+state 99
+	Statement : EMPLOYEE VAR S_BRACKET_ABRE . DIGITO S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement  (21)
+
+	DIGITO  shift 132
+	.  error
+
+
+state 100
+	Statement : EMPLOYEE VAR ASSIGN . SpecialFunction SEMICOLON Statement  (20)
+
+	NAME  shift 35
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	VAR  shift 133
+	.  error
+
+	SpecialFunction  goto 134
+
+
+state 101
+	SpecialFunction : GET_EMPLOYEE DIGITO VAR .  (33)
+
+	.  reduce 33
+
+
+state 102
+	FirstVal : Exp . CommaVal  (62)
+	CommaVal : .  (65)
+
+	.  reduce 65
+
+	CommaVal  goto 135
+
+
+state 103
+	Term : VAR PARENTESIS_ABRE FirstVal . PARENTESIS_CIERRA  (75)
+
+	PARENTESIS_CIERRA  shift 136
+	.  error
+
+
+state 104
+	Term : VAR S_BRACKET_ABRE DIGITO . S_BRACKET_CIERRA DOT VAR  (74)
+
+	S_BRACKET_CIERRA  shift 137
+	.  error
+
+
+state 105
+	Term : VAR S_BRACKET_ABRE VAR . S_BRACKET_CIERRA DOT VAR  (73)
+
+	S_BRACKET_CIERRA  shift 138
+	.  error
+
+
+state 106
+	Statement : VAR ASSIGN Exp . SEMICOLON Statement  (19)
+
+	SEMICOLON  shift 139
+	.  error
+
+
+state 107
+	Term : VAR DOT VAR .  (72)
+
+	.  reduce 72
+
+
+state 108
+	SpecialFunction : VAR SALARYFOR DIGITO . TimeLapse  (30)
+	SpecialFunction : VAR SALARYFOR DIGITO . TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
+
+	MONTH  shift 140
+	WEEK  shift 141
+	YEAR  shift 142
+	.  error
+
+	TimeLapse  goto 143
+
+
+state 109
+	Statement : SpecialFunction SEMICOLON Statement .  (16)
+
+	.  reduce 16
+
+
+state 110
+	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse  (30)
+	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
+	Term : VAR .  (66)
+	Term : VAR . DOT VAR  (72)
+	Term : VAR . S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR  (73)
+	Term : VAR . S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR  (74)
+	Term : VAR . PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA  (75)
+
+	PARENTESIS_ABRE  shift 68
+	S_BRACKET_ABRE  shift 69
+	DOT  shift 71
+	SALARYFOR  shift 72
+	PLUS  reduce 66
+	MINUS  reduce 66
+	MULT  reduce 66
+	DIV  reduce 66
+	MOD  reduce 66
+	GT  reduce 66
+	LT  reduce 66
+	GE  reduce 66
+	LE  reduce 66
+	EQ  reduce 66
+	AND  reduce 66
+	OR  reduce 66
+	NE  reduce 66
+	SEMICOLON  reduce 66
+
+
+state 111
+	Statement : Variable ASSIGN SpecialFunction . SEMICOLON Statement  (17)
+
+	SEMICOLON  shift 144
+	.  error
+
+
+state 112
+	Statement : Variable ASSIGN Exp . SEMICOLON Statement  (18)
+
+	SEMICOLON  shift 145
+	.  error
+
+
+state 113
+	Statement : Variable SEMICOLON Statement .  (14)
+
+	.  reduce 14
+
+
+state 114
+	Statement : Exp SEMICOLON Statement .  (15)
+
+	.  reduce 15
+
+
+state 115
+	MultExp : MultExp . MULT Term  (44)
+	MultExp : MultExp . DIV Term  (45)
+	MultExp : MultExp . MOD Term  (46)
+	AddExp : AddExp PLUS MultExp .  (48)
+
+	MULT  shift 82
+	DIV  shift 83
+	MOD  shift 84
+	PARENTESIS_CIERRA  reduce 48
+	C_BRACKET_CIERRA  reduce 48
+	PLUS  reduce 48
+	MINUS  reduce 48
+	GT  reduce 48
+	LT  reduce 48
+	GE  reduce 48
+	LE  reduce 48
+	EQ  reduce 48
+	AND  reduce 48
+	OR  reduce 48
+	NE  reduce 48
+	SEMICOLON  reduce 48
+	COMMA  reduce 48
+
+
 state 116
-	MultExp : MultExp MOD Term .  (44)
+	MultExp : MultExp . MULT Term  (44)
+	MultExp : MultExp . DIV Term  (45)
+	MultExp : MultExp . MOD Term  (46)
+	AddExp : AddExp MINUS MultExp .  (49)
 
-	.  reduce 44
-
-
-state 117
-	AddExp : AddExp . PLUS MultExp  (46)
-	AddExp : AddExp . MINUS MultExp  (47)
-	RelExp : RelExp GT AddExp .  (50)
-
-	PLUS  shift 74
-	MINUS  shift 75
-	PARENTESIS_CIERRA  reduce 50
-	GT  reduce 50
-	LT  reduce 50
-	GE  reduce 50
-	LE  reduce 50
-	EQ  reduce 50
-	AND  reduce 50
-	OR  reduce 50
-	NE  reduce 50
-	SEMICOLON  reduce 50
-	COMMA  reduce 50
-
-
-state 118
-	AddExp : AddExp . PLUS MultExp  (46)
-	AddExp : AddExp . MINUS MultExp  (47)
-	RelExp : RelExp LT AddExp .  (49)
-
-	PLUS  shift 74
-	MINUS  shift 75
+	MULT  shift 82
+	DIV  shift 83
+	MOD  shift 84
 	PARENTESIS_CIERRA  reduce 49
+	C_BRACKET_CIERRA  reduce 49
+	PLUS  reduce 49
+	MINUS  reduce 49
 	GT  reduce 49
 	LT  reduce 49
 	GE  reduce 49
@@ -1526,13 +1475,71 @@ state 118
 	COMMA  reduce 49
 
 
-state 119
-	AddExp : AddExp . PLUS MultExp  (46)
-	AddExp : AddExp . MINUS MultExp  (47)
-	RelExp : RelExp GE AddExp .  (52)
+state 117
+	RelExp : RelExp . LT AddExp  (51)
+	RelExp : RelExp . GT AddExp  (52)
+	RelExp : RelExp . LE AddExp  (53)
+	RelExp : RelExp . GE AddExp  (54)
+	EqExp : EqExp EQ RelExp .  (56)
 
-	PLUS  shift 74
-	MINUS  shift 75
+	GT  shift 85
+	LT  shift 86
+	GE  shift 87
+	LE  shift 88
+	PARENTESIS_CIERRA  reduce 56
+	EQ  reduce 56
+	AND  reduce 56
+	OR  reduce 56
+	NE  reduce 56
+	SEMICOLON  reduce 56
+	COMMA  reduce 56
+
+
+state 118
+	RelExp : RelExp . LT AddExp  (51)
+	RelExp : RelExp . GT AddExp  (52)
+	RelExp : RelExp . LE AddExp  (53)
+	RelExp : RelExp . GE AddExp  (54)
+	EqExp : EqExp NE RelExp .  (57)
+
+	GT  shift 85
+	LT  shift 86
+	GE  shift 87
+	LE  shift 88
+	PARENTESIS_CIERRA  reduce 57
+	EQ  reduce 57
+	AND  reduce 57
+	OR  reduce 57
+	NE  reduce 57
+	SEMICOLON  reduce 57
+	COMMA  reduce 57
+
+
+state 119
+	MultExp : MultExp MULT Term .  (44)
+
+	.  reduce 44
+
+
+state 120
+	MultExp : MultExp DIV Term .  (45)
+
+	.  reduce 45
+
+
+state 121
+	MultExp : MultExp MOD Term .  (46)
+
+	.  reduce 46
+
+
+state 122
+	AddExp : AddExp . PLUS MultExp  (48)
+	AddExp : AddExp . MINUS MultExp  (49)
+	RelExp : RelExp GT AddExp .  (52)
+
+	PLUS  shift 78
+	MINUS  shift 79
 	PARENTESIS_CIERRA  reduce 52
 	GT  reduce 52
 	LT  reduce 52
@@ -1546,13 +1553,13 @@ state 119
 	COMMA  reduce 52
 
 
-state 120
-	AddExp : AddExp . PLUS MultExp  (46)
-	AddExp : AddExp . MINUS MultExp  (47)
-	RelExp : RelExp LE AddExp .  (51)
+state 123
+	AddExp : AddExp . PLUS MultExp  (48)
+	AddExp : AddExp . MINUS MultExp  (49)
+	RelExp : RelExp LT AddExp .  (51)
 
-	PLUS  shift 74
-	MINUS  shift 75
+	PLUS  shift 78
+	MINUS  shift 79
 	PARENTESIS_CIERRA  reduce 51
 	GT  reduce 51
 	LT  reduce 51
@@ -1566,130 +1573,170 @@ state 120
 	COMMA  reduce 51
 
 
-state 121
-	EqExp : EqExp . EQ RelExp  (54)
-	EqExp : EqExp . NE RelExp  (55)
-	CondAndExp : CondAndExp AND EqExp .  (57)
+state 124
+	AddExp : AddExp . PLUS MultExp  (48)
+	AddExp : AddExp . MINUS MultExp  (49)
+	RelExp : RelExp GE AddExp .  (54)
 
-	EQ  shift 76
-	NE  shift 77
-	PARENTESIS_CIERRA  reduce 57
-	AND  reduce 57
-	OR  reduce 57
-	SEMICOLON  reduce 57
-	COMMA  reduce 57
+	PLUS  shift 78
+	MINUS  shift 79
+	PARENTESIS_CIERRA  reduce 54
+	GT  reduce 54
+	LT  reduce 54
+	GE  reduce 54
+	LE  reduce 54
+	EQ  reduce 54
+	AND  reduce 54
+	OR  reduce 54
+	NE  reduce 54
+	SEMICOLON  reduce 54
+	COMMA  reduce 54
 
 
-state 122
-	CondAndExp : CondAndExp . AND EqExp  (57)
-	CondOrExp : CondOrExp OR CondAndExp .  (59)
+state 125
+	AddExp : AddExp . PLUS MultExp  (48)
+	AddExp : AddExp . MINUS MultExp  (49)
+	RelExp : RelExp LE AddExp .  (53)
 
-	AND  shift 85
+	PLUS  shift 78
+	MINUS  shift 79
+	PARENTESIS_CIERRA  reduce 53
+	GT  reduce 53
+	LT  reduce 53
+	GE  reduce 53
+	LE  reduce 53
+	EQ  reduce 53
+	AND  reduce 53
+	OR  reduce 53
+	NE  reduce 53
+	SEMICOLON  reduce 53
+	COMMA  reduce 53
+
+
+state 126
+	EqExp : EqExp . EQ RelExp  (56)
+	EqExp : EqExp . NE RelExp  (57)
+	CondAndExp : CondAndExp AND EqExp .  (59)
+
+	EQ  shift 80
+	NE  shift 81
 	PARENTESIS_CIERRA  reduce 59
+	AND  reduce 59
 	OR  reduce 59
 	SEMICOLON  reduce 59
 	COMMA  reduce 59
 
 
-state 123
+state 127
+	CondAndExp : CondAndExp . AND EqExp  (59)
+	CondOrExp : CondOrExp OR CondAndExp .  (61)
+
+	AND  shift 89
+	PARENTESIS_CIERRA  reduce 61
+	OR  reduce 61
+	SEMICOLON  reduce 61
+	COMMA  reduce 61
+
+
+state 128
 	Statement : WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA . CodeBlock Statement  (22)
 
 	C_BRACKET_ABRE  shift 19
 	.  error
 
-	CodeBlock  goto 141
+	CodeBlock  goto 146
 
 
-state 124
+state 129
 	Statement : IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA . CodeBlock Statement  (23)
 	Statement : IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA . CodeBlock ELSE CodeBlock Statement  (24)
 
 	C_BRACKET_ABRE  shift 19
 	.  error
 
-	CodeBlock  goto 142
+	CodeBlock  goto 147
 
 
-state 125
+state 130
 	Statement : DO CodeBlock WHILE PARENTESIS_ABRE . Exp PARENTESIS_CIERRA SEMICOLON Statement  (25)
 
 	PARENTESIS_ABRE  shift 26
 	TRUE  shift 30
 	FALSE_T  shift 31
 	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
 	.  error
 
-	Exp  goto 143
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
-
-
-state 126
-	SpecialFunction : NAME VAR COMMA LASTNAME . VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
-
-	VAR  shift 144
-	.  error
-
-
-state 127
-	Statement : EMPLOYEE VAR S_BRACKET_ABRE DIGITO . S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement  (21)
-
-	S_BRACKET_CIERRA  shift 145
-	.  error
-
-
-state 128
-	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse  (30)
-	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
-
-	SALARYFOR  shift 67
-	.  error
-
-
-state 129
-	Statement : EMPLOYEE VAR ASSIGN SpecialFunction . SEMICOLON Statement  (20)
-
-	SEMICOLON  shift 146
-	.  error
-
-
-state 130
-	FirstVal : Exp CommaVal .  (60)
-	CommaVal : CommaVal . COMMA Exp  (62)
-
-	COMMA  shift 147
-	PARENTESIS_CIERRA  reduce 60
+	Exp  goto 148
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
 state 131
-	Term : VAR PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA .  (73)
+	SpecialFunction : NAME VAR COMMA LASTNAME . VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
 
-	.  reduce 73
+	VAR  shift 149
+	.  error
 
 
 state 132
-	Term : VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA . DOT VAR  (72)
+	Statement : EMPLOYEE VAR S_BRACKET_ABRE DIGITO . S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement  (21)
 
-	DOT  shift 148
+	S_BRACKET_CIERRA  shift 150
 	.  error
 
 
 state 133
-	Term : VAR S_BRACKET_ABRE VAR S_BRACKET_CIERRA . DOT VAR  (71)
+	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse  (30)
+	SpecialFunction : VAR . SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
 
-	DOT  shift 149
+	SALARYFOR  shift 72
 	.  error
 
 
 state 134
+	Statement : EMPLOYEE VAR ASSIGN SpecialFunction . SEMICOLON Statement  (20)
+
+	SEMICOLON  shift 151
+	.  error
+
+
+state 135
+	FirstVal : Exp CommaVal .  (62)
+	CommaVal : CommaVal . COMMA Exp  (64)
+
+	COMMA  shift 152
+	PARENTESIS_CIERRA  reduce 62
+
+
+state 136
+	Term : VAR PARENTESIS_ABRE FirstVal PARENTESIS_CIERRA .  (75)
+
+	.  reduce 75
+
+
+state 137
+	Term : VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA . DOT VAR  (74)
+
+	DOT  shift 153
+	.  error
+
+
+state 138
+	Term : VAR S_BRACKET_ABRE VAR S_BRACKET_CIERRA . DOT VAR  (73)
+
+	DOT  shift 154
+	.  error
+
+
+state 139
 	Statement : VAR ASSIGN Exp SEMICOLON . Statement  (19)
 	Statement : .  (28)
 
@@ -1704,53 +1751,55 @@ state 134
 	RETURN  shift 34
 	NAME  shift 35
 	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
 	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
+	STRING  shift 42
 	C_BRACKET_CIERRA  reduce 28
 
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 150
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 155
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
-state 135
-	TimeLapse : MONTH .  (38)
+state 140
+	TimeLapse : MONTH .  (40)
 
-	.  reduce 38
-
-
-state 136
-	TimeLapse : WEEK .  (37)
-
-	.  reduce 37
+	.  reduce 40
 
 
-state 137
-	TimeLapse : YEAR .  (39)
+state 141
+	TimeLapse : WEEK .  (39)
 
 	.  reduce 39
 
 
-state 138
+state 142
+	TimeLapse : YEAR .  (41)
+
+	.  reduce 41
+
+
+state 143
 	SpecialFunction : VAR SALARYFOR DIGITO TimeLapse .  (30)
 	SpecialFunction : VAR SALARYFOR DIGITO TimeLapse . MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
 
-	MINUSDEDUCTIONS  shift 151
+	MINUSDEDUCTIONS  shift 156
 	SEMICOLON  reduce 30
 
 
-state 139
+state 144
 	Statement : Variable ASSIGN SpecialFunction SEMICOLON . Statement  (17)
 	Statement : .  (28)
 
@@ -1765,27 +1814,29 @@ state 139
 	RETURN  shift 34
 	NAME  shift 35
 	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
 	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
+	STRING  shift 42
 	C_BRACKET_CIERRA  reduce 28
 
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 152
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 157
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
-state 140
+state 145
 	Statement : Variable ASSIGN Exp SEMICOLON . Statement  (18)
 	Statement : .  (28)
 
@@ -1800,27 +1851,29 @@ state 140
 	RETURN  shift 34
 	NAME  shift 35
 	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
 	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
+	STRING  shift 42
 	C_BRACKET_CIERRA  reduce 28
 
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 153
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 158
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
-state 141
+state 146
 	Statement : WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock . Statement  (22)
 	Statement : .  (28)
 
@@ -1835,27 +1888,29 @@ state 141
 	RETURN  shift 34
 	NAME  shift 35
 	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
 	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
+	STRING  shift 42
 	C_BRACKET_CIERRA  reduce 28
 
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 154
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 159
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
-state 142
+state 147
 	Statement : IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock . Statement  (23)
 	Statement : IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock . ELSE CodeBlock Statement  (24)
 	Statement : .  (28)
@@ -1863,7 +1918,7 @@ state 142
 	PARENTESIS_ABRE  shift 26
 	WHILE  shift 27
 	IF  shift 28
-	ELSE  shift 155
+	ELSE  shift 160
 	DO  shift 29
 	TRUE  shift 30
 	FALSE_T  shift 31
@@ -1872,48 +1927,50 @@ state 142
 	RETURN  shift 34
 	NAME  shift 35
 	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
 	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
+	STRING  shift 42
 	C_BRACKET_CIERRA  reduce 28
 
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 156
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 161
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
-state 143
+state 148
 	Statement : DO CodeBlock WHILE PARENTESIS_ABRE Exp . PARENTESIS_CIERRA SEMICOLON Statement  (25)
 
-	PARENTESIS_CIERRA  shift 157
+	PARENTESIS_CIERRA  shift 162
 	.  error
 
 
-state 144
+state 149
 	SpecialFunction : NAME VAR COMMA LASTNAME VAR . COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
 
-	COMMA  shift 158
+	COMMA  shift 163
 	.  error
 
 
-state 145
+state 150
 	Statement : EMPLOYEE VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA . ASSIGN EmpValues SEMICOLON Statement  (21)
 
-	ASSIGN  shift 159
+	ASSIGN  shift 164
 	.  error
 
 
-state 146
+state 151
 	Statement : EMPLOYEE VAR ASSIGN SpecialFunction SEMICOLON . Statement  (20)
 	Statement : .  (28)
 
@@ -1928,165 +1985,167 @@ state 146
 	RETURN  shift 34
 	NAME  shift 35
 	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
 	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
+	STRING  shift 42
 	C_BRACKET_CIERRA  reduce 28
 
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 160
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 165
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
-state 147
-	CommaVal : CommaVal COMMA . Exp  (62)
+state 152
+	CommaVal : CommaVal COMMA . Exp  (64)
 
 	PARENTESIS_ABRE  shift 26
 	TRUE  shift 30
 	FALSE_T  shift 31
 	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
 	.  error
 
-	Exp  goto 161
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	Exp  goto 166
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
-state 148
-	Term : VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT . VAR  (72)
+state 153
+	Term : VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT . VAR  (74)
 
-	VAR  shift 162
-	.  error
-
-
-state 149
-	Term : VAR S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT . VAR  (71)
-
-	VAR  shift 163
+	VAR  shift 167
 	.  error
 
 
-state 150
+state 154
+	Term : VAR S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT . VAR  (73)
+
+	VAR  shift 168
+	.  error
+
+
+state 155
 	Statement : VAR ASSIGN Exp SEMICOLON Statement .  (19)
 
 	.  reduce 19
 
 
-state 151
+state 156
 	SpecialFunction : VAR SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS . C_BRACKET_ABRE Deductions C_BRACKET_CIERRA  (31)
 
-	C_BRACKET_ABRE  shift 164
+	C_BRACKET_ABRE  shift 169
 	.  error
 
 
-state 152
+state 157
 	Statement : Variable ASSIGN SpecialFunction SEMICOLON Statement .  (17)
 
 	.  reduce 17
 
 
-state 153
+state 158
 	Statement : Variable ASSIGN Exp SEMICOLON Statement .  (18)
 
 	.  reduce 18
 
 
-state 154
+state 159
 	Statement : WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock Statement .  (22)
 
 	.  reduce 22
 
 
-state 155
+state 160
 	Statement : IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock ELSE . CodeBlock Statement  (24)
 
 	C_BRACKET_ABRE  shift 19
 	.  error
 
-	CodeBlock  goto 165
+	CodeBlock  goto 170
 
 
-state 156
+state 161
 	Statement : IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock Statement .  (23)
 
 	.  reduce 23
 
 
-state 157
+state 162
 	Statement : DO CodeBlock WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA . SEMICOLON Statement  (25)
 
-	SEMICOLON  shift 166
+	SEMICOLON  shift 171
 	.  error
 
 
-state 158
+state 163
 	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA . CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
 
-	CATEGORY  shift 167
+	CATEGORY  shift 172
 	.  error
 
 
-state 159
+state 164
 	Statement : EMPLOYEE VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN . EmpValues SEMICOLON Statement  (21)
 
-	VAR  shift 168
+	VAR  shift 173
 	.  error
 
-	EmpValues  goto 169
+	EmpValues  goto 174
 
 
-state 160
+state 165
 	Statement : EMPLOYEE VAR ASSIGN SpecialFunction SEMICOLON Statement .  (20)
 
 	.  reduce 20
 
 
-state 161
-	CommaVal : CommaVal COMMA Exp .  (62)
+state 166
+	CommaVal : CommaVal COMMA Exp .  (64)
 
-	.  reduce 62
-
-
-state 162
-	Term : VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR .  (72)
-
-	.  reduce 72
+	.  reduce 64
 
 
-state 163
-	Term : VAR S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR .  (71)
+state 167
+	Term : VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA DOT VAR .  (74)
 
-	.  reduce 71
+	.  reduce 74
 
 
-state 164
+state 168
+	Term : VAR S_BRACKET_ABRE VAR S_BRACKET_CIERRA DOT VAR .  (73)
+
+	.  reduce 73
+
+
+state 169
 	SpecialFunction : VAR SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE . Deductions C_BRACKET_CIERRA  (31)
 
-	VAR  shift 170
+	VAR  shift 175
 	.  error
 
-	Deductions  goto 171
+	Deductions  goto 176
 
 
-state 165
+state 170
 	Statement : IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock ELSE CodeBlock . Statement  (24)
 	Statement : .  (28)
 
@@ -2101,27 +2160,29 @@ state 165
 	RETURN  shift 34
 	NAME  shift 35
 	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
 	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
+	STRING  shift 42
 	C_BRACKET_CIERRA  reduce 28
 
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 172
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 177
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
-state 166
+state 171
 	Statement : DO CodeBlock WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA SEMICOLON . Statement  (25)
 	Statement : .  (28)
 
@@ -2136,92 +2197,94 @@ state 166
 	RETURN  shift 34
 	NAME  shift 35
 	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
 	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
+	STRING  shift 42
 	C_BRACKET_CIERRA  reduce 28
 
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 173
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
-
-
-state 167
-	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY . VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
-
-	VAR  shift 174
-	.  error
-
-
-state 168
-	EmpValues : VAR . COMMA EmpValues  (35)
-	EmpValues : VAR .  (36)
-
-	COMMA  shift 175
-	SEMICOLON  reduce 36
-
-
-state 169
-	Statement : EMPLOYEE VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN EmpValues . SEMICOLON Statement  (21)
-
-	SEMICOLON  shift 176
-	.  error
-
-
-state 170
-	Deductions : VAR . ASSIGN AddExp COMMA Deductions  (33)
-	Deductions : VAR . ASSIGN AddExp  (34)
-
-	ASSIGN  shift 177
-	.  error
-
-
-state 171
-	SpecialFunction : VAR SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions . C_BRACKET_CIERRA  (31)
-
-	C_BRACKET_CIERRA  shift 178
-	.  error
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 178
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
 state 172
+	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY . VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
+
+	VAR  shift 179
+	.  error
+
+
+state 173
+	EmpValues : VAR . COMMA EmpValues  (37)
+	EmpValues : VAR .  (38)
+
+	COMMA  shift 180
+	SEMICOLON  reduce 38
+
+
+state 174
+	Statement : EMPLOYEE VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN EmpValues . SEMICOLON Statement  (21)
+
+	SEMICOLON  shift 181
+	.  error
+
+
+state 175
+	Deductions : VAR . ASSIGN AddExp COMMA Deductions  (35)
+	Deductions : VAR . ASSIGN AddExp  (36)
+
+	ASSIGN  shift 182
+	.  error
+
+
+state 176
+	SpecialFunction : VAR SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions . C_BRACKET_CIERRA  (31)
+
+	C_BRACKET_CIERRA  shift 183
+	.  error
+
+
+state 177
 	Statement : IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock ELSE CodeBlock Statement .  (24)
 
 	.  reduce 24
 
 
-state 173
+state 178
 	Statement : DO CodeBlock WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA SEMICOLON Statement .  (25)
 
 	.  reduce 25
 
 
-state 174
+state 179
 	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR . COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
 
-	COMMA  shift 179
+	COMMA  shift 184
 	.  error
 
 
-state 175
-	EmpValues : VAR COMMA . EmpValues  (35)
+state 180
+	EmpValues : VAR COMMA . EmpValues  (37)
 
-	VAR  shift 168
+	VAR  shift 173
 	.  error
 
-	EmpValues  goto 180
+	EmpValues  goto 185
 
 
-state 176
+state 181
 	Statement : EMPLOYEE VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON . Statement  (21)
 	Statement : .  (28)
 
@@ -2236,150 +2299,152 @@ state 176
 	RETURN  shift 34
 	NAME  shift 35
 	EMPLOYEE  shift 36
-	DIGITO  shift 37
-	VAR  shift 38
+	SHOW_EMPLOYEE  shift 37
+	GET_EMPLOYEE  shift 38
+	GET_ALL  shift 39
+	DIGITO  shift 40
+	VAR  shift 41
 	TYPE  shift 16
-	STRING  shift 39
-	SHOW_EMPLOYEE  shift 40
+	STRING  shift 42
 	C_BRACKET_CIERRA  reduce 28
 
-	SpecialFunction  goto 41
-	Variable  goto 42
-	Statement  goto 181
-	Exp  goto 44
-	AddExp  goto 45
-	EqExp  goto 46
-	MultExp  goto 47
-	RelExp  goto 48
-	CondAndExp  goto 49
-	CondOrExp  goto 50
-	Term  goto 51
+	SpecialFunction  goto 43
+	Variable  goto 44
+	Statement  goto 186
+	Exp  goto 46
+	AddExp  goto 47
+	EqExp  goto 48
+	MultExp  goto 49
+	RelExp  goto 50
+	CondAndExp  goto 51
+	CondOrExp  goto 52
+	Term  goto 53
 
 
-state 177
-	Deductions : VAR ASSIGN . AddExp COMMA Deductions  (33)
-	Deductions : VAR ASSIGN . AddExp  (34)
+state 182
+	Deductions : VAR ASSIGN . AddExp COMMA Deductions  (35)
+	Deductions : VAR ASSIGN . AddExp  (36)
 
 	PARENTESIS_ABRE  shift 26
 	TRUE  shift 30
 	FALSE_T  shift 31
 	NULL_T  shift 32
-	DIGITO  shift 37
-	VAR  shift 54
-	STRING  shift 39
+	DIGITO  shift 40
+	VAR  shift 56
+	STRING  shift 42
 	.  error
 
-	AddExp  goto 182
-	MultExp  goto 47
-	Term  goto 51
+	AddExp  goto 187
+	MultExp  goto 49
+	Term  goto 53
 
 
-state 178
+state 183
 	SpecialFunction : VAR SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA .  (31)
 
 	.  reduce 31
 
 
-state 179
+state 184
 	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA . ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
 
-	ID  shift 183
+	ID  shift 188
 	.  error
 
 
-state 180
-	EmpValues : VAR COMMA EmpValues .  (35)
+state 185
+	EmpValues : VAR COMMA EmpValues .  (37)
 
-	.  reduce 35
+	.  reduce 37
 
 
-state 181
+state 186
 	Statement : EMPLOYEE VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement .  (21)
 
 	.  reduce 21
 
 
-state 182
-	Deductions : VAR ASSIGN AddExp . COMMA Deductions  (33)
-	Deductions : VAR ASSIGN AddExp .  (34)
-	AddExp : AddExp . PLUS MultExp  (46)
-	AddExp : AddExp . MINUS MultExp  (47)
-
-	PLUS  shift 74
-	MINUS  shift 75
-	COMMA  shift 184
-	C_BRACKET_CIERRA  reduce 34
-
-
-state 183
-	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID . DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
-
-	DIGITO  shift 185
-	.  error
-
-
-state 184
-	Deductions : VAR ASSIGN AddExp COMMA . Deductions  (33)
-
-	VAR  shift 170
-	.  error
-
-	Deductions  goto 186
-
-
-state 185
-	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO . COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
-
-	COMMA  shift 187
-	.  error
-
-
-state 186
-	Deductions : VAR ASSIGN AddExp COMMA Deductions .  (33)
-
-	.  reduce 33
-
-
 state 187
-	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA . ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
+	Deductions : VAR ASSIGN AddExp . COMMA Deductions  (35)
+	Deductions : VAR ASSIGN AddExp .  (36)
+	AddExp : AddExp . PLUS MultExp  (48)
+	AddExp : AddExp . MINUS MultExp  (49)
 
-	ANTIQUITY  shift 188
-	.  error
+	PLUS  shift 78
+	MINUS  shift 79
+	COMMA  shift 189
+	C_BRACKET_CIERRA  reduce 36
 
 
 state 188
-	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY . DIGITO COMMA SALARY DIGITO  (29)
+	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID . DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
 
-	DIGITO  shift 189
+	DIGITO  shift 190
 	.  error
 
 
 state 189
-	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO . COMMA SALARY DIGITO  (29)
+	Deductions : VAR ASSIGN AddExp COMMA . Deductions  (35)
 
-	COMMA  shift 190
+	VAR  shift 175
 	.  error
+
+	Deductions  goto 191
 
 
 state 190
-	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA . SALARY DIGITO  (29)
+	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO . COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
 
-	SALARY  shift 191
+	COMMA  shift 192
 	.  error
 
 
 state 191
-	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY . DIGITO  (29)
+	Deductions : VAR ASSIGN AddExp COMMA Deductions .  (35)
 
-	DIGITO  shift 192
-	.  error
+	.  reduce 35
 
 
 state 192
+	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA . ANTIQUITY DIGITO COMMA SALARY DIGITO  (29)
+
+	ANTIQUITY  shift 193
+	.  error
+
+
+state 193
+	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY . DIGITO COMMA SALARY DIGITO  (29)
+
+	DIGITO  shift 194
+	.  error
+
+
+state 194
+	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO . COMMA SALARY DIGITO  (29)
+
+	COMMA  shift 195
+	.  error
+
+
+state 195
+	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA . SALARY DIGITO  (29)
+
+	SALARY  shift 196
+	.  error
+
+
+state 196
+	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY . DIGITO  (29)
+
+	DIGITO  shift 197
+	.  error
+
+
+state 197
 	SpecialFunction : NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO .  (29)
 
 	.  reduce 29
 
 
-58 terminals, 25 nonterminals
-76 grammar rules, 193 states
+59 terminals, 25 nonterminals
+78 grammar rules, 198 states

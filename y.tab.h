@@ -44,16 +44,17 @@
 #define ID 300
 #define LASTNAME 301
 #define EMPLOYEE 302
-#define DIGITO 303
-#define VAR 304
-#define TYPE 305
-#define STRING 306
-#define SHOW_EMPLOYEE 307
-#define ANTIQUITY 308
-#define CATEGORY 309
-#define WEEK 310
-#define YEAR 311
-#define QUOTATION_MARK 312
+#define SHOW_EMPLOYEE 303
+#define GET_EMPLOYEE 304
+#define GET_ALL 305
+#define ANTIQUITY 306
+#define CATEGORY 307
+#define WEEK 308
+#define YEAR 309
+#define DIGITO 310
+#define VAR 311
+#define TYPE 312
+#define STRING 313
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
