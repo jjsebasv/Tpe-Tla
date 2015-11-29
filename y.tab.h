@@ -42,7 +42,7 @@
 #define SALARYFOR 298
 #define SHOW_EMPLOYEE 299
 #define GET_EMPLOYEE 300
-#define GET_ALL 301
+#define PRINT_ALL 301
 #define GET_NAME 302
 #define RAISE 303
 #define NAME 304

@@ -25,7 +25,7 @@
 %token END RETURN
 
 %token EMPLOYEE
-%token SALARYFOR SHOW_EMPLOYEE GET_EMPLOYEE GET_ALL GET_NAME RAISE
+%token SALARYFOR SHOW_EMPLOYEE GET_EMPLOYEE PRINT_ALL GET_NAME RAISE
 %token NAME LASTNAME ANTIQUITY ID SALARY CATEGORY
 %token CATEGORY_VAR
 %token WEEK MONTH YEAR
@@ -63,7 +63,9 @@
 %type <strval> Deductions
 %type <strval> ReturnEmployee
 %type <strval> FunctionOverEmployee
-
+%type <strval> DigOrVar
+%type <strval> VarOrFunc
+%type <strval> CallFunction
 
 %start Program
 
@@ -71,7 +73,7 @@
 
 Program 
 	: Functions Main
-		{ printf("%s%s%s\n", $1, "\'", $2); }
+		{ printf("%s%s\n", $1, $2); }
 	| Main
 		{ printf("%s\n", $1); }
 	;
@@ -83,11 +85,20 @@ Functions
 		{ $$ = $1; }
 	;
 
+CallFunction
+	: VAR Parameters
+		{ $$ = concat_str( 2 ,$1 ,$2 );}
+	;
+
 Function
 	: TYPE VAR Parameters CodeBlock
-		{ $$ = concat_str(7, $1," ", $2, $3, "\n", $4, "\n"); }
+		{ $$ = concat_str( 7, $1," ", $2, $3, "\n", $4, "\n"); }
 	| VOID VAR Parameters CodeBlock
-		{ $$ = concat_str(7, "void ", " ",$2, $3, "\n", $4, "\n"); }
+		{ $$ = concat_str( 7, "void ", " ",$2, $3, "\n", $4, "\n"); }
+	| EMPLOYEE S_BRACKET_ABRE S_BRACKET_CIERRA VAR Parameters CodeBlock
+		{ $$ = concat_str( 6, " struct Employee*", $4, $5, "\n", $6, "\n"); }
+	| EMPLOYEE VAR Parameters CodeBlock
+		{ $$ = concat_str( 6, " struct Employee ", $2, $3, "\n", $4, "\n"); }
 	;
 
 Parameters
@@ -112,6 +123,12 @@ CommaVariable
 Variable 
 	: TYPE VAR
 		{ $$ = concat_str( 3, $1, " ", $2); }
+	| DigOrVar
+		{ $$ = $1; }
+	| EMPLOYEE VAR
+		{ $$ = concat_str( 2, "struct Employee ", $2);}
+	| EMPLOYEE S_BRACKET_ABRE S_BRACKET_CIERRA VAR
+		{ $$ = concat_str( 2, "struct Employee* ", $4);}
 	;
 
 CodeBlock
@@ -132,10 +149,18 @@ Statement
 		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
 	| VAR ASSIGN Exp SEMICOLON Statement
 		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
+	| VAR DigOrVar ASSIGN Exp SEMICOLON Statement
+		{ $$ = concat_str( 7, $1, "[", $2, "] = ", $4, ";\n", $6);}
 	| EMPLOYEE VAR ASSIGN ReturnEmployee SEMICOLON Statement
 		{ $$ = concat_str( 6, "struct Employee ", $2, " = ", $4, ";\n", $6); }
-	| EMPLOYEE VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement
+	| EMPLOYEE VAR S_BRACKET_ABRE DigOrVar S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement
 		{ $$ = concat_str( 8, "struct Employee ", $2, "[", $4, "] = {", $7, "};\n", $9); }
+	| EMPLOYEE VAR S_BRACKET_ABRE DigOrVar S_BRACKET_CIERRA ASSIGN CallFunction SEMICOLON Statement
+		{ $$ = concat_str( 8, "struct Employee ", $2, "[", $4, "] = ", $7, ";\n", $9); }
+	| EMPLOYEE VAR ASSIGN CallFunction SEMICOLON Statement
+		{ $$ = concat_str( 6, "struct Employee *", $2, " = ", $4, ";\n", $6); }
+	| EMPLOYEE VAR S_BRACKET_ABRE DigOrVar S_BRACKET_CIERRA SEMICOLON Statement
+		{ $$ = concat_str( 6, "struct Employee *", $2, " = malloc (",$4," * sizeof(struct Employee));\n", $7); } 
 	| WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock Statement
 		{ $$ = concat_str( 6,"while ( ", $3, " )\n", $5, "\n", $6); }
 	| IF PARENTESIS_ABRE Exp PARENTESIS_CIERRA CodeBlock Statement
@@ -152,6 +177,14 @@ Statement
 		{ $$ = "break;\n"; }
 	| 
 		{ $$ = ""; }
+	| GET_NAME VarOrFunc SEMICOLON Statement
+		{ $$ = concat_str( 4,"getName(",$2,");\n", $4); }
+	| RAISE TEN VarOrFunc SEMICOLON Statement
+		{ $$ = concat_str( 4,"raise10(",$3,");\n", $5); }
+	| RAISE TWENTY VarOrFunc SEMICOLON Statement
+		{ $$ = concat_str( 4,"raise20(",$3,");\n", $5); }
+	| RAISE CATEGORY_VAR VarOrFunc SEMICOLON Statement
+		{ $$ = concat_str( 4,"raiseCategory(",$3,");\n", $5); }
 	;
 
 SpecialFunction
@@ -161,17 +194,30 @@ SpecialFunction
 		{ $$ = concat_str( 8, " getSalary( ", $1, ", ", $3, ", ", $4, ") - ", $7 );}
 	| SHOW_EMPLOYEE VAR
 		{ $$ = concat_str( 3, "printEmployee( ", $2, ")" ); }
-	| GET_ALL VAR
-		{ $$ = concat_str( 7, "getAll(", $2, ", (int)sizeof(",$2,")/(int)sizeof(",$2,"[0]) )"); }
+	| PRINT_ALL VarOrFunc
+		{ $$ = concat_str( 7, "printAll(", $2, ", (int)sizeof(",$2,")/(int)sizeof(",$2,"[0]) )"); }
 	| ReturnEmployee
 		{ $$ = $1; }
 	;
 
+VarOrFunc
+	: VAR
+		{ $$ = $1; }
+	| CallFunction
+		{ $$ = $1; }
+
 ReturnEmployee
-	: NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO
+	: NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DigOrVar COMMA ANTIQUITY DigOrVar COMMA SALARY DigOrVar
 		{ $$ = concat_str( 13,"{ \"", $2, "\", \"", $5, "\", \"", $8, "\", ", $11, ", ", $14, ", ", $17, " }" ); }
-	| GET_EMPLOYEE DIGITO VAR
+	| GET_EMPLOYEE DigOrVar VAR
 		{ $$ = concat_str( 9, "getEmployee( ", $3,", ", $2, ", (int)sizeof(",$3,")/(int)sizeof(",$3,"[0]) )"); }
+	;
+
+DigOrVar
+	: DIGITO
+		{ $$ = $1; }
+	| VAR
+		{ $$ = $1; }
 	;
 
 FunctionOverEmployee

@@ -1,0 +1,25 @@
+int sumSalary(int total, int actual){
+	total = total + actual;
+	return total;
+}
+
+int main(void) {
+	Employee e1 = name: Pedro, lastname: Gimenez, category: Junior, id: 53853, antiquity: 10, salary: 1500;
+	Employee e2 = name: Luciana, lastname: Ramirez, category: Senior, id: 33954, antiquity: 36, salary: 5500;
+	Employee e3 = name: Santiago, lastname: Lamao, category: CEO, id: 1855, antiquity: 55, salary: 23500;
+	Employee e4 = name: Astro, lastname: Boy, category: Junior, id: 73856, antiquity: 1, salary: 1500;
+	Employee e5 = name: San, lastname: Guche, category: Senior, id: 35557, antiquity: 25, salary: 5500;
+
+	Employee employees[5] = e1, e2, e3, e4, e5;
+
+	int aux = 0;
+	int i = 0;
+	do {
+		aux = sumSalary(aux, employees[i].salary);
+		i = i + 1;
+	} while( i < 5 );
+
+	printf("Usted paga un total de $%d a sus empleados\n", aux);
+
+	return 0;
+}
