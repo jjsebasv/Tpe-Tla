@@ -1,18 +1,12 @@
 int main(void) {
 
-	Employee e1 = name: Pedro, lastname: Gimenez, category: Junior, id: 53853, antiquity: 1, salary: 1500;
-	Employee e2 = name: Pedro, lastname: Gimenez, category: Sernior, id: 53854, antiquity: 1, salary: 1500;
-	Employee e3 = name: Pedro, lastname: Gimenez, category: CEO, id: 53855, antiquity: 1, salary: 1500;
-	Employee e4 = name: Pedro, lastname: Gimenez, category: Junasior, id: 53856, antiquity: 10, salary: 1500;
-	Employee e5 = name: Pedro, lastname: Gimenez, category: Junior, id: 53857, antiquity: 5, salary: 1500;
+	Employee e1 = name: Juan, lastname: Lomono, category: Junior, id: 53853, antiquity: 1, salary: 1500;
+	Employee e2 = name: Pedro, lastname: Santos, category: Sernior, id: 53854, antiquity: 1, salary: 1500;
+	Employee e3 = name: Roberto, lastname: Lopez, category: CEO, id: 53855, antiquity: 1, salary: 1500;
+	Employee e4 = name: Miriam, lastname: Rodrigues, category: Junasior, id: 53856, antiquity: 10, salary: 1500;
+	Employee e5 = name: Noelia, lastname: Gimenez, category: Junior, id: 53857, antiquity: 5, salary: 1500;
 
 	Employee employees[5] = e1, e2, e3, e4, e5;
-
-	int i = 0;
-	while(i < 5) {
-		printf("%s\n", employees[i].name);
-		i = i + 1;
-	}
 
 	int salary = e1 salaryFor 3 month;
 
@@ -26,7 +20,6 @@ int main(void) {
 	getAll employees;
 
 	forEach in employees do {raise 10;};
-	forEach in employees do {raise category;};
 	forEach in employees do {raise 20;};
 	forEach in employees do {getName;};
 

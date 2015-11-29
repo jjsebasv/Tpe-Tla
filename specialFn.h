@@ -2,8 +2,8 @@
 #include <string.h>
 
 float getSalary(struct Employee e, int lapse, char* timelapse) {
-	int t = lapse;
-	int salary = e.salary;
+	float t = lapse;
+	float salary = e.salary;
 	if (strcmp(timelapse, "WEEK") == 0) {
 		t /= 4;
 		t *= lapse;
