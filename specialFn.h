@@ -47,3 +47,32 @@ void getAll(struct Employee (*company), int size) {
 	}
 	printf(" ************************************* \n");
 }
+
+void raise10(struct Employee e) {
+	float salary = e.salary * 1.1;
+	e.salary = salary;
+	printf("El empleado ahora cobra %f\n", salary);
+}
+
+void raise20(struct Employee e) {
+	float salary = e.salary * 1.2;
+	e.salary = salary;
+	printf("El empleado ahora cobra %f\n", salary);	
+}
+
+void raiseCategory(struct Employee e) {
+	char * category = e.category;
+	if (strcmp(category, "Junior") == 0) {
+		strcpy(e.category, "Senior");
+		printf("El empleado ahora es %s\n", e.category);
+	} else if (strcmp(e.category, "Senior") == 0) {
+		strcpy(e.category, "CEO");
+		printf("El empleado ahora es %s\n", e.category);
+	} else if (strcmp(e.category, "CEO") == 0) {
+		printf("El empleado ya se encuentra en su máxima categoría\n");
+	} else {
+		strcpy(e.category, "Junior");
+		printf("La categoria del empleado estaba mal definida\n");
+		printf("El empleado ahora es %s\n", e.category);
+	}
+}
