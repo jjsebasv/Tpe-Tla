@@ -23,7 +23,7 @@ int main(void) {
 
 	showEmployee e1;
 	getEmployee 53853 employees;
-	getAll employees;
+	printAll employees;
 
 	forEach in employees do {raise 10;};
 	forEach in employees do {raise category;};
