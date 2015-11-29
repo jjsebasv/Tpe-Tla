@@ -1,3 +1,0 @@
-./create
-./parser <example.um> aux.c
-./compile
