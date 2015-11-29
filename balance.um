@@ -1,0 +1,16 @@
+int main(void) {
+	Employee e1 = name: Juan, lastname: Robles, category: Junior, id: 53773, antiquity: 10, salary: 2500;
+	
+	int salary = e1 salaryFor 2 week;
+	printf("El empleado cobrara $%d en las siguientes 2 semanas\n", salary);
+
+	int salaryMinusDeductions = e1 salaryFor 4 year minusDeductions { 
+		osplad = 100,
+		lifeEnsurance = 500,
+		retirement = (e1.salary * 0.03)
+	};
+
+	printf("El empleado cobrara $%d en los siguientes 4 años [descontando reducciones]\n", salaryMinusDeductions);
+
+	return 0;
+}

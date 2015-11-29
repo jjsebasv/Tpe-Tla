@@ -1,0 +1,19 @@
+
+Employee [] newRandomHeadcount(int amount) {
+	Employee es[amount];
+	printf("Planta de %d empleados, creada\n", amount);
+	int i = 0;
+	while (i < amount) {
+		int auxId = i + 1; 
+		Employee aux = name: Pedro, lastname: Gimenez, category: Junior, id: auxId, antiquity: 1, salary: 1500;
+		es i = aux;
+		showEmployee aux;
+		i = i + 1;
+	}
+	return es;	
+}
+
+int main(void){
+	Employee headcount = newRandomHeadcount(50);
+	return 0;
+} 

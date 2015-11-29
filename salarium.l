@@ -12,7 +12,7 @@
 "salaryFor"						{return SALARYFOR;}
 "showEmployee"					{return SHOW_EMPLOYEE;}
 "getEmployee"					{return GET_EMPLOYEE;}
-"getAll"						{return GET_ALL;}
+"printAll"						{return PRINT_ALL;}
 "forEach"						{return FOREACH;}
 "getName"						{return GET_NAME;}
 "raise"							{return RAISE;}
