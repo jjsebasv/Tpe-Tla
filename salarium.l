@@ -13,6 +13,10 @@
 "showEmployee"					{return SHOW_EMPLOYEE;}
 "getEmployee"					{return GET_EMPLOYEE;}
 "getAll"						{return GET_ALL;}
+"forEach"						{return FOREACH;}
+"getName"						{return GET_NAME;}
+"raise"							{return RAISE;}
+"in"							{return IN;}
 "week"|"weeks"					{return WEEK;}
 "month"|"months"				{return MONTH;}
 "year"|"years"					{return YEAR;}
@@ -51,8 +55,10 @@
 "id:"							{return ID;}
 "antiquity:"					{return ANTIQUITY;}
 "salary:"						{return SALARY;}
-"rank:"							{return RANK;}
 "minusDeductions"				{return MINUSDEDUCTIONS;}
+"10;"							{return TEN;}
+"20;"							{return TWENTY;}
+"category"						{return CATEGORY_VAR;}
 ([-]?[1-9][0-9]*)|0|0.[0-9]+	{yylval.strval=strdup(yytext);return DIGITO;}
 float|int|char\*				{yylval.strval=strdup(yytext);return TYPE;}
 [a-zA-Z][a-zA-Z0-9]*			{yylval.strval=strdup(yytext);return VAR;}

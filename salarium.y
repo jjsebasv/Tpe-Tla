@@ -16,22 +16,20 @@
 
 %token PARENTESIS_ABRE PARENTESIS_CIERRA C_BRACKET_ABRE C_BRACKET_CIERRA S_BRACKET_ABRE S_BRACKET_CIERRA
 %token MAIN VOID
-%token WHILE IF ELSE DO
+%token WHILE IF ELSE DO FOREACH IN
 %token PLUS MINUS MULT DIV MOD
 %token ASSIGN GT LT GE LE EQ
 %token AND OR NOT NE
 %token TRUE FALSE_T NULL_T BREAK
 %token COLON SEMICOLON COMMA DOT MINUSDEDUCTIONS
-%token MAIN
-%token VOID
 %token END RETURN
-%token SALARYFOR MONTH NAME SALARY RANK ID LASTNAME
-
 
 %token EMPLOYEE
-%token SALARYFOR SHOW_EMPLOYEE GET_EMPLOYEE GET_ALL
+%token SALARYFOR SHOW_EMPLOYEE GET_EMPLOYEE GET_ALL GET_NAME RAISE
 %token NAME LASTNAME ANTIQUITY ID SALARY CATEGORY
+%token CATEGORY_VAR
 %token WEEK MONTH YEAR
+%token TEN TWENTY
 
 %token <strval> DIGITO
 %token <strval> VAR
@@ -63,6 +61,9 @@
 %type <strval> Term
 %type <strval> EmpValues
 %type <strval> Deductions
+%type <strval> ReturnEmployee
+%type <strval> FunctionOverEmployee
+
 
 %start Program
 
@@ -131,7 +132,7 @@ Statement
 		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
 	| VAR ASSIGN Exp SEMICOLON Statement
 		{ $$ = concat_str( 5, $1, " = ", $3, ";\n", $5); }
-	| EMPLOYEE VAR ASSIGN SpecialFunction SEMICOLON Statement
+	| EMPLOYEE VAR ASSIGN ReturnEmployee SEMICOLON Statement
 		{ $$ = concat_str( 6, "struct Employee ", $2, " = ", $4, ";\n", $6); }
 	| EMPLOYEE VAR S_BRACKET_ABRE DIGITO S_BRACKET_CIERRA ASSIGN EmpValues SEMICOLON Statement
 		{ $$ = concat_str( 8, "struct Employee ", $2, "[", $4, "] = {", $7, "};\n", $9); }
@@ -143,6 +144,8 @@ Statement
 		{ $$ = concat_str( 9, "if ( ",  $3, " )\n", $5, "\n", "else\n", $7 , "\n", $8); }
 	| DO CodeBlock WHILE PARENTESIS_ABRE Exp PARENTESIS_CIERRA SEMICOLON Statement
 		{ $$ = concat_str( 7, "do\n", $2, "\n", "while ( ", $5, " );\n", $8); }
+	| FOREACH IN VAR DO C_BRACKET_ABRE FunctionOverEmployee C_BRACKET_CIERRA SEMICOLON Statement
+		{ $$ = concat_str( 10, "iterate(", $3, ", (int)sizeof(",$3,")/(int)sizeof(",$3,"[0]),", $6, ");", $9);}
 	| RETURN Exp SEMICOLON
 		{ $$ = concat_str( 3, "return ", $2, ";");}
 	| BREAK SEMICOLON
@@ -152,19 +155,37 @@ Statement
 	;
 
 SpecialFunction
-	: NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO
-		{ $$ = concat_str( 13,"{ \"", $2, "\", \"", $5, "\", \"", $8, "\", ", $11, ", ", $14, ", ", $17, " }" ); }
-	| VAR SALARYFOR DIGITO TimeLapse
+	: VAR SALARYFOR DIGITO TimeLapse
 		{ $$ = concat_str( 7, " getSalary( ", $1, ", ", $3, ", ", $4, ")" );}
 	| VAR SALARYFOR DIGITO TimeLapse MINUSDEDUCTIONS C_BRACKET_ABRE Deductions C_BRACKET_CIERRA
 		{ $$ = concat_str( 8, " getSalary( ", $1, ", ", $3, ", ", $4, ") - ", $7 );}
 	| SHOW_EMPLOYEE VAR
 		{ $$ = concat_str( 3, "printEmployee( ", $2, ")" ); }
-	| GET_EMPLOYEE DIGITO VAR
-		{ $$ = concat_str( 9, "getEmployee( ", $3,", ", $2, ", (int)sizeof(",$3,")/(int)sizeof(",$3,"[0]) )"); }
 	| GET_ALL VAR
 		{ $$ = concat_str( 7, "getAll(", $2, ", (int)sizeof(",$2,")/(int)sizeof(",$2,"[0]) )"); }
-	; 
+	| ReturnEmployee
+		{ $$ = $1; }
+	;
+
+ReturnEmployee
+	: NAME VAR COMMA LASTNAME VAR COMMA CATEGORY VAR COMMA ID DIGITO COMMA ANTIQUITY DIGITO COMMA SALARY DIGITO
+		{ $$ = concat_str( 13,"{ \"", $2, "\", \"", $5, "\", \"", $8, "\", ", $11, ", ", $14, ", ", $17, " }" ); }
+	| GET_EMPLOYEE DIGITO VAR
+		{ $$ = concat_str( 9, "getEmployee( ", $3,", ", $2, ", (int)sizeof(",$3,")/(int)sizeof(",$3,"[0]) )"); }
+	;
+
+FunctionOverEmployee
+	: GET_NAME SEMICOLON
+		{ $$ = "getName"; }
+	| RAISE TEN
+		{ $$ = "raise10"; }
+	| RAISE TWENTY
+		{ $$ = "raise20"; }
+	| RAISE CATEGORY_VAR SEMICOLON
+		{ $$ = "raiseCategory"; }
+	| SHOW_EMPLOYEE VAR
+		{ $$ = concat_str( 3, "printEmployee( ", $2, ")" ); }
+	;
 
 Deductions
 	:VAR ASSIGN AddExp COMMA Deductions
