@@ -6,7 +6,11 @@
 	#include <stdbool.h>
 	#include <stdarg.h>
 
-	char* string_concat(int argc, ...);
+void yyerror (char const *s) {
+  		fprintf (stderr, "%s\n", s);
+}
+
+	char* concat_str(int argc, ...);
 
 %}
 
@@ -386,10 +390,6 @@ concat_str(int argc, ...){
 
    va_end(ap);
    return ans;
-}
-
-void yyerror (char const *s) {
-  		fprintf (stderr, "%s\n", s);
 }
 
 main() {

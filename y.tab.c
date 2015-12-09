@@ -24,9 +24,13 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 	#include <stdbool.h>
 	#include <stdarg.h>
 
-	char* string_concat(int argc, ...);
+void yyerror (char const *s) {
+  		fprintf (stderr, "%s\n", s);
+}
 
-#line 13 "salarium.y"
+	char* concat_str(int argc, ...);
+
+#line 17 "salarium.y"
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
@@ -37,7 +41,7 @@ typedef union {
 	char* strval;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 40 "y.tab.c"
+#line 44 "y.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -530,7 +534,7 @@ typedef struct {
 } YYSTACKDATA;
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
-#line 364 "salarium.y"
+#line 368 "salarium.y"
 
 char* 
 concat_str(int argc, ...){
@@ -556,10 +560,6 @@ concat_str(int argc, ...){
 
    va_end(ap);
    return ans;
-}
-
-void yyerror (char const *s) {
-  		fprintf (stderr, "%s\n", s);
 }
 
 main() {
@@ -768,411 +768,411 @@ yyreduce:
     switch (yyn)
     {
 case 1:
-#line 76 "salarium.y"
+#line 80 "salarium.y"
 	{ printf("%s%s\n", yystack.l_mark[-1].strval, yystack.l_mark[0].strval); }
 break;
 case 2:
-#line 78 "salarium.y"
+#line 82 "salarium.y"
 	{ printf("%s\n", yystack.l_mark[0].strval); }
 break;
 case 3:
-#line 83 "salarium.y"
+#line 87 "salarium.y"
 	{ yyval.strval = concat_str( 3, yystack.l_mark[-1].strval, "\n", yystack.l_mark[0].strval); }
 break;
 case 4:
-#line 85 "salarium.y"
+#line 89 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 5:
-#line 90 "salarium.y"
+#line 94 "salarium.y"
 	{ yyval.strval = concat_str( 2 ,yystack.l_mark[-1].strval ,yystack.l_mark[0].strval );}
 break;
 case 6:
-#line 95 "salarium.y"
+#line 99 "salarium.y"
 	{ yyval.strval = concat_str( 7, yystack.l_mark[-3].strval," ", yystack.l_mark[-2].strval, yystack.l_mark[-1].strval, "\n", yystack.l_mark[0].strval, "\n"); }
 break;
 case 7:
-#line 97 "salarium.y"
+#line 101 "salarium.y"
 	{ yyval.strval = concat_str( 7, "void ", " ",yystack.l_mark[-2].strval, yystack.l_mark[-1].strval, "\n", yystack.l_mark[0].strval, "\n"); }
 break;
 case 8:
-#line 99 "salarium.y"
+#line 103 "salarium.y"
 	{ yyval.strval = concat_str( 6, " struct Employee*", yystack.l_mark[-2].strval, yystack.l_mark[-1].strval, "\n", yystack.l_mark[0].strval, "\n"); }
 break;
 case 9:
-#line 101 "salarium.y"
+#line 105 "salarium.y"
 	{ yyval.strval = concat_str( 6, " struct Employee ", yystack.l_mark[-2].strval, yystack.l_mark[-1].strval, "\n", yystack.l_mark[0].strval, "\n"); }
 break;
 case 10:
-#line 106 "salarium.y"
+#line 110 "salarium.y"
 	{ yyval.strval = concat_str( 3, "( ", yystack.l_mark[-1].strval, " )"); }
 break;
 case 11:
-#line 111 "salarium.y"
+#line 115 "salarium.y"
 	{ yyval.strval = concat_str( 2, yystack.l_mark[-1].strval, yystack.l_mark[0].strval); }
 break;
 case 12:
-#line 113 "salarium.y"
+#line 117 "salarium.y"
 	{ yyval.strval = ""; }
 break;
 case 13:
-#line 118 "salarium.y"
+#line 122 "salarium.y"
 	{ yyval.strval = concat_str( 3, yystack.l_mark[-2].strval,", ", yystack.l_mark[0].strval); }
 break;
 case 14:
-#line 120 "salarium.y"
+#line 124 "salarium.y"
 	{ yyval.strval = ""; }
 break;
 case 15:
-#line 125 "salarium.y"
+#line 129 "salarium.y"
 	{ yyval.strval = concat_str( 3, yystack.l_mark[-1].strval, " ", yystack.l_mark[0].strval); }
 break;
 case 16:
-#line 127 "salarium.y"
+#line 131 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 17:
-#line 129 "salarium.y"
+#line 133 "salarium.y"
 	{ yyval.strval = concat_str( 2, "struct Employee ", yystack.l_mark[0].strval);}
 break;
 case 18:
-#line 131 "salarium.y"
+#line 135 "salarium.y"
 	{ yyval.strval = concat_str( 2, "struct Employee* ", yystack.l_mark[0].strval);}
 break;
 case 19:
-#line 136 "salarium.y"
+#line 140 "salarium.y"
 	{ yyval.strval = concat_str( 3, "{\n", yystack.l_mark[-1].strval, "\n}"); }
 break;
 case 20:
-#line 141 "salarium.y"
+#line 145 "salarium.y"
 	{ yyval.strval = concat_str( 3, yystack.l_mark[-2].strval, ";\n",  yystack.l_mark[0].strval); }
 break;
 case 21:
-#line 143 "salarium.y"
+#line 147 "salarium.y"
 	{ yyval.strval = concat_str( 3, yystack.l_mark[-2].strval, ";\n", yystack.l_mark[0].strval); }
 break;
 case 22:
-#line 145 "salarium.y"
+#line 149 "salarium.y"
 	{ yyval.strval = concat_str( 3, yystack.l_mark[-2].strval, ";\n", yystack.l_mark[0].strval); }
 break;
 case 23:
-#line 147 "salarium.y"
+#line 151 "salarium.y"
 	{ yyval.strval = concat_str( 5, yystack.l_mark[-4].strval, " = ", yystack.l_mark[-2].strval , ";\n", yystack.l_mark[0].strval); }
 break;
 case 24:
-#line 149 "salarium.y"
+#line 153 "salarium.y"
 	{ yyval.strval = concat_str( 5, yystack.l_mark[-4].strval, " = ", yystack.l_mark[-2].strval, ";\n", yystack.l_mark[0].strval); }
 break;
 case 25:
-#line 151 "salarium.y"
+#line 155 "salarium.y"
 	{ yyval.strval = concat_str( 5, yystack.l_mark[-4].strval, " = ", yystack.l_mark[-2].strval, ";\n", yystack.l_mark[0].strval); }
 break;
 case 26:
-#line 153 "salarium.y"
+#line 157 "salarium.y"
 	{ yyval.strval = concat_str( 7, yystack.l_mark[-5].strval, "[", yystack.l_mark[-4].strval, "] = ", yystack.l_mark[-2].strval, ";\n", yystack.l_mark[0].strval);}
 break;
 case 27:
-#line 155 "salarium.y"
+#line 159 "salarium.y"
 	{ yyval.strval = concat_str( 6, "struct Employee ", yystack.l_mark[-4].strval, " = ", yystack.l_mark[-2].strval, ";\n", yystack.l_mark[0].strval); }
 break;
 case 28:
-#line 157 "salarium.y"
+#line 161 "salarium.y"
 	{ yyval.strval = concat_str( 8, "struct Employee ", yystack.l_mark[-7].strval, "[", yystack.l_mark[-5].strval, "] = {", yystack.l_mark[-2].strval, "};\n", yystack.l_mark[0].strval); }
 break;
 case 29:
-#line 159 "salarium.y"
+#line 163 "salarium.y"
 	{ yyval.strval = concat_str( 8, "struct Employee ", yystack.l_mark[-7].strval, "[", yystack.l_mark[-5].strval, "] = ", yystack.l_mark[-2].strval, ";\n", yystack.l_mark[0].strval); }
 break;
 case 30:
-#line 161 "salarium.y"
+#line 165 "salarium.y"
 	{ yyval.strval = concat_str( 6, "struct Employee *", yystack.l_mark[-4].strval, " = ", yystack.l_mark[-2].strval, ";\n", yystack.l_mark[0].strval); }
 break;
 case 31:
-#line 163 "salarium.y"
+#line 167 "salarium.y"
 	{ yyval.strval = concat_str( 6, "struct Employee *", yystack.l_mark[-5].strval, " = malloc (",yystack.l_mark[-3].strval," * sizeof(struct Employee));\n", yystack.l_mark[0].strval); }
 break;
 case 32:
-#line 165 "salarium.y"
+#line 169 "salarium.y"
 	{ yyval.strval = concat_str( 6,"while ( ", yystack.l_mark[-3].strval, " )\n", yystack.l_mark[-1].strval, "\n", yystack.l_mark[0].strval); }
 break;
 case 33:
-#line 167 "salarium.y"
+#line 171 "salarium.y"
 	{ yyval.strval = concat_str( 6, "if ( ", yystack.l_mark[-3].strval, " )\n", yystack.l_mark[-1].strval, "\n", yystack.l_mark[0].strval) ; }
 break;
 case 34:
-#line 169 "salarium.y"
+#line 173 "salarium.y"
 	{ yyval.strval = concat_str( 9, "if ( ",  yystack.l_mark[-5].strval, " )\n", yystack.l_mark[-3].strval, "\n", "else\n", yystack.l_mark[-1].strval , "\n", yystack.l_mark[0].strval); }
 break;
 case 35:
-#line 171 "salarium.y"
+#line 175 "salarium.y"
 	{ yyval.strval = concat_str( 7, "do\n", yystack.l_mark[-6].strval, "\n", "while ( ", yystack.l_mark[-3].strval, " );\n", yystack.l_mark[0].strval); }
 break;
 case 36:
-#line 173 "salarium.y"
+#line 177 "salarium.y"
 	{ yyval.strval = concat_str( 10, "iterate(", yystack.l_mark[-6].strval, ", (int)sizeof(",yystack.l_mark[-6].strval,")/(int)sizeof(",yystack.l_mark[-6].strval,"[0]),", yystack.l_mark[-3].strval, ");", yystack.l_mark[0].strval);}
 break;
 case 37:
-#line 175 "salarium.y"
+#line 179 "salarium.y"
 	{ yyval.strval = concat_str( 3, "return ", yystack.l_mark[-1].strval, ";");}
 break;
 case 38:
-#line 177 "salarium.y"
+#line 181 "salarium.y"
 	{ yyval.strval = "break;\n"; }
 break;
 case 39:
-#line 179 "salarium.y"
+#line 183 "salarium.y"
 	{ yyval.strval = ""; }
 break;
 case 40:
-#line 181 "salarium.y"
+#line 185 "salarium.y"
 	{ yyval.strval = concat_str( 4,"getName(",yystack.l_mark[-2].strval,");\n", yystack.l_mark[0].strval); }
 break;
 case 41:
-#line 183 "salarium.y"
+#line 187 "salarium.y"
 	{ yyval.strval = concat_str( 4,"raise10(",yystack.l_mark[-2].strval,");\n", yystack.l_mark[0].strval); }
 break;
 case 42:
-#line 185 "salarium.y"
+#line 189 "salarium.y"
 	{ yyval.strval = concat_str( 4,"raise20(",yystack.l_mark[-2].strval,");\n", yystack.l_mark[0].strval); }
 break;
 case 43:
-#line 187 "salarium.y"
+#line 191 "salarium.y"
 	{ yyval.strval = concat_str( 4,"raiseCategory(",yystack.l_mark[-2].strval,");\n", yystack.l_mark[0].strval); }
 break;
 case 44:
-#line 192 "salarium.y"
+#line 196 "salarium.y"
 	{ yyval.strval = concat_str( 7, " getSalary( ", yystack.l_mark[-3].strval, ", ", yystack.l_mark[-1].strval, ", ", yystack.l_mark[0].strval, ")" );}
 break;
 case 45:
-#line 194 "salarium.y"
+#line 198 "salarium.y"
 	{ yyval.strval = concat_str( 8, " getSalary( ", yystack.l_mark[-7].strval, ", ", yystack.l_mark[-5].strval, ", ", yystack.l_mark[-4].strval, ") - ", yystack.l_mark[-1].strval );}
 break;
 case 46:
-#line 196 "salarium.y"
+#line 200 "salarium.y"
 	{ yyval.strval = concat_str( 3, "printEmployee( ", yystack.l_mark[0].strval, ")" ); }
 break;
 case 47:
-#line 198 "salarium.y"
+#line 202 "salarium.y"
 	{ yyval.strval = concat_str( 7, "printAll(", yystack.l_mark[0].strval, ", (int)sizeof(",yystack.l_mark[0].strval,")/(int)sizeof(",yystack.l_mark[0].strval,"[0]) )"); }
 break;
 case 48:
-#line 200 "salarium.y"
+#line 204 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 49:
-#line 205 "salarium.y"
+#line 209 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 50:
-#line 207 "salarium.y"
+#line 211 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 51:
-#line 211 "salarium.y"
+#line 215 "salarium.y"
 	{ yyval.strval = concat_str( 13,"{ \"", yystack.l_mark[-15].strval, "\", \"", yystack.l_mark[-12].strval, "\", \"", yystack.l_mark[-9].strval, "\", ", yystack.l_mark[-6].strval, ", ", yystack.l_mark[-3].strval, ", ", yystack.l_mark[0].strval, " }" ); }
 break;
 case 52:
-#line 213 "salarium.y"
+#line 217 "salarium.y"
 	{ yyval.strval = concat_str( 9, "getEmployee( ", yystack.l_mark[0].strval,", ", yystack.l_mark[-1].strval, ", (int)sizeof(",yystack.l_mark[0].strval,")/(int)sizeof(",yystack.l_mark[0].strval,"[0]) )"); }
 break;
 case 53:
-#line 218 "salarium.y"
+#line 222 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 54:
-#line 220 "salarium.y"
+#line 224 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 55:
-#line 225 "salarium.y"
+#line 229 "salarium.y"
 	{ yyval.strval = "getName"; }
 break;
 case 56:
-#line 227 "salarium.y"
+#line 231 "salarium.y"
 	{ yyval.strval = "raise10"; }
 break;
 case 57:
-#line 229 "salarium.y"
+#line 233 "salarium.y"
 	{ yyval.strval = "raise20"; }
 break;
 case 58:
-#line 231 "salarium.y"
+#line 235 "salarium.y"
 	{ yyval.strval = "raiseCategory"; }
 break;
 case 59:
-#line 233 "salarium.y"
+#line 237 "salarium.y"
 	{ yyval.strval = concat_str( 3, "printEmployee( ", yystack.l_mark[0].strval, ")" ); }
 break;
 case 60:
-#line 238 "salarium.y"
+#line 242 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " - ", yystack.l_mark[0].strval); }
 break;
 case 61:
-#line 240 "salarium.y"
+#line 244 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 62:
-#line 245 "salarium.y"
+#line 249 "salarium.y"
 	{ yyval.strval = concat_str(3 , yystack.l_mark[-2].strval, " , ", yystack.l_mark[0].strval); }
 break;
 case 63:
-#line 247 "salarium.y"
+#line 251 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 64:
-#line 251 "salarium.y"
+#line 255 "salarium.y"
 	{ yyval.strval = "\"WEEK\""; }
 break;
 case 65:
-#line 253 "salarium.y"
+#line 257 "salarium.y"
 	{ yyval.strval = "\"MONTH\""; }
 break;
 case 66:
-#line 255 "salarium.y"
+#line 259 "salarium.y"
 	{ yyval.strval = "\"YEAR\""; }
 break;
 case 67:
-#line 260 "salarium.y"
+#line 264 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 68:
-#line 265 "salarium.y"
+#line 269 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 69:
-#line 267 "salarium.y"
+#line 271 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " * ", yystack.l_mark[0].strval); }
 break;
 case 70:
-#line 269 "salarium.y"
+#line 273 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " / ", yystack.l_mark[0].strval); }
 break;
 case 71:
-#line 271 "salarium.y"
+#line 275 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " % ", yystack.l_mark[0].strval); }
 break;
 case 72:
-#line 276 "salarium.y"
+#line 280 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 73:
-#line 278 "salarium.y"
+#line 282 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " + ", yystack.l_mark[0].strval); }
 break;
 case 74:
-#line 280 "salarium.y"
+#line 284 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " - ", yystack.l_mark[0].strval); }
 break;
 case 75:
-#line 285 "salarium.y"
+#line 289 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 76:
-#line 287 "salarium.y"
+#line 291 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " < ", yystack.l_mark[0].strval); }
 break;
 case 77:
-#line 289 "salarium.y"
+#line 293 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " > ", yystack.l_mark[0].strval); }
 break;
 case 78:
-#line 291 "salarium.y"
+#line 295 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " <= ", yystack.l_mark[0].strval); }
 break;
 case 79:
-#line 293 "salarium.y"
+#line 297 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " >= ", yystack.l_mark[0].strval); }
 break;
 case 80:
-#line 298 "salarium.y"
+#line 302 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 81:
-#line 300 "salarium.y"
+#line 304 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " == ", yystack.l_mark[0].strval); }
 break;
 case 82:
-#line 302 "salarium.y"
+#line 306 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " != ", yystack.l_mark[0].strval); }
 break;
 case 83:
-#line 307 "salarium.y"
+#line 311 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 84:
-#line 309 "salarium.y"
+#line 313 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " && ", yystack.l_mark[0].strval); }
 break;
 case 85:
-#line 314 "salarium.y"
+#line 318 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 86:
-#line 316 "salarium.y"
+#line 320 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, " || ", yystack.l_mark[0].strval); }
 break;
 case 87:
-#line 321 "salarium.y"
+#line 325 "salarium.y"
 	{ yyval.strval = concat_str( 2, yystack.l_mark[-1].strval, yystack.l_mark[0].strval); }
 break;
 case 88:
-#line 323 "salarium.y"
+#line 327 "salarium.y"
 	{ yyval.strval = ""; }
 break;
 case 89:
-#line 328 "salarium.y"
+#line 332 "salarium.y"
 	{ yyval.strval = concat_str( 3, yystack.l_mark[-2].strval, ", ", yystack.l_mark[0].strval); }
 break;
 case 90:
-#line 330 "salarium.y"
+#line 334 "salarium.y"
 	{ yyval.strval = ""; }
 break;
 case 91:
-#line 335 "salarium.y"
+#line 339 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 92:
-#line 337 "salarium.y"
+#line 341 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 93:
-#line 339 "salarium.y"
+#line 343 "salarium.y"
 	{ yyval.strval = "true"; }
 break;
 case 94:
-#line 341 "salarium.y"
+#line 345 "salarium.y"
 	{ yyval.strval = "FALSE_T"; }
 break;
 case 95:
-#line 343 "salarium.y"
+#line 347 "salarium.y"
 	{ yyval.strval = yystack.l_mark[0].strval; }
 break;
 case 96:
-#line 345 "salarium.y"
+#line 349 "salarium.y"
 	{ yyval.strval = "NULL_T"; }
 break;
 case 97:
-#line 347 "salarium.y"
+#line 351 "salarium.y"
 	{ yyval.strval = concat_str(3, yystack.l_mark[-2].strval, ".", yystack.l_mark[0].strval); }
 break;
 case 98:
-#line 349 "salarium.y"
+#line 353 "salarium.y"
 	{ yyval.strval = concat_str( 5, yystack.l_mark[-5].strval, "[", yystack.l_mark[-3].strval, "].", yystack.l_mark[0].strval ); }
 break;
 case 99:
-#line 351 "salarium.y"
+#line 355 "salarium.y"
 	{ yyval.strval = concat_str( 5, yystack.l_mark[-5].strval, "[", yystack.l_mark[-3].strval, "].", yystack.l_mark[0].strval ); }
 break;
 case 100:
-#line 353 "salarium.y"
+#line 357 "salarium.y"
 	{ yyval.strval = concat_str( 4, yystack.l_mark[-3].strval, "( ", yystack.l_mark[-1].strval, " )"); }
 break;
 case 101:
-#line 355 "salarium.y"
+#line 359 "salarium.y"
 	{ yyval.strval = concat_str( 3, "( ", yystack.l_mark[-1].strval, " )"); }
 break;
 case 102:
-#line 360 "salarium.y"
+#line 364 "salarium.y"
 	{ yyval.strval = concat_str(3 , yystack.l_mark[-5].strval, " main ()\n", yystack.l_mark[0].strval ); }
 break;
 #line 1177 "y.tab.c"
